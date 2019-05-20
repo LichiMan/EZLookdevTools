@@ -54,7 +54,8 @@ EZSurfacingUI.show()
 ```
 
 <img width="100%" src="docs/images/mayaEZSurfacing.png" alt="EZSurfacing Tools" style="" />
-<img width="50%" src="docs/images/mayaEZSurfacing_export.gif" alt="EZSurfacing Tools" style="" /><img width="50%" src="docs/images/mayaEZSurfacing_create.gif" alt="EZSurfacing Tools" style="" />
+<img width="48%" src="docs/images/mayaEZSurfacing_export.gif" alt="EZSurfacing Tools" style="" /><img width="48%" src="docs/images/mayaEZSurfacing_create.gif" alt="EZSurfacing Tools" style="" />
+
 ## Hierarchical Structure
 * Surfacing_projectA
   * Surfacing_objectA
