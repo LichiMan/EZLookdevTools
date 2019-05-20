@@ -13,7 +13,7 @@
 
 
 # EZLookdevTools
-Look dev tools for maya, katana, renderman, and nuke
+A quick developed tool set for maya, katana, renderman, and nuke to surface the pixar cabin challenge
 
 # Installation
 ## Windows
@@ -53,10 +53,8 @@ import EZSurfacing.ui as EZSurfacingUI
 EZSurfacingUI.show()
 ```
 
-<img width="100%" src="docs/images/mayaEZSurfacing.png" alt="EZSurfacing Tools" style="margin-right: 10px;" />
-     
-<video width="50%" controls> <source src="docs/images/mayaEZSurfacing_create.mov" type="video/mp4"> </video><video width="50%" controls> <source src="docs/images/mayaEZSurfacing_export.mov" type="video/mp4"></video>
-
+<img width="100%" src="docs/images/mayaEZSurfacing.png" alt="EZSurfacing Tools" style="" />
+<img width="50%" src="docs/images/mayaEZSurfacing_export.gif" alt="EZSurfacing Tools" style="" /><img width="50%" src="docs/images/mayaEZSurfacing_create.gif" alt="EZSurfacing Tools" style="" />
 ## Hierarchical Structure
 * Surfacing_projectA
   * Surfacing_objectA
@@ -130,12 +128,12 @@ Miscelaneous interactive filters for renderman 22
 * subdmeshes to poly (aka: ignore subdivisions)
 * Grey shader override, and diffuseColor override for all materials
 
-<video width="50%" controls><source src="docs/images/katanaPrmanInteractiveFilters.mov" type="video/mp4"> </video>
+<img width="50%" src="docs/images/katanaPrmanInteractiveFilters.gif" alt="EZSurfacing Tools" style="" />
 
 ### Override albedo with 0.18 grey
 Overrides only the diffuse color, keeping all other materials features
 
-<img width="50%" src="docs/images/katanaPrmanInteractiveFilerGreyAlbedo.jpg"      alt="EZSurfacing Tools" style="margin-right: 10px;" />
+<img width="50%" src="docs/images/katanaPrmanInteractiveFilterGreyAlbedo.jpg"      alt="EZSurfacing Tools" style="margin-right: 10px;" />
 
 # Nuke Gizmos
 ## Lightgroups
