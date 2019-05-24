@@ -4,7 +4,7 @@ import os
 import maya.mel as mel
 import maya.cmds as mc
 from PySide2 import QtWidgets
-
+import traceback,sys
 
 ATTRIBUTEPROJECT = 'EZSurfacing_project'
 ATTRIBUTETEXTUREOBJECT = 'EZSurfacing_object'
@@ -163,6 +163,25 @@ def validate_scene():
     #check all object sets of type texture_object contain only shapes
     pass
 
+def create_directoy(path):
+    try:
+        # Create target Directory
+        os.mkdir(path)
+        logging.info('Directory create: %s' % path)
+    except:
+        logging.info('Directory alreay exists: %s' % path)
+
+def is_directory(path):
+    if os.path.exists(path) and os.path.isdir(path):
+        return True
+    else:
+        return False
+
+def abc_export(roots, file_path):
+    if roots and file_path:
+        mel_cmd = 'AbcExport -j "-frameRange 0 0 -uvWrite -dataFormat ogawa -attrPrefix EZ ' + roots + " -file " + (export_file_path + '"')
+        mel.eval(mel_cmd)
+        logging.info('Succesful Alembic export to: %s' % export_file_path)
 
 def export_project(project, subdiv= 1, single_export=True):
     '''Export EZSurfacing Project'''
@@ -171,26 +190,36 @@ def export_project(project, subdiv= 1, single_export=True):
         check_scene_state()
     root = get_project_root()
     path = root.EZSurfacing_root.get()
-    if os.path.exists(path) and os.path.isdir(path):
+    if is_directory(path):
         project_geo_list = []
-        if is_project(project): #add check isDirectory
+        if is_project(project):
             for each in get_objects(project):
                 merged_geo = merge_texture_object(each)
                 if merged_geo:
                     project_geo_list.append(merged_geo)
-            #AbcExport -j '-frameRange 0 0 -uvWrite -dataFormat ogawa -root |cabin|Geom|armchair|Chair|Geom|back -file /home/ezequielm/Desktop/adsdas.abc';
             if project_geo_list:
                 export_roots = ' -root |' +' -root |'.join([ str(x) for x in project_geo_list ])
                 if subdiv:
                     for geo in project_geo_list:
                         logging.info('subdivision level: %s' % subdiv)
                         logging.info('subdividing merged members: %s' % geo)
-                        #-mth 0 -sdt 2 -ovb 1 -ofb 3 -ofc 0 -ost 0 -ocr 0 -dv 3 -bnr 1 -c 1 -kb 1 -ksb 1 -khe 0 -kt 1 -kmb 1 -suv 1 -peh 0 -sl 1 -dpe 1 -ps 0.1 -ro 1 -ch 1
+                        # -mth 0 -sdt 2 -ovb 1 -ofb 3 -ofc 0 -ost 0 -ocr 0 -dv 3 -bnr 1 -c 1 -kb 1
+                        # -ksb 1 -khe 0 -kt 1 -kmb 1 -suv 1 -peh 0 -sl 1 -dpe 1 -ps 0.1 -ro 1 -ch 1
                         pm.polySmooth(geo, mth=0,sdt=2, ovb=1, dv= subdiv)
                 export_file_path = os.path.join(path, str(project) + ".abc")
+                # use abc_export()
                 mel_cmd = 'AbcExport -j "-frameRange 0 0 -uvWrite -dataFormat ogawa -attrPrefix EZ ' + export_roots + " -file " + (export_file_path + '"')
                 mel.eval(mel_cmd)
-                logging.info('Succesful export to: %s' % export_file_path)
+                logging.info('Succesful Surfacing Project export to: %s' % export_file_path)
+                for geo in project_geo_list:
+                    export_root = ' -root |' +geo
+                    export_surfacing_object_dir = os.path.join(path, str(project))
+                    export_surfacing_object_path = os.path.join(export_surfacing_object_dir+ '/' + geo + ".abc")
+                    create_directoy(export_surfacing_object_dir)
+                    #use abc_export()
+                    mel_cmd = 'AbcExport -j "-frameRange 0 0 -uvWrite -dataFormat ogawa -attrPrefix EZ ' + export_root + " -file " + (export_surfacing_object_path + '"')
+                    mel.eval(mel_cmd)
+                    logging.info('Succesful Surfacing Object export to: %s' % export_file_path)
     if single_export:
         pm.openFile(current_file, force=True)
     #pm.undo()
@@ -210,6 +239,7 @@ def merge_texture_object(texture_object):
             pm.parent(members[0], world=True)
             return members[0]
     except:
+        traceback.print_exc(file=sys.stdout)
         logging.error('Could not merge members of: %s' % texture_object)
         return False
 
@@ -246,16 +276,16 @@ def update_mesh_attributes():
                 member.setAttr(ATTRIBUTETEXTUREOBJECT,texture_object_set.name(),force=True)
 
 def unsaved_scene():
+    ''' check for unsaved changes '''
     import maya.cmds as cmds
     return cmds.file(q=True, modified=True)
 
 def save_scene_dialog():
-    """
+    '''
     If the scene has unsaved changes, it will ask the user to go ahead save or cancel
-    """
+    '''
     msg = QtWidgets.QMessageBox()
     msg.setIcon(QtWidgets.QMessageBox.Information)
-
     msg.setText("Your scene has unsaved changes")
     msg.setInformativeText("")
     msg.setWindowTitle("Warning")
