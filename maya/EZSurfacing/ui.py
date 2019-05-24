@@ -72,10 +72,13 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         self.btn_set_path.clicked.connect(self.set_path)
         self.project_new_btn.clicked.connect(self.create_project)
         self.list_projects.itemClicked.connect(self.update_ui_texture_objects)
+        self.list_projects.itemDoubleClicked.connect(self.editItem)
         self.btn_new_texture_object.clicked.connect(self.create_texture_object)
         self.btn_add_to_texture_object.clicked.connect(self.add_to_texture_object)
         self.btn_validate_scene.clicked.connect(self.validate_scene)
         self.list_texture_objects.itemClicked.connect(self.select_texture_object)
+        self.list_texture_objects.itemDoubleClicked.connect(self.editItem)
+        
 
         self.btn_export_project.clicked.connect(self.export_project)
         self.btn_export_all.clicked.connect(self.export_all_projects)
@@ -84,6 +87,20 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
     def close(self):
         '''Function to call on panel close'''
         pass
+
+    def editItem(self, item):
+        item_object_set = pm.PyNode(str(item.text()))
+        text, okPressed = QtWidgets.QInputDialog.getText(self, "","rename to:", QtWidgets.QLineEdit.Normal, str(item.text()))
+        if okPressed and text != '':
+            logging.info("renaming objsetSet %s to %s" %(item.text(), text))
+            try:
+                pm.rename(item_object_set, text)
+            except:
+                pass
+            finally:
+                self.update_ui_projects()
+
+
 
     def select_texture_object(self, item):
         '''selects the texture object on the scene'''
