@@ -89,6 +89,10 @@ def get_projects():
     objSetLs = [item for item in pm.ls(type='objectSet') if item.hasAttr(ATTRIBUTEPROJECT)]
     return objSetLs
 
+def delete_project(project):
+    if is_project(project):
+        pm.delete(project.members())
+
 def get_objects(project):
     '''Gets all EZSurfacing Objects under the given project'''
     if is_project(project):
@@ -334,3 +338,4 @@ def set_wireframe_colors_per_object():
                     mesh.overrideColor.set(wire_color)
                 except:
                     logging.error('Could not set override color for: %s, might belong to a display layer' % mesh)
+

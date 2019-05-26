@@ -27,9 +27,11 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         self.sync_selection = QtWidgets.QCheckBox('Sync object set selection')
         self.expand_selection = QtWidgets.QCheckBox('expand selection to members')
         self.project_new_btn = QtWidgets.QPushButton('new texture project')
+        self.project_delete_btn = QtWidgets.QPushButton('delete texture project')
         self.list_projects = QtWidgets.QListWidget(self)
         self.list_projects.setSortingEnabled(True)
         self.btn_new_texture_object = QtWidgets.QPushButton('new texture object')
+        self.btn_delete_texture_object = QtWidgets.QPushButton('delete texture object')
         self.btn_add_to_texture_object = QtWidgets.QPushButton('add selected to texture object')
         self.list_texture_objects = QtWidgets.QListWidget(self)
         self.list_texture_objects.setSortingEnabled(True)
@@ -57,8 +59,10 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         main_layout.addWidget(self.path)
         main_layout.addWidget(self.sync_selection)
         main_layout.addWidget(self.project_new_btn)
+        main_layout.addWidget(self.project_delete_btn)
         main_layout.addWidget(self.list_projects)
         main_layout.addWidget(self.btn_new_texture_object)
+        main_layout.addWidget(self.btn_delete_texture_object)
         main_layout.addWidget(self.expand_selection)
         main_layout.addWidget(self.list_texture_objects)
         main_layout.addWidget(self.btn_add_to_texture_object)
@@ -77,9 +81,11 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         self.refresh.clicked.connect(self.update_ui_projects)
         self.btn_set_path.clicked.connect(self.set_path)
         self.project_new_btn.clicked.connect(self.create_project)
+        self.project_delete_btn.clicked.connect(self.delete_project)
         self.list_projects.itemClicked.connect(self.update_ui_texture_objects)
         self.list_projects.itemDoubleClicked.connect(self.editItem)
         self.btn_new_texture_object.clicked.connect(self.create_texture_object)
+        self.btn_delete_texture_object.clicked.connect(self.delete_texture_object)
         self.btn_add_to_texture_object.clicked.connect(self.add_to_texture_object)
         self.btn_validate_scene.clicked.connect(self.validate_scene)
         self.btn_wireframe_color_projects.clicked.connect(EZSurfacing.set_wireframe_colors_per_project)
@@ -109,7 +115,10 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
             finally:
                 self.update_ui_projects()
 
-
+    def delete_project(self):
+        selected_project = pm.PyNode(self.list_projects.currentItem().text())
+        EZSurfacing.delete_project(selected_project)
+        self.update_ui_projects()
 
     def select_texture_object(self, item):
         '''selects the texture object on the scene'''
@@ -142,6 +151,13 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
             pm.select(selected_project)
             EZSurfacing.create_object(selected_project)
             self.update_ui_texture_objects(self.list_projects.currentItem())
+
+    def delete_texture_object(self):
+        if self.list_texture_objects.currentItem():
+            selected_object = pm.PyNode(self.list_texture_objects.currentItem().text())
+            if selected_object and EZSurfacing.is_texture_object(selected_object):
+                pm.delete(selected_object)
+                self.update_ui_projects()
 
     def update_ui_projects(self):
         '''updates the list of texture projects'''
