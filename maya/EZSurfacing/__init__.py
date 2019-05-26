@@ -329,13 +329,38 @@ def set_wireframe_colors_per_object():
     projects = get_projects()
     for project in projects:
         for surfacingObject in get_objects(project):
-            random.seed(surfacingObject)
-            wire_color = random.randint(1,31)
             for mesh in surfacingObject.members():
                 try:
                     mesh.overrideEnabled.set(1)
-                    mesh.overrideRGBColors.set(0)
-                    mesh.overrideColor.set(wire_color)
+                    mesh.overrideRGBColors.set(1)
+                    mesh.overrideColorRGB.set(get_random_color(surfacingObject))
                 except:
                     logging.error('Could not set override color for: %s, might belong to a display layer' % mesh)
 
+def set_materials_per_object():
+    delete_materials()
+    projects = get_projects()
+    for project in projects:
+        for surfacingObject in get_objects(project):
+            material = pm.shadingNode('blinn', asShader=True, name= ("EZMaterial_%s"%surfacingObject))
+            pm.setAttr('%s.EZMaterial' %material, str(surfacingObject), force=True)
+            pm.select(surfacingObject)
+            pm.hyperShade(assign=material)
+            material.color.set(get_random_color(surfacingObject))
+
+def get_random_color(seed):
+    random.seed(seed+"_r")
+    color_red = random.uniform(0,1)
+    random.seed(seed+"_g")
+    color_green = random.uniform(0,1)
+    random.seed(seed+"_b")
+    color_blue = random.uniform(0,1)
+    return [color_red,color_green,color_blue]
+
+def delete_materials():
+    all_materials = pm.ls(type='blinn')
+    materials = []
+    for material in all_materials:
+        if pm.hasAttr(material, 'EZMaterial'):
+            materials.append(material)
+    pm.delete(materials)
