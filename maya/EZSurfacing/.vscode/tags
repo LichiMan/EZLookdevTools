@@ -1,0 +1,65 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+ATTRIBUTEPROJECT	../__init__.py	/^ATTRIBUTEPROJECT = 'EZTexture_project'$/;"	kind:variable	line:16
+ATTRIBUTETEXTUREOBJECT	../__init__.py	/^ATTRIBUTETEXTUREOBJECT = 'EZTexture_object'$/;"	kind:variable	line:17
+EZTexture	../ui.py	/^import EZTexture as EZTexture$/;"	kind:namespace	line:8
+EZTextureInit	../__init__.py	/^def EZTextureInit():$/;"	kind:function	line:19
+MainWindow	../ui.py	/^class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):$/;"	kind:class	line:11
+MayaQWidgetDockableMixin	../ui.py	/^from maya.app.general.mayaMixin import MayaQWidgetDockableMixin$/;"	kind:namespace	line:6
+QMessageBox	../ui.py	/^from PySide2.QtWidgets import QMessageBox$/;"	kind:namespace	line:5
+QtCore	../ui.py	/^from PySide2 import QtCore$/;"	kind:namespace	line:3
+QtGui	../ui.py	/^from PySide2 import QtGui,QtWidgets, QtWidgets, QtUiTools$/;"	kind:namespace	line:4
+QtUiTools	../ui.py	/^from PySide2 import QtGui,QtWidgets, QtWidgets, QtUiTools$/;"	kind:namespace	line:4
+QtWidgets	../ui.py	/^from PySide2 import QtGui,QtWidgets, QtWidgets, QtUiTools$/;"	kind:namespace	line:4
+__init__	../ui.py	/^    def __init__(self, parent=None):$/;"	kind:member	line:13
+__init__.py	../__init__.py	1;"	kind:file	line:1
+add_member	../__init__.py	/^def add_member(texture_object, transform):$/;"	kind:function	line:139
+add_mesh_transforms_to_object	../__init__.py	/^def add_mesh_transforms_to_object(texture_object, object_list):$/;"	kind:function	line:142
+add_to_texture_object	../ui.py	/^    def add_to_texture_object(self):$/;"	kind:member	line:130
+close	../ui.py	/^    def close(self):$/;"	kind:member	line:79
+create_object	../__init__.py	/^def create_object(project, name=None):$/;"	kind:function	line:49
+create_project	../__init__.py	/^def create_project(name=None):$/;"	kind:function	line:39
+create_project	../ui.py	/^    def create_project(self):$/;"	kind:member	line:99
+create_project_root	../__init__.py	/^def create_project_root():    $/;"	kind:function	line:32
+create_project_root_node	../__init__.py	/^def create_project_root_node():$/;"	kind:function	line:26
+create_texture_object	../ui.py	/^    def create_texture_object(self):$/;"	kind:member	line:103
+export_all_projects	../__init__.py	/^def export_all_projects(path, subdiv=0):$/;"	kind:function	line:195
+export_project	../__init__.py	/^def export_project(project, path, subdiv= 0):$/;"	kind:function	line:161
+file_path	../texmake.py	/^            file_path = (os.path.join(root, name))$/;"	kind:variable	line:11
+file_path_tex	../texmake.py	/^            file_path_tex = os.path.splitext(file_path)[0]+".tex"$/;"	kind:variable	line:13
+get_mesh_transforms	../__init__.py	/^def get_mesh_transforms(object_list):$/;"	kind:function	line:133
+get_objects	../__init__.py	/^def get_objects(project):$/;"	kind:function	line:88
+get_project_root	../__init__.py	/^def get_project_root():$/;"	kind:function	line:75
+get_projects	../__init__.py	/^def get_projects():$/;"	kind:function	line:84
+is_project	../__init__.py	/^def is_project(project):$/;"	kind:function	line:94
+is_texture_object	../__init__.py	/^def is_texture_object(texture_object):$/;"	kind:function	line:100
+logging	../__init__.py	/^import logging$/;"	kind:namespace	line:2
+logging	../ui.py	/^import logging$/;"	kind:namespace	line:1
+maya	../__init__.py	/^import maya.mel as mel$/;"	kind:namespace	line:4
+mel	../__init__.py	/^import maya.mel as mel$/;"	kind:namespace	line:4
+merge_texture_object	../__init__.py	/^def merge_texture_object(texture_object):$/;"	kind:function	line:178
+os	../__init__.py	/^import os$/;"	kind:namespace	line:3
+os	../texmake.py	/^import os$/;"	kind:namespace	line:1
+path_to_textures	../texmake.py	/^path_to_textures = '\/run\/media\/ezequielm\/misc\/wrk\/current\/cabinPixar\/katana\/textures\/sbp_heath'$/;"	kind:variable	line:6
+pm	../__init__.py	/^import pymel.core as pm$/;"	kind:namespace	line:1
+pm	../ui.py	/^import pymel.core as pm$/;"	kind:namespace	line:2
+pymel	../__init__.py	/^import pymel.core as pm$/;"	kind:namespace	line:1
+pymel	../ui.py	/^import pymel.core as pm$/;"	kind:namespace	line:2
+remove_invalid_members	../__init__.py	/^def remove_invalid_members():$/;"	kind:function	line:106
+select_texture_object	../ui.py	/^    def select_texture_object(self, item):$/;"	kind:member	line:82
+set_path	../ui.py	/^    def set_path(self):$/;"	kind:member	line:90
+show	../ui.py	/^def show():$/;"	kind:function	line:140
+subprocess	../texmake.py	/^import subprocess$/;"	kind:namespace	line:2
+texmake.py	../texmake.py	1;"	kind:file	line:1
+ui.py	../ui.py	1;"	kind:file	line:1
+update_mesh_attributes	../__init__.py	/^def update_mesh_attributes():$/;"	kind:function	line:199
+update_partition	../__init__.py	/^def update_partition():$/;"	kind:function	line:59
+update_project_attributes	../__init__.py	/^def update_project_attributes(project):$/;"	kind:function	line:128
+update_ui_projects	../ui.py	/^    def update_ui_projects(self):$/;"	kind:member	line:110
+update_ui_texture_objects	../ui.py	/^    def update_ui_texture_objects(self, item):$/;"	kind:member	line:121
+validate_scene	../__init__.py	/^def validate_scene():$/;"	kind:function	line:151
+validate_scene	../ui.py	/^    def validate_scene(self):$/;"	kind:member	line:137

@@ -177,11 +177,12 @@ def is_directory(path):
     else:
         return False
 
-def abc_export(roots, file_path):
-    if roots and file_path:
-        mel_cmd = 'AbcExport -j "-frameRange 0 0 -uvWrite -dataFormat ogawa -attrPrefix EZ ' + roots + " -file " + (export_file_path + '"')
+def abc_export(geo_list, file_path):
+    if geo_list and file_path:
+        roots = ' -root |' +' -root |'.join([ str(x) for x in geo_list ])
+        mel_cmd = 'AbcExport -j "-frameRange 0 0 -uvWrite -dataFormat ogawa -attrPrefix EZ ' + roots + " -file " + (file_path + '"')
         mel.eval(mel_cmd)
-        logging.info('Succesful Alembic export to: %s' % export_file_path)
+        logging.info('Succesful Alembic export to: %s' % file_path)
 
 def export_project(project, subdiv= 1, single_export=True):
     '''Export EZSurfacing Project'''
@@ -198,7 +199,6 @@ def export_project(project, subdiv= 1, single_export=True):
                 if merged_geo:
                     project_geo_list.append(merged_geo)
             if project_geo_list:
-                export_roots = ' -root |' +' -root |'.join([ str(x) for x in project_geo_list ])
                 if subdiv:
                     for geo in project_geo_list:
                         logging.info('subdivision level: %s' % subdiv)
@@ -207,22 +207,16 @@ def export_project(project, subdiv= 1, single_export=True):
                         # -ksb 1 -khe 0 -kt 1 -kmb 1 -suv 1 -peh 0 -sl 1 -dpe 1 -ps 0.1 -ro 1 -ch 1
                         pm.polySmooth(geo, mth=0,sdt=2, ovb=1, dv= subdiv)
                 export_file_path = os.path.join(path, str(project) + ".abc")
-                # use abc_export()
-                mel_cmd = 'AbcExport -j "-frameRange 0 0 -uvWrite -dataFormat ogawa -attrPrefix EZ ' + export_roots + " -file " + (export_file_path + '"')
-                mel.eval(mel_cmd)
-                logging.info('Succesful Surfacing Project export to: %s' % export_file_path)
+                abc_export(project_geo_list, export_file_path)
+                export_surfacing_object_dir = os.path.join(path, str(project))
+                create_directoy(export_surfacing_object_dir)
                 for geo in project_geo_list:
                     export_root = ' -root |' +geo
-                    export_surfacing_object_dir = os.path.join(path, str(project))
                     export_surfacing_object_path = os.path.join(export_surfacing_object_dir+ '/' + geo + ".abc")
-                    create_directoy(export_surfacing_object_dir)
-                    #use abc_export()
-                    mel_cmd = 'AbcExport -j "-frameRange 0 0 -uvWrite -dataFormat ogawa -attrPrefix EZ ' + export_root + " -file " + (export_surfacing_object_path + '"')
-                    mel.eval(mel_cmd)
-                    logging.info('Succesful Surfacing Object export to: %s' % export_file_path)
+                    abc_export([geo], export_surfacing_object_path)
+
     if single_export:
         pm.openFile(current_file, force=True)
-    #pm.undo()
 
 def merge_texture_object(texture_object):
     '''Merges all the meshs assigned to a EZSurfacing Object for export'''
