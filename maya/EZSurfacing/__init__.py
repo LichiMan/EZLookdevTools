@@ -5,6 +5,7 @@ import maya.mel as mel
 import maya.cmds as mc
 from PySide2 import QtWidgets
 import traceback,sys
+import random
 
 ATTRIBUTEPROJECT = 'EZSurfacing_project'
 ATTRIBUTETEXTUREOBJECT = 'EZSurfacing_object'
@@ -191,29 +192,28 @@ def export_project(project, subdiv= 1, single_export=True):
         check_scene_state()
     root = get_project_root()
     path = root.EZSurfacing_root.get()
-    if is_directory(path):
-        project_geo_list = []
-        if is_project(project):
-            for each in get_objects(project):
-                merged_geo = merge_texture_object(each)
-                if merged_geo:
-                    project_geo_list.append(merged_geo)
-            if project_geo_list:
-                if subdiv:
-                    for geo in project_geo_list:
-                        logging.info('subdivision level: %s' % subdiv)
-                        logging.info('subdividing merged members: %s' % geo)
-                        # -mth 0 -sdt 2 -ovb 1 -ofb 3 -ofc 0 -ost 0 -ocr 0 -dv 3 -bnr 1 -c 1 -kb 1
-                        # -ksb 1 -khe 0 -kt 1 -kmb 1 -suv 1 -peh 0 -sl 1 -dpe 1 -ps 0.1 -ro 1 -ch 1
-                        pm.polySmooth(geo, mth=0,sdt=2, ovb=1, dv= subdiv)
-                export_file_path = os.path.join(path, str(project) + ".abc")
-                abc_export(project_geo_list, export_file_path)
-                export_surfacing_object_dir = os.path.join(path, str(project))
-                create_directoy(export_surfacing_object_dir)
+    project_geo_list = []
+    if is_directory(path) and is_project(project):
+        for each in get_objects(project):
+            merged_geo = merge_texture_object(each)
+            if merged_geo:
+                project_geo_list.append(merged_geo)
+        if project_geo_list:
+            if subdiv:
                 for geo in project_geo_list:
-                    export_root = ' -root |' +geo
-                    export_surfacing_object_path = os.path.join(export_surfacing_object_dir+ '/' + geo + ".abc")
-                    abc_export([geo], export_surfacing_object_path)
+                    logging.info('subdivision level: %s' % subdiv)
+                    logging.info('subdividing merged members: %s' % geo)
+                    # -mth 0 -sdt 2 -ovb 1 -ofb 3 -ofc 0 -ost 0 -ocr 0 -dv 3 -bnr 1 -c 1 -kb 1
+                    # -ksb 1 -khe 0 -kt 1 -kmb 1 -suv 1 -peh 0 -sl 1 -dpe 1 -ps 0.1 -ro 1 -ch 1
+                    pm.polySmooth(geo, mth=0,sdt=2, ovb=1, dv= subdiv)
+            export_file_path = os.path.join(path, str(project) + ".abc")
+            abc_export(project_geo_list, export_file_path)
+            export_surfacing_object_dir = os.path.join(path, str(project))
+            create_directoy(export_surfacing_object_dir)
+            for geo in project_geo_list:
+                export_root = ' -root |' +geo
+                export_surfacing_object_path = os.path.join(export_surfacing_object_dir+ '/' + geo + ".abc")
+                abc_export([geo], export_surfacing_object_path)
 
     if single_export:
         pm.openFile(current_file, force=True)
@@ -290,3 +290,47 @@ def save_scene_dialog():
         return True
     else:
         return False
+
+def set_wifreframe_color_black():
+    transforms = pm.ls(type='transform')
+    shape_transforms = get_mesh_transforms(transforms)
+    for mesh in shape_transforms:
+        mesh.overrideEnabled.set(1)
+        mesh.overrideRGBColors.set(0)
+        mesh.overrideColor.set(1)
+
+def set_wifreframe_color_none():
+    transforms = pm.ls(type='transform')
+    shape_transforms = get_mesh_transforms(transforms)
+    for mesh in shape_transforms:
+        mesh.overrideEnabled.set(0)
+
+def set_wireframe_colors_per_project():
+    set_wifreframe_color_black()
+    projects = get_projects()
+    for project in projects:
+        random.seed(project)
+        wire_color = random.randint(1,31)
+        for surfacingObject in get_objects(project):
+            for mesh in surfacingObject.members():
+                try:
+                    mesh.overrideEnabled.set(1)
+                    mesh.overrideRGBColors.set(0)
+                    mesh.overrideColor.set(wire_color)
+                except:
+                    logging.error('Could not set override color for: %s, might belong to a display layer' % mesh)
+
+def set_wireframe_colors_per_object():
+    set_wifreframe_color_black()
+    projects = get_projects()
+    for project in projects:
+        for surfacingObject in get_objects(project):
+            random.seed(surfacingObject)
+            wire_color = random.randint(1,31)
+            for mesh in surfacingObject.members():
+                try:
+                    mesh.overrideEnabled.set(1)
+                    mesh.overrideRGBColors.set(0)
+                    mesh.overrideColor.set(wire_color)
+                except:
+                    logging.error('Could not set override color for: %s, might belong to a display layer' % mesh)

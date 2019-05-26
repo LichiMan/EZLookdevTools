@@ -34,6 +34,9 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         self.list_texture_objects = QtWidgets.QListWidget(self)
         self.list_texture_objects.setSortingEnabled(True)
         self.btn_validate_scene = QtWidgets.QPushButton('validate scene')
+        self.btn_wireframe_color_projects = QtWidgets.QPushButton('Set wireframe color - per Project')
+        self.btn_wireframe_color_objects = QtWidgets.QPushButton('Set wireframe color - per object')
+        self.btn_wireframe_color_none = QtWidgets.QPushButton('Set wireframe color - remove')
         self.btn_export_project = QtWidgets.QPushButton('export selected project')
         self.btn_export_all = QtWidgets.QPushButton('export all projects')
 
@@ -60,6 +63,9 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         main_layout.addWidget(self.list_texture_objects)
         main_layout.addWidget(self.btn_add_to_texture_object)
         main_layout.addWidget(self.btn_validate_scene)
+        main_layout.addWidget(self.btn_wireframe_color_projects)
+        main_layout.addWidget(self.btn_wireframe_color_objects)
+        main_layout.addWidget(self.btn_wireframe_color_none)
         main_layout.addWidget(self.btn_export_project)
         main_layout.addWidget(self.btn_export_all)
         
@@ -76,6 +82,9 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         self.btn_new_texture_object.clicked.connect(self.create_texture_object)
         self.btn_add_to_texture_object.clicked.connect(self.add_to_texture_object)
         self.btn_validate_scene.clicked.connect(self.validate_scene)
+        self.btn_wireframe_color_projects.clicked.connect(EZSurfacing.set_wireframe_colors_per_project)
+        self.btn_wireframe_color_objects.clicked.connect(EZSurfacing.set_wireframe_colors_per_object)
+        self.btn_wireframe_color_none.clicked.connect(EZSurfacing.set_wifreframe_color_none)
         self.list_texture_objects.itemClicked.connect(self.select_texture_object)
         self.list_texture_objects.itemDoubleClicked.connect(self.editItem)
         
