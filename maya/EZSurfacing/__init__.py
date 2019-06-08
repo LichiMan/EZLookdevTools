@@ -210,9 +210,9 @@ def export_project(project, subdiv= 1, single_export=True):
                     # -mth 0 -sdt 2 -ovb 1 -ofb 3 -ofc 0 -ost 0 -ocr 0 -dv 3 -bnr 1 -c 1 -kb 1
                     # -ksb 1 -khe 0 -kt 1 -kmb 1 -suv 1 -peh 0 -sl 1 -dpe 1 -ps 0.1 -ro 1 -ch 1
                     pm.polySmooth(geo, mth=0,sdt=2, ovb=1, dv= subdiv)
-            export_file_path = os.path.join(path, str(project) + ".abc")
+            export_file_path = os.path.join(path, '/', str(project) + ".abc")
             abc_export(project_geo_list, export_file_path)
-            export_surfacing_object_dir = os.path.join(path, str(project))
+            export_surfacing_object_dir = os.path.join(path, '/', str(project))
             create_directoy(export_surfacing_object_dir)
             for geo in project_geo_list:
                 export_root = ' -root |' +geo
