@@ -29,14 +29,13 @@ def get_attribute_values(node, attribute_locations, attribute_name):
 
 def get_objects_attribute_values(node, attribute_name):
     '''Lists EZSurfacing_objects at a given view node'''
-    #attribute_name = 'geometry.arbitrary.EZSurfacing_object'
-    #attribute_name = 'geometry.arbitrary.EZSurfacing_project'
     cel_expression = '//*{ hasattr("%s") }' % attribute_name
     search_location = '/root/world'
     attribute_locations = get_locations_hasattr(node, search_location, cel_expression)
     return get_attribute_values(node, attribute_locations, attribute_name)
 
 def add_node_to_group(group_node, node):
+    '''adds the node as the last before the group_node out'''
     node.setParent(group_node)
     node_inputPort = node.getInputPort('in')
     node_outputPort = node.getOutputPort('out')
@@ -48,13 +47,20 @@ def add_node_to_group(group_node, node):
     node_outputPort.connect(group_node_returnPort)
 
 def create_EZ_collections(attribute_name):
-    node = NodegraphAPI.GetAllSelectedNodes()
-    if len(node)!=1:
+    '''Creates a group stack with 1 collection create per attribute_name value found
+    This can used to find values of EZSurf attributes as in
+    #attribute_name = "geometry.arbitrary.EZSurfacing_object"
+    #attribute_name = "geometry.arbitrary.EZSurfacing_project"'''
+    nodes = NodegraphAPI.GetAllSelectedNodes()
+    if len(nodes)!=1:
        raise RuntimeError, 'Please select 1 node.'
     rootNode = NodegraphAPI.GetRootNode()
-    EZSurfacing_projects = get_objects_attribute_values(node[0],attribute_name) 
+    node_outPort = nodes[0].getOutputPort('out')
+    EZSurfacing_projects = get_objects_attribute_values(nodes[0],attribute_name) 
     group_stack = NodegraphAPI.CreateNode('GroupStack', rootNode)
     group_stack.setName('EZPrjs')
+    group_stack_inputPort = group_stack.getInputPort('in')
+    node_outPort.connect(group_stack_inputPort)
     for EZSurfacing_project in EZSurfacing_projects:
         collection_create = NodegraphAPI.CreateNode('CollectionCreate', rootNode)
         collection_create.setName('EZ%s' % EZSurfacing_project)
