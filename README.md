@@ -56,7 +56,9 @@ import EZSurfacing.ui as EZSurfacingUI
 EZSurfacingUI.show()
 ```
 
-<img width="100%" src="docs/images/mayaEZSurfacing.png" alt="EZSurfacing Tools" style="" />
+<img width="50%" src="docs/images/mayaEZSurfacing.png" alt="EZSurfacing Tools" style="" /><img width="50%" src="docs/images/mayaEZSurfacing2.png" alt="EZSurfacing Tools" style="" />
+The pixar cabin, and kitchens shown here ready for surfacing
+
 <img width="48%" src="docs/images/mayaEZSurfacing_export.gif" alt="EZSurfacing Tools" style="" /><img width="48%" src="docs/images/mayaEZSurfacing_create.gif" alt="EZSurfacing Tools" style="" />
 
 ## Hierarchical Structure
