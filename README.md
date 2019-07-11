@@ -18,26 +18,29 @@ A quick developed tool set for maya, katana, renderman, and nuke to surface the 
 # Installation
 ## Windows
 ##### Maya EZSurfacing
-Add the location EZLookdevTools/maya/ to your PYTHONPATH environment variable
+<pre>set PYTHONPATH=%PYTHONPATH%;%EZ_ROOT%/maya/"</pre>
 ##### Katana Tools
 Add this to your katana launcher
 <pre>set EZ_ROOT=/path/to/EZLookdevTools/
 set EZ_KATANA_TOOLS=%EZ_ROOT%/katana/katana_tools
 set EZ_KATANA_SHELVES=%EZ_ROOT%/katana/katana_shelves
-set KATANA_RESOURCES=%KATANA_RESOURCES%;%EZ_KATANA_TOOLS%;%EZ_KATANA_SHELVES%</pre>
+set KATANA_RESOURCES=%KATANA_RESOURCES%;%EZ_KATANA_TOOLS%;%EZ_KATANA_SHELVES%
+set PYTHONPATH=%PYTHONPATH%;%EZ_ROOT%/katana"</pre>
+
 
 ##### Nuke Tools
 Add the location /path/to/EZLookdevTools/nuke/nuke_gizmos to your NUKE_PATH environment variable
 
 ## Linux
 ##### Maya EZSurfacing
-<pre>export PYTHONPATH="${PYTHONPATH}:/path/to/EZLookdevTools/maya/"</pre>
+<pre>export PYTHONPATH="${PYTHONPATH}:%EZ_ROOT%/maya/"</pre>
 ##### Katana Tools
 Add this lines to your katana launcher
 <pre>export EZ_ROOT=/path/to/EZLookdevTools/
 export EZ_KATANA_TOOLS=$EZ_ROOT/katana/katana_tools
 export EZ_KATANA_SHELVES=$EZ_ROOT/katana/katana_shelves
-export KATANA_RESOURCES=$KATANA_RESOURCES:$EZ_KATANA_TOOLS:$EZ_KATANA_SHELVES</pre>
+export KATANA_RESOURCES=$KATANA_RESOURCES:$EZ_KATANA_TOOLS:$EZ_KATANA_SHELVES
+export PYTHONPATH="${PYTHONPATH}:$EZ_ROOT/katana"</pre>
 ##### Nuke Tools
 <pre>export NUKE_PATH=$NUKE_PATH:/path/to/EZLookdevTools/nuke/nuke_gizmos
 </pre>
@@ -101,7 +104,9 @@ Requires a gaffer input.
 <img width="50%" src="docs/images/mayaEZPrmanMaterialLookdev.png" alt="EZSurfacing Tools" style="margin-right: 10px;" />
 
 ## TextureSet Loader
-This macro allows to load multiple texture files from a folder using tokens or keywords.    
+This macro allows to load multiple texture files using tokens or keywords.
+Load materials or texture sets from substance, megascans, or mari with ease, in a single node.
+
 Using the ```<element>``` keyword for each map, and ```_MAPID_``` for renderman to pick up uDIMs if an atlas style is selected.  
 It also accepts a manifold input (of any type), for tiling.
 
@@ -111,7 +116,27 @@ woodenTable_<element>._MAPID_.tex
 ```
 
 Each texture set element (for ie: baseColor, or normal) can be added to the list.
+
 <img width="50%" src="docs/images/katanaPrmanTextureSet.png" alt="EZSurfacing Tools" style="margin-right: 10px;" />
+
+
+## EZCollections
+Run EZCollections from the shelve to automaticaly create collections based on the EZ attributes found in the scene graph.
+Create either the Surfacing Project, or the Surfacing Object collections.
+A node must be selected before running, this node will be used as the scene point where to process and examine the scene graph locations.   
+
+It can also be used to create collections of all unique values for any give attribute
+
+```
+import EZSurfacing as EZSurfacing
+EZSurfacing.create_EZ_collections('geometry.arbitrary.myCustomAttribute')
+```
+
+Collections are based on attribute values at locations as in
+```
+/root/world//*{attr("geometry.arbitrary.myCustomAttribute") == value
+```
+<img width="25%" src="docs/images/katanaEZCollections.png" alt="EZSurfacing Tools" style="margin-right: 10px;" />
 
 ## Texture locatization
 Opscript to search and replace paths in all PxrTexture nodes inside a network material at scenegraph location's ```.material.nodes```
