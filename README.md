@@ -7,6 +7,12 @@
 [&nbsp;&nbsp;&nbsp;Hierarchical Structure](#Hierarchical-Structure)  
 [Katana Shelves](#Katana-Shelves)  
 [Katana Renderman Macros](#Katana-Renderman-Macros)  
+[&nbsp;&nbsp;&nbsp;MaterialLookdev](#MaterialLookdev)  
+[&nbsp;&nbsp;&nbsp;TextureSet Loader](#TextureSet-Loader)  
+[&nbsp;&nbsp;&nbsp;EZCollections and Materials](#EZCollections-and-Materials)  
+[&nbsp;&nbsp;&nbsp;Interactive Filters](#Interactive-Filters)  
+[&nbsp;&nbsp;&nbsp;Override albedo with grey](#Override-albedo-with-grey)  
+[&nbsp;&nbsp;&nbsp;Texture locatization](#Texture-locatization)  
 [Nuke Gizmos](#Nuke-Gizmos)  
 [Credits](#Credits)  
 
@@ -90,11 +96,7 @@ The more more meshes, the slower Mari will be, It is not recommended using more 
 ##### Note
 If using substance painter -using the uDim- meshes inside an EZSurfacing_Object should be contained inside a single uDim!
 
-# Katana SuperTools
-## EZCollections
-Soon  
-Given a scene location path and an attribute name creates a collection for each one of the values found.
-Can be used in conjuntion with the Maya EZSurface exported allembic to create collections for the surfacing projects and surfacing objects, given the attributes ```EZSurfacing_project``` or ```EZSurfacing_object```
+# Katana Shelves
 
 # Katana Renderman Macros
 
@@ -122,7 +124,7 @@ Each texture set element (for ie: baseColor, or normal) can be added to the list
 <img width="50%" src="docs/images/katanaPrmanTextureSet.png" alt="EZSurfacing Tools" style="margin-right: 10px;" />
 
 
-## EZCollections
+## EZCollections and Materials
 Run EZCollections from the shelve to automaticaly create collections based on the EZ attributes found in the scene graph.
 Create either the Surfacing Project, or the Surfacing Object collections.
 A node must be selected before running, this node will be used as the scene point where to process and examine the scene graph locations.   
@@ -131,14 +133,24 @@ It can also be used to create collections of all unique values for any give attr
 
 ```
 import EZSurfacing as EZSurfacing
-EZSurfacing.create_EZ_collections('geometry.arbitrary.myCustomAttribute')
+attribute_name = 'geometry.arbitrary.EZSurfacing_project'
+#creates EZSurfacing project collections
+EZSurfacing.create_EZ_collections(attribute_name)
+
+attribute_name = 'geometry.arbitrary.EZSurfacing_object'
+#creates EZSurfacing object collections
+EZCollections = EZSurfacing.create_EZ_collections(attribute_name)
+
+#creates a material per object collections
+EZSurfacing.create_EZ_materials(EZCollections,attribute_name )
+
 ```
 
 Collections are based on attribute values at locations as in
 ```
 /root/world//*{attr("geometry.arbitrary.myCustomAttribute") == value
 ```
-<img width="25%" src="docs/images/katanaEZCollections.png" alt="EZSurfacing Tools" style="margin-right: 10px;" />
+<img width="100%" src="docs/images/katanaEZCollections2.png" alt="EZSurfacing Tools" style="margin-right: 10px;" />
 
 ## Texture locatization
 Opscript to search and replace paths in all PxrTexture nodes inside a network material at scenegraph location's ```.material.nodes```
@@ -158,7 +170,7 @@ Miscelaneous interactive filters for renderman 22
 
 <img width="50%" src="docs/images/katanaPrmanInteractiveFilters.gif" alt="EZSurfacing Tools" style="" />
 
-### Override albedo with 0.18 grey
+### Override albedo with grey
 Overrides only the diffuse color, keeping all other materials features
 
 <img width="50%" src="docs/images/katanaPrmanInteractiveFilterGreyAlbedo.jpg"      alt="EZSurfacing Tools" style="margin-right: 10px;" />
