@@ -133,16 +133,20 @@ It can also be used to create collections of all unique values for any give attr
 
 ```
 import EZSurfacing as EZSurfacing
-attribute_name = 'geometry.arbitrary.EZSurfacing_project'
+
 #creates EZSurfacing project collections
+attribute_name = 'geometry.arbitrary.EZSurfacing_project'
 EZSurfacing.create_EZ_collections(attribute_name)
 
-attribute_name = 'geometry.arbitrary.EZSurfacing_object'
 #creates EZSurfacing object collections
+attribute_name = 'geometry.arbitrary.EZSurfacing_object'
 EZCollections = EZSurfacing.create_EZ_collections(attribute_name)
 
 #creates a material per object collections
-EZSurfacing.create_EZ_materials(EZCollections,attribute_name )
+EZSurfacing.create_EZ_materials(attribute_name)
+#creates a viewer material per object collections
+EZSurfacing.create_EZ_viewer_settings(attribute_name)
+
 
 ```
 
