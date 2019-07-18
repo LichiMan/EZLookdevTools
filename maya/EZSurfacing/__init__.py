@@ -185,7 +185,7 @@ def is_directory(path):
 def abc_export(geo_list, file_path):
     if geo_list and file_path:
         roots = ' -root |' +' -root |'.join([ str(x) for x in geo_list ])
-        mel_cmd = 'AbcExport -j "-frameRange 0 0 -uvWrite -dataFormat ogawa -attrPrefix EZ ' + roots + " -file " + (file_path + '"')
+        mel_cmd = r'AbcExport -j "-frameRange 0 0 -uvWrite -dataFormat ogawa -attrPrefix EZ ' + roots + " -file " + (file_path + '"')
         mel.eval(mel_cmd)
         logging.info('Succesful Alembic export to: %s' % file_path)
 
