@@ -191,3 +191,14 @@ https://www.artstation.com/artwork/wKveZ
 ## Texture Patterns
 Elias Wick
 https://polycount.com/discussion/186513/free-checker-pattern-texture
+
+## Texture Patterns
+Elias Wick
+https://polycount.com/discussion/186513/free-checker-pattern-texture
+
+## Pixar kitchen surfacing
+Surfacing, lighting, rendering was done by Ezequiel Mastrasso.
+This images are part of the original speed surfacing exercise that give birth to these tools.  
+
+However the look and style is based on the original winner of the pixar Kitchen challenge  
+Fabio Rossi Sciedlarczyk (scied) 
