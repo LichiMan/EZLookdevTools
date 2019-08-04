@@ -180,8 +180,15 @@ Overrides only the diffuse color, keeping all other materials features
 <img width="50%" src="docs/images/katanaPrmanInteractiveFilterGreyAlbedo.jpg"      alt="EZSurfacing Tools" style="margin-right: 10px;" />
 
 # Nuke Gizmos
-## Lightgroups
-Soon
+## AOV Correct
+Select a nuke layer, and color correct it
+
+<img width="50%" src="docs/images/nukeAovCorrect.png"      alt="EZSurfacing Tools" style="margin-right: 10px;" />
+
+## Lightgroups Correct
+Select a lightgroup layer from the preset menu, and mute/solo/color correct it
+
+<img width="50%" src="docs/images/nukeLigthgroupsCorrect.png"      alt="EZSurfacing Tools" style="margin-right: 10px;" />
 
 # Credits
 ## Shader Ball
