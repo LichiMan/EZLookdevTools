@@ -21,25 +21,28 @@ Gizmo {
  addUserKnob {6 grade_aov_whitepoint_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
  addUserKnob {6 grade_aov_whitepoint_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
  addUserKnob {6 grade_aov_whitepoint_panelDropped_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 grade_aov_whitepoint_panelDropped_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
  addUserKnob {19 grade_aov_white l gain R 0 4}
  grade_aov_white 1
  addUserKnob {6 grade_aov_white_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
  addUserKnob {6 grade_aov_white_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
  addUserKnob {6 grade_aov_white_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
  addUserKnob {6 grade_aov_white_panelDropped_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 grade_aov_white_panelDropped_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
  addUserKnob {19 grade_aov_add l offset R -1 1}
- grade_aov_add {0 0 0 0}
  addUserKnob {6 grade_aov_add_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
  addUserKnob {6 grade_aov_add_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
  addUserKnob {6 grade_aov_add_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
  addUserKnob {6 grade_aov_add_panelDropped_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {6 grade_aov_add_panelDropped_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
  addUserKnob {19 grade_aov_gamma l gamma R 0.2 5}
  grade_aov_gamma 1
  addUserKnob {6 grade_aov_gamma_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
  addUserKnob {6 grade_aov_gamma_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
  addUserKnob {6 grade_aov_gamma_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
- addUserKnob {20 endGroup n -1}
  addUserKnob {6 grade_aov_gamma_panelDropped_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ addUserKnob {20 endGroup n -1}
+ addUserKnob {6 grade_aov_gamma_panelDropped_1_1_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
 }
  Input {
   inputs 0
@@ -47,7 +50,7 @@ Gizmo {
   xpos 221
   ypos -157
  }
-set Nac4b9d0 [stack 0]
+set Ncdab7d0 [stack 0]
  Dot {
   name Dot1
   xpos 134
@@ -58,7 +61,7 @@ set Nac4b9d0 [stack 0]
   xpos 134
   ypos 278
  }
-push $Nac4b9d0
+push $Ncdab7d0
  Shuffle {
   in ligthgroup_a
   in2 rgba
@@ -67,7 +70,7 @@ push $Nac4b9d0
   xpos 221
   ypos -61
  }
-set Na9886f70 [stack 0]
+set Ncdb53e0 [stack 0]
  Grade {
   whitepoint {{parent.grade_aov_whitepoint.r} {parent.grade_aov_whitepoint.g} {parent.grade_aov_whitepoint.b} {parent.grade_aov_whitepoint.a}}
   whitepoint_panelDropped {{parent.grade_aov_whitepoint_panelDropped}}
@@ -91,7 +94,7 @@ set Na9886f70 [stack 0]
   xpos 221
   ypos 21
  }
-set Na98aa370 [stack 0]
+set Ncdd5200 [stack 0]
  Dot {
   name Dot4
   xpos 165
@@ -109,7 +112,7 @@ set Na98aa370 [stack 0]
   xpos 346
   ypos -11
  }
-push $Na98aa370
+push $Ncdd5200
  Switch {
   inputs 2
   which {{parent.mute}}
@@ -130,9 +133,9 @@ push $Na98aa370
   xpos 221
   ypos 131
  }
-set Nabe8cf0 [stack 0]
-push $Na9886f70
-push $Nac4b9d0
+set Nce04db0 [stack 0]
+push $Ncdb53e0
+push $Ncdab7d0
  Merge2 {
   inputs 2
   operation from
@@ -167,9 +170,8 @@ push $Nac4b9d0
   xpos 221
   ypos 401
  }
-push $Nabe8cf0
+push $Nce04db0
  Viewer {
-  frame 2
   frame_range 1-100
   colour_sample_bbox {-0.7395833135 0.3166666627 -0.7385416627 0.3177083433}
   samplepoints {{-0.7395833135 0.3166666627}
