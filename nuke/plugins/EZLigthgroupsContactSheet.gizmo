@@ -1,6 +1,9 @@
 #! /usr/local/Nuke11.1v4/libnuke-11.1.4.so -nx
 version 11.1 v4
 Gizmo {
+ addUserKnob {20 User}
+ addUserKnob {4 grid_size M {2x2 3x2 3x3 4x4 ""}}
+ grid_size 4x4
 }
  Input {
   inputs 0
@@ -270,6 +273,7 @@ add_layer {ligthgroup_h ligthgroup_h.red ligthgroup_h.green ligthgroup_h.blue}
   xpos 1295
   ypos -95
  }
+set N23a6130 [stack 0]
 push $Nb7f41190
 add_layer {ligthgroup_g ligthgroup_g.red ligthgroup_g.green ligthgroup_g.blue}
  Shuffle {
@@ -301,6 +305,7 @@ add_layer {ligthgroup_g ligthgroup_g.red ligthgroup_g.green ligthgroup_g.blue}
   xpos 1195
   ypos -95
  }
+set Nbe2be8f0 [stack 0]
 push $N2c730060
 add_layer {ligthgroup_f ligthgroup_f.red ligthgroup_f.green ligthgroup_f.blue}
  Shuffle {
@@ -332,6 +337,7 @@ add_layer {ligthgroup_f ligthgroup_f.red ligthgroup_f.green ligthgroup_f.blue}
   xpos 1085
   ypos -95
  }
+set N2c702570 [stack 0]
 push $N2c7359b0
 add_layer {ligthgroup_e ligthgroup_e.red ligthgroup_e.green ligthgroup_e.blue}
  Shuffle {
@@ -363,6 +369,7 @@ add_layer {ligthgroup_e ligthgroup_e.red ligthgroup_e.green ligthgroup_e.blue}
   xpos 975
   ypos -95
  }
+set N1ef0490 [stack 0]
 push $N2e0b5980
 add_layer {ligthgroup_d ligthgroup_d.red ligthgroup_d.green ligthgroup_d.blue}
  Shuffle {
@@ -394,6 +401,7 @@ add_layer {ligthgroup_d ligthgroup_d.red ligthgroup_d.green ligthgroup_d.blue}
   xpos 860
   ypos -95
  }
+set Nb8680aa0 [stack 0]
 push $N2e0c0850
 add_layer {ligthgroup_c ligthgroup_c.red ligthgroup_c.green ligthgroup_c.blue}
  Shuffle {
@@ -425,6 +433,7 @@ add_layer {ligthgroup_c ligthgroup_c.red ligthgroup_c.green ligthgroup_c.blue}
   xpos 744
   ypos -95
  }
+set N2c91c3d0 [stack 0]
 push $Nb292d350
 add_layer {ligthgroup_b ligthgroup_b.red ligthgroup_b.green ligthgroup_b.blue}
  Shuffle {
@@ -456,6 +465,7 @@ add_layer {ligthgroup_b ligthgroup_b.red ligthgroup_b.green ligthgroup_b.blue}
   xpos 621
   ypos -95
  }
+set Nb32eae00 [stack 0]
 push $Ne6b67850
 add_layer {ligthgroup_a ligthgroup_a.red ligthgroup_a.green ligthgroup_a.blue}
  Shuffle {
@@ -487,6 +497,7 @@ add_layer {ligthgroup_a ligthgroup_a.red ligthgroup_a.green ligthgroup_a.blue}
   xpos 509
   ypos -93
  }
+set N2cf72e0 [stack 0]
 push $Ne6b67850
  Text2 {
   font_size_toolbar 100
@@ -510,6 +521,7 @@ push $Ne6b67850
   xpos 399
   ypos -94
  }
+set N24a7710 [stack 0]
  ContactSheet {
   inputs 14
   width {{root.width*4}}
@@ -519,12 +531,82 @@ push $Ne6b67850
   startframe 1
   endframe 1
   name ligthgroups_contactSheet
-  xpos 1121
-  ypos 25
+  xpos 1085
+  ypos 40
+ }
+push $N23a6130
+push $Nbe2be8f0
+push $N2c702570
+push $N1ef0490
+push $Nb8680aa0
+push $N2c91c3d0
+push $Nb32eae00
+push $N2cf72e0
+push $N24a7710
+ ContactSheet {
+  inputs 9
+  width {{root.width*3}}
+  height {{root.height*3}}
+  columns 3
+  roworder TopBottom
+  startframe 1
+  endframe 1
+  name ligthgroups_contactSheet3
+  xpos 914
+  ypos 41
+ }
+push $N1ef0490
+push $Nb8680aa0
+push $N2c91c3d0
+push $Nb32eae00
+push $N2cf72e0
+push $N24a7710
+ ContactSheet {
+  inputs 6
+  width {{root.width*2}}
+  height {{root.height*3}}
+  columns 2
+  roworder TopBottom
+  startframe 1
+  endframe 1
+  name ligthgroups_contactSheet2
+  xpos 744
+  ypos 41
+ }
+push $N2c91c3d0
+push $Nb32eae00
+push $N2cf72e0
+push $N24a7710
+ ContactSheet {
+  inputs 4
+  width {{root.width*2}}
+  height {{root.height*2}}
+  rows 2
+  columns 2
+  roworder TopBottom
+  startframe 1
+  endframe 1
+  name ligthgroups_contactSheet1
+  xpos 563
+  ypos 46
+ }
+ Switch {
+  inputs 4
+  which {{parent.grid_size}}
+  name Switch1
+  selected true
+  xpos 832
+  ypos 146
  }
  Output {
   name Output1
-  xpos 1121
-  ypos 126
+  xpos 832
+  ypos 217
+ }
+ Viewer {
+  frame_range 1-100
+  name Viewer1
+  xpos 747
+  ypos 355
  }
 end_group
