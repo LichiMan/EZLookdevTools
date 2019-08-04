@@ -1,0 +1,530 @@
+#! /usr/local/Nuke11.1v4/libnuke-11.1.4.so -nx
+version 11.1 v4
+Gizmo {
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 509
+  ypos -217
+ }
+ Dot {
+  name Dot1
+  xpos 543
+  ypos -177
+ }
+set Ne6b67850 [stack 0]
+ Dot {
+  name Dot13
+  xpos 655
+  ypos -177
+ }
+set Nb292d350 [stack 0]
+ Dot {
+  name Dot2
+  xpos 778
+  ypos -177
+ }
+set N2e0c0850 [stack 0]
+ Dot {
+  name Dot3
+  xpos 894
+  ypos -177
+ }
+set N2e0b5980 [stack 0]
+ Dot {
+  name Dot4
+  xpos 1009
+  ypos -177
+ }
+set N2c7359b0 [stack 0]
+ Dot {
+  name Dot5
+  xpos 1119
+  ypos -177
+ }
+set N2c730060 [stack 0]
+ Dot {
+  name Dot6
+  xpos 1229
+  ypos -177
+ }
+set Nb7f41190 [stack 0]
+ Dot {
+  name Dot7
+  xpos 1329
+  ypos -177
+ }
+set N341bc4f0 [stack 0]
+ Dot {
+  name Dot8
+  xpos 1430
+  ypos -177
+ }
+set Nc4a36c0 [stack 0]
+ Dot {
+  name Dot9
+  xpos 1540
+  ypos -177
+ }
+set N2798f20 [stack 0]
+ Dot {
+  name Dot10
+  xpos 1639
+  ypos -177
+ }
+set N23b6d00 [stack 0]
+ Dot {
+  name Dot11
+  xpos 1740
+  ypos -177
+ }
+set Nc2d83800 [stack 0]
+ Dot {
+  name Dot12
+  xpos 1838
+  ypos -177
+ }
+add_layer {ligthgroup_m ligthgroup_m.red ligthgroup_m.green ligthgroup_m.blue}
+ Shuffle {
+  in ligthgroup_m
+  alpha black
+  name lightgroup_m
+  xpos 1804
+  ypos -119
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message m
+  old_message {{109}
+    }
+  box {41.99987793 658.999939 134.9998779 759.999939}
+  transforms {{0 2}
+    }
+  cursor_position 1
+  center {960 405}
+  cursor_initialised true
+  initial_cursor_position {{41.99987793 759.999939}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 960 405 0 0 1 1 0 0 0 0}
+    }
+  name lightgroup_m_text
+  xpos 1804
+  ypos -95
+ }
+push $Nc2d83800
+add_layer {ligthgroup_l ligthgroup_l.red ligthgroup_l.green ligthgroup_l.blue}
+ Shuffle {
+  in ligthgroup_l
+  alpha black
+  name lightgroup_l
+  xpos 1706
+  ypos -119
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message l
+  old_message {{108}
+    }
+  box {41.99987793 658.999939 70.99987793 759.999939}
+  transforms {{0 2}
+    }
+  cursor_position 1
+  center {960 405}
+  cursor_initialised true
+  initial_cursor_position {{41.99987793 759.999939}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 960 405 0 0 1 1 0 0 0 0}
+    }
+  name lightgroup_l_text
+  xpos 1706
+  ypos -95
+ }
+push $N23b6d00
+add_layer {ligthgroup_k ligthgroup_k.red ligthgroup_k.green ligthgroup_k.blue}
+ Shuffle {
+  in ligthgroup_k
+  alpha black
+  name lightgroup_k
+  xpos 1605
+  ypos -119
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message k
+  old_message {{107}
+    }
+  box {41.99987793 658.999939 94.99987793 759.999939}
+  transforms {{0 2}
+    }
+  cursor_position 1
+  center {960 405}
+  cursor_initialised true
+  initial_cursor_position {{41.99987793 759.999939}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 960 405 0 0 1 1 0 0 0 0}
+    }
+  name lightgroup_k_text
+  xpos 1605
+  ypos -95
+ }
+push $N2798f20
+add_layer {ligthgroup_j ligthgroup_j.red ligthgroup_j.green ligthgroup_j.blue}
+ Shuffle {
+  in ligthgroup_j
+  alpha black
+  name lightgroup_j
+  xpos 1506
+  ypos -119
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message j
+  old_message {{106}
+    }
+  box {41.99987793 658.999939 70.99987793 759.999939}
+  transforms {{0 2}
+    }
+  cursor_position 1
+  center {960 405}
+  cursor_initialised true
+  initial_cursor_position {{41.99987793 759.999939}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 960 405 0 0 1 1 0 0 0 0}
+    }
+  name lightgroup_j_text
+  xpos 1506
+  ypos -95
+ }
+push $Nc4a36c0
+add_layer {ligthgroup_i ligthgroup_i.red ligthgroup_i.green ligthgroup_i.blue}
+ Shuffle {
+  in ligthgroup_i
+  alpha black
+  name lightgroup_i
+  xpos 1396
+  ypos -119
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message i
+  old_message {{105}
+    }
+  box {41.99987793 658.999939 71.99987793 759.999939}
+  transforms {{0 2}
+    }
+  cursor_position 1
+  center {960 405}
+  cursor_initialised true
+  initial_cursor_position {{41.99987793 759.999939}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 960 405 0 0 1 1 0 0 0 0}
+    }
+  name lightgroup_i_text
+  xpos 1396
+  ypos -95
+ }
+push $N341bc4f0
+add_layer {ligthgroup_h ligthgroup_h.red ligthgroup_h.green ligthgroup_h.blue}
+ Shuffle {
+  in ligthgroup_h
+  alpha black
+  name lightgroup_h
+  xpos 1295
+  ypos -119
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message h
+  old_message {{104}
+    }
+  box {41.99987793 658.999939 103.9998779 759.999939}
+  transforms {{0 2}
+    }
+  cursor_position 1
+  center {960 405}
+  cursor_initialised true
+  initial_cursor_position {{41.99987793 759.999939}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 960 405 0 0 1 1 0 0 0 0}
+    }
+  name lightgroup_h_text
+  xpos 1295
+  ypos -95
+ }
+push $Nb7f41190
+add_layer {ligthgroup_g ligthgroup_g.red ligthgroup_g.green ligthgroup_g.blue}
+ Shuffle {
+  in ligthgroup_g
+  alpha black
+  name lightgroup_g
+  xpos 1195
+  ypos -119
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message g
+  old_message {{103}
+    }
+  box {41.99987793 658.999939 94.99987793 759.999939}
+  transforms {{0 2}
+    }
+  cursor_position 1
+  center {960 405}
+  cursor_initialised true
+  initial_cursor_position {{41.99987793 759.999939}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 960 405 0 0 1 1 0 0 0 0}
+    }
+  name lightgroup_g_text
+  xpos 1195
+  ypos -95
+ }
+push $N2c730060
+add_layer {ligthgroup_f ligthgroup_f.red ligthgroup_f.green ligthgroup_f.blue}
+ Shuffle {
+  in ligthgroup_f
+  alpha black
+  name lightgroup_f
+  xpos 1085
+  ypos -119
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message f
+  old_message {{102}
+    }
+  box {41.99987793 658.999939 74.99987793 759.999939}
+  transforms {{0 2}
+    }
+  cursor_position 1
+  center {960 405}
+  cursor_initialised true
+  initial_cursor_position {{41.99987793 759.999939}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 960 405 0 0 1 1 0 0 0 0}
+    }
+  name lightgroup_f_text
+  xpos 1085
+  ypos -95
+ }
+push $N2c7359b0
+add_layer {ligthgroup_e ligthgroup_e.red ligthgroup_e.green ligthgroup_e.blue}
+ Shuffle {
+  in ligthgroup_e
+  alpha black
+  name lightgroup_e
+  xpos 975
+  ypos -119
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message e
+  old_message {{101}
+    }
+  box {41.99987793 658.999939 93.99987793 759.999939}
+  transforms {{0 2}
+    }
+  cursor_position 1
+  center {960 405}
+  cursor_initialised true
+  initial_cursor_position {{41.99987793 759.999939}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 960 405 0 0 1 1 0 0 0 0}
+    }
+  name lightgroup_e_text
+  xpos 975
+  ypos -95
+ }
+push $N2e0b5980
+add_layer {ligthgroup_d ligthgroup_d.red ligthgroup_d.green ligthgroup_d.blue}
+ Shuffle {
+  in ligthgroup_d
+  alpha black
+  name lightgroup_d
+  xpos 860
+  ypos -119
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message "d      "
+  old_message {{100 32 32 32 32 32 32}
+    }
+  box {41.99987793 658.999939 240.9998779 759.999939}
+  transforms {{0 2}
+    }
+  cursor_position 7
+  center {960 405}
+  cursor_initialised true
+  initial_cursor_position {{41.99987793 759.999939}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 960 405 0 0 1 1 0 0 0 0}
+    }
+  name lightgroup_d_text
+  xpos 860
+  ypos -95
+ }
+push $N2e0c0850
+add_layer {ligthgroup_c ligthgroup_c.red ligthgroup_c.green ligthgroup_c.blue}
+ Shuffle {
+  in ligthgroup_c
+  alpha black
+  name lightgroup_c
+  xpos 744
+  ypos -119
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message c
+  old_message {{99}
+    }
+  box {41.99987793 658.999939 92.99987793 759.999939}
+  transforms {{0 2}
+    }
+  cursor_position 1
+  center {960 405}
+  cursor_initialised true
+  initial_cursor_position {{41.99987793 759.999939}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 960 405 0 0 1 1 0 0 0 0}
+    }
+  name lightgroup_c_text
+  xpos 744
+  ypos -95
+ }
+push $Nb292d350
+add_layer {ligthgroup_b ligthgroup_b.red ligthgroup_b.green ligthgroup_b.blue}
+ Shuffle {
+  in ligthgroup_b
+  alpha black
+  name lightgroup_b
+  xpos 621
+  ypos -119
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message b
+  old_message {{98}
+    }
+  box {41.99987793 658.999939 102.9998779 759.999939}
+  transforms {{0 2}
+    }
+  cursor_position 1
+  center {960 405}
+  cursor_initialised true
+  initial_cursor_position {{41.99987793 759.999939}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 960 405 0 0 1 1 0 0 0 0}
+    }
+  name lightgroup_b_text
+  xpos 621
+  ypos -95
+ }
+push $Ne6b67850
+add_layer {ligthgroup_a ligthgroup_a.red ligthgroup_a.green ligthgroup_a.blue}
+ Shuffle {
+  in ligthgroup_a
+  alpha black
+  name lightgroup_a
+  xpos 509
+  ypos -117
+ }
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message a
+  old_message {{97}
+    }
+  box {41.99987793 658.999939 94.99987793 759.999939}
+  transforms {{0 2}
+    }
+  cursor_position 1
+  center {960 405}
+  cursor_initialised true
+  initial_cursor_position {{41.99987793 759.999939}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 960 405 0 0 1 1 0 0 0 0}
+    }
+  name lightgroup_a_text
+  xpos 509
+  ypos -93
+ }
+push $Ne6b67850
+ Text2 {
+  font_size_toolbar 100
+  font_width_toolbar 100
+  font_height_toolbar 100
+  message rgb
+  old_message {{114 103 98}
+    }
+  box {41.99987793 658.999939 192.9998779 759.999939}
+  transforms {{0 2}
+    }
+  cursor_position 3
+  center {960 405}
+  cursor_initialised true
+  initial_cursor_position {{41.99987793 759.999939}
+    }
+  group_animations {{0} imported: 0 selected: items: "root transform/"}
+  animation_layers {{1 11 960 405 0 0 1 1 0 0 0 0}
+    }
+  name rgb_text
+  xpos 399
+  ypos -94
+ }
+ ContactSheet {
+  inputs 14
+  width {{root.width*4}}
+  height {{root.height*4}}
+  rows 4
+  roworder TopBottom
+  startframe 1
+  endframe 1
+  name ligthgroups_contactSheet
+  xpos 1121
+  ypos 25
+ }
+ Output {
+  name Output1
+  xpos 1121
+  ypos 126
+ }
+end_group

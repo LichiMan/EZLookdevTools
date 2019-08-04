@@ -178,6 +178,11 @@ Select a lightgroup layer from the preset menu, and mute/solo/color correct it
 
 <img width="50%" src="docs/images/nukeLigthgroupsCorrect.png"      alt="EZSurfacing Tools" style="margin-right: 10px;" />
 
+## Lightgroups contactSheet
+Creates a contact sheet of all the default lightgroups
+
+<img width="50%" src="docs/images/nukeLigthgroupsContactSheet.jpg"      alt="EZSurfacing Tools" style="margin-right: 10px;" />
+
 # Credits
 ## Shader Ball
 Mathieu Maurel
