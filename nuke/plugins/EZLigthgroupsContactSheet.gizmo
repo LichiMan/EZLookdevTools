@@ -88,9 +88,9 @@ set Nc2d83800 [stack 0]
   xpos 1838
   ypos -177
  }
-add_layer {ligthgroup_m ligthgroup_m.red ligthgroup_m.green ligthgroup_m.blue}
+add_layer {lightgroup_m lightgroup_m.red lightgroup_m.green lightgroup_m.blue}
  Shuffle {
-  in ligthgroup_m
+  in lightgroup_m
   alpha black
   name lightgroup_m
   xpos 1804
@@ -119,9 +119,9 @@ add_layer {ligthgroup_m ligthgroup_m.red ligthgroup_m.green ligthgroup_m.blue}
   ypos -95
  }
 push $Nc2d83800
-add_layer {ligthgroup_l ligthgroup_l.red ligthgroup_l.green ligthgroup_l.blue}
+add_layer {lightgroup_l lightgroup_l.red lightgroup_l.green lightgroup_l.blue}
  Shuffle {
-  in ligthgroup_l
+  in lightgroup_l
   alpha black
   name lightgroup_l
   xpos 1706
@@ -150,9 +150,9 @@ add_layer {ligthgroup_l ligthgroup_l.red ligthgroup_l.green ligthgroup_l.blue}
   ypos -95
  }
 push $N23b6d00
-add_layer {ligthgroup_k ligthgroup_k.red ligthgroup_k.green ligthgroup_k.blue}
+add_layer {lightgroup_k lightgroup_k.red lightgroup_k.green lightgroup_k.blue}
  Shuffle {
-  in ligthgroup_k
+  in lightgroup_k
   alpha black
   name lightgroup_k
   xpos 1605
@@ -181,9 +181,9 @@ add_layer {ligthgroup_k ligthgroup_k.red ligthgroup_k.green ligthgroup_k.blue}
   ypos -95
  }
 push $N2798f20
-add_layer {ligthgroup_j ligthgroup_j.red ligthgroup_j.green ligthgroup_j.blue}
+add_layer {lightgroup_j lightgroup_j.red lightgroup_j.green lightgroup_j.blue}
  Shuffle {
-  in ligthgroup_j
+  in lightgroup_j
   alpha black
   name lightgroup_j
   xpos 1506
@@ -212,9 +212,9 @@ add_layer {ligthgroup_j ligthgroup_j.red ligthgroup_j.green ligthgroup_j.blue}
   ypos -95
  }
 push $Nc4a36c0
-add_layer {ligthgroup_i ligthgroup_i.red ligthgroup_i.green ligthgroup_i.blue}
+add_layer {lightgroup_i lightgroup_i.red lightgroup_i.green lightgroup_i.blue}
  Shuffle {
-  in ligthgroup_i
+  in lightgroup_i
   alpha black
   name lightgroup_i
   xpos 1396
@@ -243,9 +243,9 @@ add_layer {ligthgroup_i ligthgroup_i.red ligthgroup_i.green ligthgroup_i.blue}
   ypos -95
  }
 push $N341bc4f0
-add_layer {ligthgroup_h ligthgroup_h.red ligthgroup_h.green ligthgroup_h.blue}
+add_layer {lightgroup_h lightgroup_h.red lightgroup_h.green lightgroup_h.blue}
  Shuffle {
-  in ligthgroup_h
+  in lightgroup_h
   alpha black
   name lightgroup_h
   xpos 1295
@@ -275,9 +275,9 @@ add_layer {ligthgroup_h ligthgroup_h.red ligthgroup_h.green ligthgroup_h.blue}
  }
 set N23a6130 [stack 0]
 push $Nb7f41190
-add_layer {ligthgroup_g ligthgroup_g.red ligthgroup_g.green ligthgroup_g.blue}
+add_layer {lightgroup_g lightgroup_g.red lightgroup_g.green lightgroup_g.blue}
  Shuffle {
-  in ligthgroup_g
+  in lightgroup_g
   alpha black
   name lightgroup_g
   xpos 1195
@@ -307,9 +307,9 @@ add_layer {ligthgroup_g ligthgroup_g.red ligthgroup_g.green ligthgroup_g.blue}
  }
 set Nbe2be8f0 [stack 0]
 push $N2c730060
-add_layer {ligthgroup_f ligthgroup_f.red ligthgroup_f.green ligthgroup_f.blue}
+add_layer {lightgroup_f lightgroup_f.red lightgroup_f.green lightgroup_f.blue}
  Shuffle {
-  in ligthgroup_f
+  in lightgroup_f
   alpha black
   name lightgroup_f
   xpos 1085
@@ -339,9 +339,9 @@ add_layer {ligthgroup_f ligthgroup_f.red ligthgroup_f.green ligthgroup_f.blue}
  }
 set N2c702570 [stack 0]
 push $N2c7359b0
-add_layer {ligthgroup_e ligthgroup_e.red ligthgroup_e.green ligthgroup_e.blue}
+add_layer {lightgroup_e lightgroup_e.red lightgroup_e.green lightgroup_e.blue}
  Shuffle {
-  in ligthgroup_e
+  in lightgroup_e
   alpha black
   name lightgroup_e
   xpos 975
@@ -371,9 +371,9 @@ add_layer {ligthgroup_e ligthgroup_e.red ligthgroup_e.green ligthgroup_e.blue}
  }
 set N1ef0490 [stack 0]
 push $N2e0b5980
-add_layer {ligthgroup_d ligthgroup_d.red ligthgroup_d.green ligthgroup_d.blue}
+add_layer {lightgroup_d lightgroup_d.red lightgroup_d.green lightgroup_d.blue}
  Shuffle {
-  in ligthgroup_d
+  in lightgroup_d
   alpha black
   name lightgroup_d
   xpos 860
@@ -403,9 +403,9 @@ add_layer {ligthgroup_d ligthgroup_d.red ligthgroup_d.green ligthgroup_d.blue}
  }
 set Nb8680aa0 [stack 0]
 push $N2e0c0850
-add_layer {ligthgroup_c ligthgroup_c.red ligthgroup_c.green ligthgroup_c.blue}
+add_layer {lightgroup_c lightgroup_c.red lightgroup_c.green lightgroup_c.blue}
  Shuffle {
-  in ligthgroup_c
+  in lightgroup_c
   alpha black
   name lightgroup_c
   xpos 744
@@ -435,9 +435,9 @@ add_layer {ligthgroup_c ligthgroup_c.red ligthgroup_c.green ligthgroup_c.blue}
  }
 set N2c91c3d0 [stack 0]
 push $Nb292d350
-add_layer {ligthgroup_b ligthgroup_b.red ligthgroup_b.green ligthgroup_b.blue}
+add_layer {lightgroup_b lightgroup_b.red lightgroup_b.green lightgroup_b.blue}
  Shuffle {
-  in ligthgroup_b
+  in lightgroup_b
   alpha black
   name lightgroup_b
   xpos 621
@@ -467,9 +467,9 @@ add_layer {ligthgroup_b ligthgroup_b.red ligthgroup_b.green ligthgroup_b.blue}
  }
 set Nb32eae00 [stack 0]
 push $Ne6b67850
-add_layer {ligthgroup_a ligthgroup_a.red ligthgroup_a.green ligthgroup_a.blue}
+add_layer {lightgroup_a lightgroup_a.red lightgroup_a.green lightgroup_a.blue}
  Shuffle {
-  in ligthgroup_a
+  in lightgroup_a
   alpha black
   name lightgroup_a
   xpos 509

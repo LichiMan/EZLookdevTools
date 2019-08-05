@@ -1,6 +1,6 @@
 #! /usr/local/Nuke11.1v4/libnuke-11.1.4.so -nx
 version 11.1 v4
-add_layer {ligthgroup_a ligthgroup_a.red ligthgroup_a.green ligthgroup_a.blue}
+add_layer {lightgroup_a lightgroup_a.red lightgroup_a.green lightgroup_a.blue}
 Gizmo {
  addUserKnob {20 User}
  addUserKnob {41 in l "aov selection" T select_aov.in}
@@ -67,7 +67,7 @@ set Nd22d080 [stack 0]
  }
 push $Nd22d080
  Shuffle {
-  in ligthgroup_a
+  in lightgroup_a
   in2 rgba
   alpha black
   name select_aov
