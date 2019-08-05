@@ -131,28 +131,16 @@ A node must be selected before running, this node will be used as the scene poin
 
 It can also be used to create collections of all unique values for any give attribute
 
-```
-import EZSurfacing as EZSurfacing
+<img width="40%" src="docs/images/katanaEZCollectionsShelves.jpg" alt="EZSurfacing Tools" style="margin-right: 10px;" />
 
-#creates EZSurfacing project collections
-attribute_name = 'geometry.arbitrary.EZSurfacing_project'
-EZSurfacing.create_EZ_collections(attribute_name)
-
-#creates EZSurfacing object collections
-attribute_name = 'geometry.arbitrary.EZSurfacing_object'
-EZCollections = EZSurfacing.create_EZ_collections(attribute_name)
-
-#creates a material per object collections
-EZSurfacing.create_EZ_materials(attribute_name)
-#creates a viewer material per object collections
-EZSurfacing.create_EZ_viewer_settings(attribute_name)
-
-
-```
-
-Collections are based on attribute values at locations as in
+Collection, viewport colors and material assignments are based on attribute values at locations as in.
 ```
 /root/world//*{attr("geometry.arbitrary.myCustomAttribute") == value
+```
+The attributes used from this tools are
+```
+geometry.arbitrary.EZSurfacing_project
+geometry.arbitrary.EZSurfacing_object
 ```
 <img width="100%" src="docs/images/katanaEZCollections2.png" alt="EZSurfacing Tools" style="margin-right: 10px;" />
 
