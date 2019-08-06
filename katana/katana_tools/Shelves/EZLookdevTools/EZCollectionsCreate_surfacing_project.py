@@ -21,5 +21,6 @@ creates collections for EZSurfacing projects
 #              front in its pane.
 
 import katana.katana_main as EZSurfacing
-attribute_name = 'geometry.arbitrary.EZSurfacing_project'
+
+attribute_name = "geometry.arbitrary.EZSurfacing_project"
 EZSurfacing.create_EZ_collections(attribute_name)
