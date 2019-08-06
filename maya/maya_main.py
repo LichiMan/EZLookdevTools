@@ -2,7 +2,6 @@ import pymel.core as pm
 import logging
 import os
 import maya.mel as mel
-import maya.cmds as mc
 from PySide2 import QtWidgets
 import traceback
 import sys
