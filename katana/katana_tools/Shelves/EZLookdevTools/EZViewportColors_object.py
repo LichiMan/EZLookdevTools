@@ -21,5 +21,6 @@ creates viewport colors for EZSurfacing object
 #              front in its pane.
 
 import katana.katana_main as EZSurfacing
-attribute_name = 'geometry.arbitrary.EZSurfacing_object'
+
+attribute_name = "geometry.arbitrary.EZSurfacing_object"
 EZSurfacing.create_EZ_viewer_settings(attribute_name)
