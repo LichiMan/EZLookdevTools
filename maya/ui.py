@@ -1,13 +1,10 @@
 import logging
 import pymel.core as pm
-from PySide2 import QtCore
 from PySide2 import QtGui, QtWidgets, QtWidgets, QtUiTools
-from PySide2.QtWidgets import QMessageBox
 from maya.app.general.mayaMixin import MayaQWidgetDockableMixin
 import os
 
-import EZSurfacing as EZSurfacing
-reload(EZSurfacing)
+import maya.maya_main as EZSurfacing
 
 logger = logging.getLogger(__name__)
 

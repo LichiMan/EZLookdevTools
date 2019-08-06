@@ -20,6 +20,6 @@ creates collections for EZSurfacing projects
 #              If raiseTab is passed as True, the tab will be raised to the
 #              front in its pane.
 
-import EZSurfacing as EZSurfacing
+import katana.katana_main as EZSurfacing
 attribute_name = 'geometry.arbitrary.EZSurfacing_project'
 EZSurfacing.create_EZ_collections(attribute_name)
