@@ -19,104 +19,104 @@ Gizmo {
  addUserKnob {26 solo_line l "solo lightgroups"}
  addUserKnob {6 solo +STARTLINE}
  addUserKnob {4 solo_select l "" -STARTLINE M {a b c d e f g h i j k l m "" "" ""}}
- addUserKnob {20 ligthgroup_a_group l ligthgroup_a n 1}
- ligthgroup_a_group 0
+ addUserKnob {20 lightgroup_a_group l lightgroup_a n 1}
+ lightgroup_a_group 0
  addUserKnob {26 lightgroup_a_exposure l exposure}
  addUserKnob {41 gang T lightgroup_a_exp.gang}
  addUserKnob {41 red T lightgroup_a_exp.red}
  addUserKnob {41 green T lightgroup_a_exp.green}
  addUserKnob {41 blue T lightgroup_a_exp.blue}
  addUserKnob {20 endGroup n -1}
- addUserKnob {20 ligthgroup_b_group l ligthgroup_b n 1}
- ligthgroup_b_group 0
+ addUserKnob {20 lightgroup_b_group l lightgroup_b n 1}
+ lightgroup_b_group 0
  addUserKnob {26 lightgroup_b_exposure l exposure}
  addUserKnob {41 gang_1 l gang T lightgroup_b_exp.gang}
  addUserKnob {41 red_1 l red T lightgroup_b_exp.red}
  addUserKnob {41 green_1 l green T lightgroup_b_exp.green}
  addUserKnob {41 blue_1 l blue T lightgroup_b_exp.blue}
  addUserKnob {20 endGroup_1 l endGroup n -1}
- addUserKnob {20 ligthgroup_c_group l ligthgroup_c n 1}
- ligthgroup_c_group 0
+ addUserKnob {20 lightgroup_c_group l lightgroup_c n 1}
+ lightgroup_c_group 0
  addUserKnob {26 lightgroup_c_exposure l exposure}
  addUserKnob {41 gang_2 l gang T lightgroup_c_exp.gang}
  addUserKnob {41 red_2 l red T lightgroup_c_exp.red}
  addUserKnob {41 green_2 l green T lightgroup_c_exp.green}
  addUserKnob {41 blue_2 l blue T lightgroup_c_exp.blue}
  addUserKnob {20 endGroup_2 l endGroup n -1}
- addUserKnob {20 ligthgroup_d_group l ligthgroup_d n 1}
- ligthgroup_d_group 0
+ addUserKnob {20 lightgroup_d_group l lightgroup_d n 1}
+ lightgroup_d_group 0
  addUserKnob {26 lightgroup_d_exposure l exposure}
  addUserKnob {41 gang_3 l gang T lightgroup_d_exp.gang}
  addUserKnob {41 red_3 l red T lightgroup_d_exp.red}
  addUserKnob {41 green_3 l green T lightgroup_d_exp.green}
  addUserKnob {41 blue_3 l blue T lightgroup_d_exp.blue}
  addUserKnob {20 endGroup_3 l endGroup n -1}
- addUserKnob {20 ligthgroup_e_group l ligthgroup_e n 1}
- ligthgroup_e_group 0
+ addUserKnob {20 lightgroup_e_group l lightgroup_e n 1}
+ lightgroup_e_group 0
  addUserKnob {26 lightgroup_e_exposure l exposure}
  addUserKnob {41 gang_4 l gang T lightgroup_e_exp.gang}
  addUserKnob {41 red_4 l red T lightgroup_e_exp.red}
  addUserKnob {41 green_4 l green T lightgroup_e_exp.green}
  addUserKnob {41 blue_4 l blue T lightgroup_e_exp.blue}
  addUserKnob {20 endGroup_4 l endGroup n -1}
- addUserKnob {20 ligthgroup_f_group l ligthgroup_f n 1}
- ligthgroup_f_group 0
+ addUserKnob {20 lightgroup_f_group l lightgroup_f n 1}
+ lightgroup_f_group 0
  addUserKnob {26 lightgroup_f_exposure l exposure}
  addUserKnob {41 gang_5 l gang T lightgroup_f_exp.gang}
  addUserKnob {41 red_5 l red T lightgroup_f_exp.red}
  addUserKnob {41 green_5 l green T lightgroup_f_exp.green}
  addUserKnob {41 blue_5 l blue T lightgroup_f_exp.blue}
  addUserKnob {20 endGroup_5 l endGroup n -1}
- addUserKnob {20 ligthgroup_g_group l ligthgroup_g n 1}
- ligthgroup_g_group 0
+ addUserKnob {20 lightgroup_g_group l lightgroup_g n 1}
+ lightgroup_g_group 0
  addUserKnob {26 lightgroup_g_exposure l exposure}
  addUserKnob {41 gang_6 l gang T lightgroup_g_exp.gang}
  addUserKnob {41 red_6 l red T lightgroup_g_exp.red}
  addUserKnob {41 green_6 l green T lightgroup_g_exp.green}
  addUserKnob {41 blue_6 l blue T lightgroup_g_exp.blue}
  addUserKnob {20 endGroup_6 l endGroup n -1}
- addUserKnob {20 ligthgroup_h_group l ligthgroup_h n 1}
- ligthgroup_h_group 0
+ addUserKnob {20 lightgroup_h_group l lightgroup_h n 1}
+ lightgroup_h_group 0
  addUserKnob {26 lightgroup_h_exposure l exposure}
  addUserKnob {41 gang_7 l gang T lightgroup_h_exp.gang}
  addUserKnob {41 red_7 l red T lightgroup_h_exp.red}
  addUserKnob {41 green_7 l green T lightgroup_h_exp.green}
  addUserKnob {41 blue_7 l blue T lightgroup_h_exp.blue}
  addUserKnob {20 endGroup_7 l endGroup n -1}
- addUserKnob {20 ligthgroup_i_group l ligthgroup_i n 1}
- ligthgroup_i_group 0
+ addUserKnob {20 lightgroup_i_group l lightgroup_i n 1}
+ lightgroup_i_group 0
  addUserKnob {26 lightgroup_i_exposure l exposure}
  addUserKnob {41 gang_8 l gang T lightgroup_i_exp.gang}
  addUserKnob {41 red_8 l red T lightgroup_i_exp.red}
  addUserKnob {41 green_8 l green T lightgroup_i_exp.green}
  addUserKnob {41 blue_8 l blue T lightgroup_i_exp.blue}
  addUserKnob {20 endGroup_8 l endGroup n -1}
- addUserKnob {20 ligthgroup_j_group l ligthgroup_j n 1}
- ligthgroup_j_group 0
+ addUserKnob {20 lightgroup_j_group l lightgroup_j n 1}
+ lightgroup_j_group 0
  addUserKnob {26 lightgroup_j_exposure l exposure}
  addUserKnob {41 gang_9 l gang T lightgroup_j_exp.gang}
  addUserKnob {41 red_9 l red T lightgroup_j_exp.red}
  addUserKnob {41 green_9 l green T lightgroup_j_exp.green}
  addUserKnob {41 blue_9 l blue T lightgroup_j_exp.blue}
  addUserKnob {20 endGroup_9 l endGroup n -1}
- addUserKnob {20 ligthgroup_k_group l ligthgroup_k n 1}
- ligthgroup_k_group 0
+ addUserKnob {20 lightgroup_k_group l lightgroup_k n 1}
+ lightgroup_k_group 0
  addUserKnob {26 lightgroup_k_exposure l exposure}
  addUserKnob {41 gang_10 l gang T lightgroup_k_exp.gang}
  addUserKnob {41 red_10 l red T lightgroup_k_exp.red}
  addUserKnob {41 green_10 l green T lightgroup_k_exp.green}
  addUserKnob {41 blue_10 l blue T lightgroup_k_exp.blue}
  addUserKnob {20 endGroup_10 l endGroup n -1}
- addUserKnob {20 ligthgroup_l_group l ligthgroup_l n 1}
- ligthgroup_l_group 0
+ addUserKnob {20 lightgroup_l_group l lightgroup_l n 1}
+ lightgroup_l_group 0
  addUserKnob {26 lightgroup_l_exposure l exposure}
  addUserKnob {41 gang_11 l gang T lightgroup_l_exp.gang}
  addUserKnob {41 red_11 l red T lightgroup_l_exp.red}
  addUserKnob {41 green_11 l green T lightgroup_l_exp.green}
  addUserKnob {41 blue_11 l blue T lightgroup_l_exp.blue}
  addUserKnob {20 endGroup_11 l endGroup n -1}
- addUserKnob {20 ligthgroup_m_group l ligthgroup_m n 1}
- ligthgroup_m_group 0
+ addUserKnob {20 lightgroup_m_group l lightgroup_m n 1}
+ lightgroup_m_group 0
  addUserKnob {26 lightgroup_m_exposure l exposure}
  addUserKnob {41 gang_12 l gang T lightgroup_m_exp.gang}
  addUserKnob {41 red_12 l red T lightgroup_m_exp.red}
@@ -219,9 +219,9 @@ set N45fe10a0 [stack 0]
   xpos 2284
   ypos 86
  }
-add_layer {ligthgroup_m ligthgroup_m.red ligthgroup_m.green ligthgroup_m.blue}
+add_layer {lightgroup_m lightgroup_m.red lightgroup_m.green lightgroup_m.blue}
  Shuffle {
-  in ligthgroup_m
+  in lightgroup_m
   alpha black
   name lightgroup_m
   xpos 2250
@@ -240,9 +240,9 @@ add_layer {ligthgroup_m ligthgroup_m.red ligthgroup_m.green ligthgroup_m.blue}
  }
 set N78584a00 [stack 0]
 push $N45fe10a0
-add_layer {ligthgroup_l ligthgroup_l.red ligthgroup_l.green ligthgroup_l.blue}
+add_layer {lightgroup_l lightgroup_l.red lightgroup_l.green lightgroup_l.blue}
  Shuffle {
-  in ligthgroup_l
+  in lightgroup_l
   alpha black
   name lightgroup_l
   xpos 2152
@@ -261,9 +261,9 @@ add_layer {ligthgroup_l ligthgroup_l.red ligthgroup_l.green ligthgroup_l.blue}
  }
 set Nf8923760 [stack 0]
 push $Nf8bdff30
-add_layer {ligthgroup_k ligthgroup_k.red ligthgroup_k.green ligthgroup_k.blue}
+add_layer {lightgroup_k lightgroup_k.red lightgroup_k.green lightgroup_k.blue}
  Shuffle {
-  in ligthgroup_k
+  in lightgroup_k
   alpha black
   name lightgroup_k
   xpos 2051
@@ -282,9 +282,9 @@ add_layer {ligthgroup_k ligthgroup_k.red ligthgroup_k.green ligthgroup_k.blue}
  }
 set Nf34c2a50 [stack 0]
 push $N45ed2ba0
-add_layer {ligthgroup_j ligthgroup_j.red ligthgroup_j.green ligthgroup_j.blue}
+add_layer {lightgroup_j lightgroup_j.red lightgroup_j.green lightgroup_j.blue}
  Shuffle {
-  in ligthgroup_j
+  in lightgroup_j
   alpha black
   name lightgroup_j
   xpos 1952
@@ -303,9 +303,9 @@ add_layer {ligthgroup_j ligthgroup_j.red ligthgroup_j.green ligthgroup_j.blue}
  }
 set N45f01010 [stack 0]
 push $N45fd5df0
-add_layer {ligthgroup_i ligthgroup_i.red ligthgroup_i.green ligthgroup_i.blue}
+add_layer {lightgroup_i lightgroup_i.red lightgroup_i.green lightgroup_i.blue}
  Shuffle {
-  in ligthgroup_i
+  in lightgroup_i
   alpha black
   name lightgroup_i
   xpos 1842
@@ -324,9 +324,9 @@ add_layer {ligthgroup_i ligthgroup_i.red ligthgroup_i.green ligthgroup_i.blue}
  }
 set N78394d20 [stack 0]
 push $Nf8922410
-add_layer {ligthgroup_h ligthgroup_h.red ligthgroup_h.green ligthgroup_h.blue}
+add_layer {lightgroup_h lightgroup_h.red lightgroup_h.green lightgroup_h.blue}
  Shuffle {
-  in ligthgroup_h
+  in lightgroup_h
   alpha black
   name lightgroup_h
   xpos 1741
@@ -345,9 +345,9 @@ add_layer {ligthgroup_h ligthgroup_h.red ligthgroup_h.green ligthgroup_h.blue}
  }
 set N45ffe8b0 [stack 0]
 push $Nf8be0e70
-add_layer {ligthgroup_g ligthgroup_g.red ligthgroup_g.green ligthgroup_g.blue}
+add_layer {lightgroup_g lightgroup_g.red lightgroup_g.green lightgroup_g.blue}
  Shuffle {
-  in ligthgroup_g
+  in lightgroup_g
   alpha black
   name lightgroup_g
   xpos 1641
@@ -366,9 +366,9 @@ add_layer {ligthgroup_g ligthgroup_g.red ligthgroup_g.green ligthgroup_g.blue}
  }
 set N45eeacd0 [stack 0]
 push $Nf34c2600
-add_layer {ligthgroup_f ligthgroup_f.red ligthgroup_f.green ligthgroup_f.blue}
+add_layer {lightgroup_f lightgroup_f.red lightgroup_f.green lightgroup_f.blue}
  Shuffle {
-  in ligthgroup_f
+  in lightgroup_f
   alpha black
   name lightgroup_f
   xpos 1531
@@ -387,9 +387,9 @@ add_layer {ligthgroup_f ligthgroup_f.red ligthgroup_f.green ligthgroup_f.blue}
  }
 set Nf2bb13d0 [stack 0]
 push $N45fe8340
-add_layer {ligthgroup_e ligthgroup_e.red ligthgroup_e.green ligthgroup_e.blue}
+add_layer {lightgroup_e lightgroup_e.red lightgroup_e.green lightgroup_e.blue}
  Shuffle {
-  in ligthgroup_e
+  in lightgroup_e
   alpha black
   name lightgroup_e
   xpos 1421
@@ -408,9 +408,9 @@ add_layer {ligthgroup_e ligthgroup_e.red ligthgroup_e.green ligthgroup_e.blue}
  }
 set N451d32b0 [stack 0]
 push $N4602bd20
-add_layer {ligthgroup_d ligthgroup_d.red ligthgroup_d.green ligthgroup_d.blue}
+add_layer {lightgroup_d lightgroup_d.red lightgroup_d.green lightgroup_d.blue}
  Shuffle {
-  in ligthgroup_d
+  in lightgroup_d
   alpha black
   name lightgroup_d
   xpos 1306
@@ -429,9 +429,9 @@ add_layer {ligthgroup_d ligthgroup_d.red ligthgroup_d.green ligthgroup_d.blue}
  }
 set N44dcf8c0 [stack 0]
 push $N451c6da0
-add_layer {ligthgroup_c ligthgroup_c.red ligthgroup_c.green ligthgroup_c.blue}
+add_layer {lightgroup_c lightgroup_c.red lightgroup_c.green lightgroup_c.blue}
  Shuffle {
-  in ligthgroup_c
+  in lightgroup_c
   alpha black
   name lightgroup_c
   xpos 1190
@@ -450,9 +450,9 @@ add_layer {ligthgroup_c ligthgroup_c.red ligthgroup_c.green ligthgroup_c.blue}
  }
 set N44e11090 [stack 0]
 push $N45f0c4b0
-add_layer {ligthgroup_b ligthgroup_b.red ligthgroup_b.green ligthgroup_b.blue}
+add_layer {lightgroup_b lightgroup_b.red lightgroup_b.green lightgroup_b.blue}
  Shuffle {
-  in ligthgroup_b
+  in lightgroup_b
   alpha black
   name lightgroup_b
   xpos 1067
@@ -471,9 +471,9 @@ add_layer {ligthgroup_b ligthgroup_b.red ligthgroup_b.green ligthgroup_b.blue}
  }
 set N44e3f080 [stack 0]
 push $N45ffc8a0
-add_layer {ligthgroup_a ligthgroup_a.red ligthgroup_a.green ligthgroup_a.blue}
+add_layer {lightgroup_a lightgroup_a.red lightgroup_a.green lightgroup_a.blue}
  Shuffle {
-  in ligthgroup_a
+  in lightgroup_a
   alpha black
   name lightgroup_a
   xpos 955
