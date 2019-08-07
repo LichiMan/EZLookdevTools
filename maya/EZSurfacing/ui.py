@@ -22,40 +22,47 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         project_btns_layout = QtWidgets.QHBoxLayout()
         object_btns_layout = QtWidgets.QHBoxLayout()
         selection_layout = QtWidgets.QHBoxLayout()
+        wireframe_layout = QtWidgets.QHBoxLayout()
+        material_layout = QtWidgets.QHBoxLayout()
         self.setWindowTitle("EZSurfacing")
-
         main_widget.closeEvent = self.close
+        red_text = '#AA0000'
+
         # Create UI widgets
         self.refresh = QtWidgets.QPushButton("refresh")
-        self.btn_set_path = QtWidgets.QPushButton("set path")
-        self.lbl_path = QtWidgets.QLabel("export path")
-        self.path = QtWidgets.QLabel("")
         self.sync_selection = QtWidgets.QCheckBox("Sync object set selection")
         self.expand_selection = QtWidgets.QCheckBox("expand selection to members")
         self.project_new_btn = QtWidgets.QPushButton("new texture project")
-        self.project_delete_btn = QtWidgets.QPushButton("delete texture project")
+        self.project_delete_btn = QtWidgets.QPushButton("X")
+        self.project_delete_btn.setMaximumWidth(20)
+        self.project_delete_btn.setStyleSheet('QPushButton {color: %s;}' % red_text)
         self.list_projects = QtWidgets.QListWidget(self)
         self.list_projects.setSortingEnabled(True)
         self.btn_new_texture_object = QtWidgets.QPushButton("new texture object")
-        self.btn_delete_texture_object = QtWidgets.QPushButton("delete texture object")
+        self.btn_delete_texture_object = QtWidgets.QPushButton("X")
+        self.btn_delete_texture_object.setMaximumWidth(20)
+        self.btn_delete_texture_object.setStyleSheet('QPushButton {color: %s;}' % red_text)
         self.btn_add_to_texture_object = QtWidgets.QPushButton(
             "add selected to texture object"
         )
         self.list_texture_objects = QtWidgets.QListWidget(self)
         self.list_texture_objects.setSortingEnabled(True)
-        self.lbl_validate_scene = QtWidgets.QLabel("validation")
-        self.btn_validate_scene = QtWidgets.QPushButton("validate scene")
         self.lbl_wireframe = QtWidgets.QLabel("wireframe colors")
         self.btn_wireframe_color_projects = QtWidgets.QPushButton(
             "per Surfacing Project"
         )
         self.btn_wireframe_color_objects = QtWidgets.QPushButton("per Surfacing Object")
+        self.btn_wireframe_color_none = QtWidgets.QPushButton("X")
+        self.btn_wireframe_color_none.setMaximumWidth(20)
+        self.btn_wireframe_color_none.setStyleSheet('QPushButton {color: %s;}' % red_text)
         self.lbl_materials = QtWidgets.QLabel("material colors")
+        self.btn_material_color_projects = QtWidgets.QPushButton("per Surfacing Project")
         self.btn_material_color_objects = QtWidgets.QPushButton("per Surfacing Object")
-        self.btn_wireframe_color_none = QtWidgets.QPushButton("Remove")
-        self.lbl_export = QtWidgets.QLabel("Project Export")
-        self.btn_export_project = QtWidgets.QPushButton("Selected")
-        self.btn_export_all = QtWidgets.QPushButton("All")
+        self.lbl_validate_scene = QtWidgets.QLabel("validation")
+        self.btn_validate_scene = QtWidgets.QPushButton("validate scene")
+        self.lbl_export = QtWidgets.QLabel("Export")
+        self.btn_export_project = QtWidgets.QPushButton("Selected Project")
+        self.btn_export_all = QtWidgets.QPushButton("All Projects")
 
         EZSurfacing.EZSurfacingInit()
         self.update_ui_projects()
@@ -70,9 +77,6 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
 
         # Attach widgets to the main layout
         main_layout.addWidget(self.refresh)
-        main_layout.addWidget(self.lbl_path)
-        main_layout.addWidget(self.btn_set_path)
-        main_layout.addWidget(self.path)
         main_layout.addLayout(selection_layout)
         selection_layout.addWidget(self.sync_selection)
         selection_layout.addWidget(self.expand_selection)
@@ -83,14 +87,17 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         main_layout.addLayout(object_btns_layout)
         object_btns_layout.addWidget(self.btn_new_texture_object)
         object_btns_layout.addWidget(self.btn_delete_texture_object)
-        main_layout.addWidget(self.list_texture_objects)
         main_layout.addWidget(self.btn_add_to_texture_object)
+        main_layout.addWidget(self.list_texture_objects)
         main_layout.addWidget(self.lbl_wireframe)
-        main_layout.addWidget(self.btn_wireframe_color_projects)
-        main_layout.addWidget(self.btn_wireframe_color_objects)
-        main_layout.addWidget(self.btn_wireframe_color_none)
+        main_layout.addLayout(wireframe_layout)
+        wireframe_layout.addWidget(self.btn_wireframe_color_projects)
+        wireframe_layout.addWidget(self.btn_wireframe_color_objects)
+        wireframe_layout.addWidget(self.btn_wireframe_color_none)
         main_layout.addWidget(self.lbl_materials)
-        main_layout.addWidget(self.btn_material_color_objects)
+        main_layout.addLayout(material_layout)
+        material_layout.addWidget(self.btn_material_color_projects)
+        material_layout.addWidget(self.btn_material_color_objects)
         main_layout.addWidget(self.lbl_validate_scene)
         main_layout.addWidget(self.btn_validate_scene)
         main_layout.addWidget(self.lbl_export)
@@ -103,7 +110,6 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
 
         # Connect buttons signals
         self.refresh.clicked.connect(self.update_ui_projects)
-        self.btn_set_path.clicked.connect(self.set_path)
         self.project_new_btn.clicked.connect(self.create_project)
         self.project_delete_btn.clicked.connect(self.delete_project)
         self.list_projects.itemClicked.connect(self.update_ui_texture_objects)
@@ -120,6 +126,9 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         )
         self.btn_wireframe_color_none.clicked.connect(
             EZSurfacing.set_wifreframe_color_none
+        )
+        self.btn_material_color_projects.clicked.connect(
+            EZSurfacing.set_materials_per_project
         )
         self.btn_material_color_objects.clicked.connect(
             EZSurfacing.set_materials_per_object
@@ -161,16 +170,6 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
             if self.expand_selection.isChecked():
                 pm.select(selected_texture_object)
 
-    def set_path(self):
-        """sets the EZTool texture root path attribute to where to export"""
-        file_dialog = QtWidgets.QFileDialog()
-        file_dialog.setFileMode(QtWidgets.QFileDialog.Directory)
-        if file_dialog.exec_():
-            root = EZSurfacing.get_project_root()
-            path = str(file_dialog.selectedFiles()[0])
-            pm.setAttr("%s.EZSurfacing_root" % root, path)
-            self.path.setText(os.path.basename(path))
-
     def create_project(self):
         """Initializes the scene with the required nodes"""
         root = EZSurfacing.create_project()
@@ -194,10 +193,6 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
     def update_ui_projects(self):
         """updates the list of texture projects"""
         root = EZSurfacing.get_project_root()
-        self.path.setText(
-            "Export path: %s"
-            % os.path.basename(pm.getAttr("%s.EZSurfacing_root" % root))
-        )
         # update_lists
         projects = EZSurfacing.get_projects()
         self.list_projects.clear()
