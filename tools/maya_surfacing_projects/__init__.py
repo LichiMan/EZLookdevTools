@@ -6,7 +6,7 @@ import maya.cmds as mc
 from PySide2 import QtWidgets
 import traceback
 import sys
-import random
+import tools.common.utilities as common_utilities
 
 ATTRIBUTEPROJECT = "surfacing_project"
 ATTRIBUTETEXTUREOBJECT = "surfacing_object"
@@ -505,7 +505,7 @@ def set_wireframe_colors_per_object():
                     mesh.overrideEnabled.set(1)
                     mesh.overrideRGBColors.set(1)
                     mesh.overrideColorRGB.set(
-                        get_random_color(surfacingObject)
+                        common_utilities.get_random_color(surfacingObject)
                     )
                 except:
                     logging.error(
@@ -532,7 +532,7 @@ def set_materials_per_project():
         pm.select(project)
         pm.hyperShade(assign=material)
         material.color.set(
-            get_random_color(project)
+            common_utilities.get_random_color(project)
         )
 
 def set_materials_per_object():
@@ -555,21 +555,8 @@ def set_materials_per_object():
             pm.select(surfacingObject)
             pm.hyperShade(assign=material)
             material.color.set(
-                get_random_color(surfacingObject)
+                common_utilities.get_random_color(surfacingObject)
             )
-
-def get_random_color(seed):
-    '''Gets a random color from a seed, usually used with the
-    surfacing project or object name, to have tint the materials
-    and wireframes, and have consistency across dcc's'''
-    random.seed(seed + "_r")
-    color_red = random.uniform(0, 1)
-    random.seed(seed + "_g")
-    color_green = random.uniform(0, 1)
-    random.seed(seed + "_b")
-    color_blue = random.uniform(0, 1)
-    return [color_red, color_green, color_blue]
-
 
 def delete_materials():
     '''deletes all materials that have surfMaterial attribute'''
