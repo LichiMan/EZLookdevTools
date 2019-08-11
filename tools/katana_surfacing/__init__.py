@@ -1,6 +1,5 @@
 from Katana import Widgets, FnGeolib, Nodes3DAPI, NodegraphAPI
-import random
-
+import tools.common.utilities as common_utilities
 
 def get_locations_hasattr(node, search_location, cel_expression):
     """Get all locations matching a cel_expression, at a location generated at a given
@@ -89,16 +88,6 @@ def create_EZ_collections(attribute_name):
     return collections_name_list
 
 
-def get_random_color(seed):
-    random.seed(seed + "_r")
-    color_red = random.uniform(0, 1)
-    random.seed(seed + "_g")
-    color_green = random.uniform(0, 1)
-    random.seed(seed + "_b")
-    color_blue = random.uniform(0, 1)
-    return [color_red, color_green, color_blue]
-
-
 def get_selected_nodes(single=False):
     nodes = NodegraphAPI.GetAllSelectedNodes()
     if single:
@@ -118,7 +107,7 @@ def create_EZ_viewer_settings(attribute_name):
     position_y = 0
 
     for attribute_value in attribute_values:
-        random_color = get_random_color(attribute_value)
+        random_color = common_utilities.get_random_color(attribute_value)
         viewer_settings = NodegraphAPI.CreateNode("ViewerObjectSettings", rootNode)
         viewer_settings.setName("viewerColor_%s" % attribute_value)
         add_node_to_group_last(material_stack, viewer_settings, inputPort="input")
@@ -186,7 +175,7 @@ def create_EZ_materials(attribute_name, assign_random_color=False):
 
         NodegraphAPI.SetNodePosition(material_network, (250, -100))
 
-        random_color = get_random_color(attribute_value)
+        random_color = common_utilities.get_random_color(attribute_value)
 
         PxrSurface = NodegraphAPI.CreateNode("PrmanShadingNode", rootNode)
         PxrSurface_nodeType = PxrSurface.getParameter("nodeType")
