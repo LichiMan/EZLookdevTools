@@ -1,9 +1,0 @@
-[Core]
-Name = Example plugin
-Module = example_plugin
-
-[Documentation]
-Author = Ezequiel Mastrasso
-Version = 1.0
-Website = //ezequielm.com
-Description = This is an example plugin configure, with UI entry points.

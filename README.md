@@ -1,15 +1,15 @@
 # Table of Contents
-[EZLookdevTools](#EZLookdevTools)  
+[LookdevTools](#LookdevTools)  
 [Installation](#Installation)   
 [&nbsp;&nbsp;&nbsp;Windows](#Windows)   
 [&nbsp;&nbsp;&nbsp;Linux](#Linux)   
-[Maya EZSurfacing](#Maya-EZSurfacing)  
+[Maya Surfacing Projects](#Maya-Surfacing-Projects)  
 [&nbsp;&nbsp;&nbsp;Hierarchical Structure](#Hierarchical-Structure)  
 [Katana Shelves](#Katana-Shelves)  
 [Katana Renderman Macros](#Katana-Renderman-Macros)  
 [&nbsp;&nbsp;&nbsp;MaterialLookdev](#MaterialLookdev)  
 [&nbsp;&nbsp;&nbsp;TextureSet Loader](#TextureSet-Loader)  
-[&nbsp;&nbsp;&nbsp;EZCollections and Materials](#EZCollections-and-Materials)  
+[&nbsp;&nbsp;&nbsp;Collections and Materials](#Collections-and-Materials)  
 [&nbsp;&nbsp;&nbsp;Interactive Filters](#Interactive-Filters)  
 [&nbsp;&nbsp;&nbsp;Override albedo with grey](#Override-albedo-with-grey)  
 [&nbsp;&nbsp;&nbsp;Texture locatization](#Texture-locatization)  
@@ -46,7 +46,7 @@ The attributes added to the meshes transforms allows the assignment of materials
 import tools.ui as tools.ui
 ```
 
-<img width="50%" src="docs/images/mayaEZSurfacing.png" alt="EZSurfacing Tools" style="" /><img width="50%" src="docs/images/mayaEZSurfacing2.png" alt="EZSurfacing Tools" style="" />
+<img width="50%" src="docs/images/mayaEZSurfacing.png" alt="EZSurfacing Tools" style="" /><img width="50%" src="docs/images/mayaEZSurfacing2.png" alt="Surfacing Tools" style="" />
 The pixar cabin, and kitchens shown here ready for surfacing
 
 <img width="48%" src="docs/images/mayaEZSurfacing_export.gif" alt="EZSurfacing Tools" style="" /><img width="48%" src="docs/images/mayaEZSurfacing_create.gif" alt="EZSurfacing Tools" style="" />
@@ -111,7 +111,7 @@ Each texture set element (for ie: baseColor, or normal) can be added to the list
 <img width="50%" src="docs/images/katanaPrmanTextureSet.png" alt="EZSurfacing Tools" style="margin-right: 10px;" />
 
 
-## EZCollections and Materials
+## Collections and Materials
 Run EZCollections from the shelve to automaticaly create collections based on the EZ attributes found in the scene graph.
 Create either the Surfacing Project, or the Surfacing Object collections.
 A node must be selected before running, this node will be used as the scene point where to process and examine the scene graph locations.   
@@ -187,10 +187,6 @@ https://www.artstation.com/artwork/wKveZ
 Elias Wick
 https://polycount.com/discussion/186513/free-checker-pattern-texture
 
-## Texture Patterns
-Elias Wick
-https://polycount.com/discussion/186513/free-checker-pattern-texture
-
 ## Pixar kitchen surfacing
 Surfacing, lighting, rendering was done by Ezequiel Mastrasso.
 This images are part of the original speed surfacing exercise that give birth to these tools.  
@@ -206,7 +202,9 @@ Requires yapsy (included in tools/external)
 ExamplePlugIn.plugin_layout QtWidget is what you need to populate in order to add and show an UI.
 
 <pre>tools/plugins/example_plugin/__init__.py</pre>
-```class ExamplePlugIn(IPlugin):
+
+```
+class ExamplePlugIn(IPlugin):
     '''Example plugin'''
     name = "Example Plugin"
 
