@@ -1,33 +1,25 @@
 import logging
+from yapsy.IPlugin import IPlugin
+from PySide2.QtWidgets import QApplication, QWidget, QLabel, QMainWindow
+from PySide2 import QtGui, QtWidgets, QtWidgets, QtUiTools, QtCore
+
+import tools.maya_surfacing_projects as maya_surfacing_projects
 import pymel.core as pm
-from PySide2 import QtGui, QtWidgets, QtWidgets, QtUiTools
-from maya.app.general.mayaMixin import MayaQWidgetDockableMixin
-import os
 
-import maya.maya_main as maya_main
+class mayaSurfacingProjects(IPlugin):
+    name = "mayaSurfacingProjects Plugin"
 
-logger = logging.getLogger(__name__)
+    plugin_layout = None
 
-
-class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
-    def __init__(self, parent=None):
-        super(MainWindow, self).__init__(parent=parent)
-
-        # Main widget
-        main_widget = QtWidgets.QWidget()
+    def __init__ (self):
+        logging.info('PLUGIN: example_plugin loaded')
+        self.plugin_layout = QtWidgets.QWidget()
         main_layout = QtWidgets.QVBoxLayout()
         project_btns_layout = QtWidgets.QHBoxLayout()
         object_btns_layout = QtWidgets.QHBoxLayout()
         selection_layout = QtWidgets.QHBoxLayout()
-<<<<<<< HEAD
         wireframe_layout = QtWidgets.QHBoxLayout()
         material_layout = QtWidgets.QHBoxLayout()
-        self.setWindowTitle("EZSurfacing")
-=======
-        self.setWindowTitle("maya_main")
-
->>>>>>> added latest push
-        main_widget.closeEvent = self.close
         red_text = '#AA0000'
 
         # Create UI widgets
@@ -38,7 +30,7 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         self.project_delete_btn = QtWidgets.QPushButton("X")
         self.project_delete_btn.setMaximumWidth(20)
         self.project_delete_btn.setStyleSheet('QPushButton {color: %s;}' % red_text)
-        self.list_projects = QtWidgets.QListWidget(self)
+        self.list_projects = QtWidgets.QListWidget()
         self.list_projects.setSortingEnabled(True)
         self.btn_new_texture_object = QtWidgets.QPushButton("new texture object")
         self.btn_delete_texture_object = QtWidgets.QPushButton("X")
@@ -47,7 +39,7 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         self.btn_add_to_texture_object = QtWidgets.QPushButton(
             "add selected to texture object"
         )
-        self.list_texture_objects = QtWidgets.QListWidget(self)
+        self.list_texture_objects = QtWidgets.QListWidget()
         self.list_texture_objects.setSortingEnabled(True)
         self.lbl_wireframe = QtWidgets.QLabel("wireframe colors")
         self.btn_wireframe_color_projects = QtWidgets.QPushButton(
@@ -65,9 +57,6 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         self.lbl_export = QtWidgets.QLabel("Export")
         self.btn_export_project = QtWidgets.QPushButton("Selected Project")
         self.btn_export_all = QtWidgets.QPushButton("All Projects")
-
-        maya_main.EZSurfacingInit()
-        self.update_ui_projects()
 
         # TODO
         # To remove the manually refesh button
@@ -107,8 +96,7 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         main_layout.addWidget(self.btn_export_all)
 
         # Set main layout
-        main_widget.setLayout(main_layout)
-        self.setCentralWidget(main_widget)
+        self.plugin_layout.setLayout(main_layout)
 
         # Connect buttons signals
         self.refresh.clicked.connect(self.update_ui_projects)
@@ -121,19 +109,19 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         self.btn_add_to_texture_object.clicked.connect(self.add_to_texture_object)
         self.btn_validate_scene.clicked.connect(self.validate_scene)
         self.btn_wireframe_color_projects.clicked.connect(
-            maya_main.set_wireframe_colors_per_project
+            maya_surfacing_projects.set_wireframe_colors_per_project
         )
         self.btn_wireframe_color_objects.clicked.connect(
-            maya_main.set_wireframe_colors_per_object
+            maya_surfacing_projects.set_wireframe_colors_per_object
         )
         self.btn_wireframe_color_none.clicked.connect(
-            maya_main.set_wifreframe_color_none
+            maya_surfacing_projects.set_wifreframe_color_none
         )
         self.btn_material_color_projects.clicked.connect(
-            EZSurfacing.set_materials_per_project
+            maya_surfacing_projects.set_materials_per_project
         )
         self.btn_material_color_objects.clicked.connect(
-            maya_main.set_materials_per_object
+            maya_surfacing_projects.set_materials_per_object
         )
         self.list_texture_objects.itemClicked.connect(self.select_texture_object)
         self.list_texture_objects.itemDoubleClicked.connect(self.editItem)
@@ -141,9 +129,8 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         self.btn_export_project.clicked.connect(self.export_project)
         self.btn_export_all.clicked.connect(self.export_all_projects)
 
-    def close(self):
-        """Function to call on panel close"""
-        pass
+
+        self.update_ui_projects()
 
     def editItem(self, item):
         item_object_set = pm.PyNode(str(item.text()))
@@ -161,7 +148,7 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
 
     def delete_project(self):
         selected_project = pm.PyNode(self.list_projects.currentItem().text())
-        maya_main.delete_project(selected_project)
+        maya_surfacing_projects.delete_project(selected_project)
         self.update_ui_projects()
 
     def select_texture_object(self, item):
@@ -172,22 +159,9 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
             if self.expand_selection.isChecked():
                 pm.select(selected_texture_object)
 
-<<<<<<< HEAD
-=======
-    def set_path(self):
-        """sets the EZTool texture root path attribute to where to export"""
-        file_dialog = QtWidgets.QFileDialog()
-        file_dialog.setFileMode(QtWidgets.QFileDialog.Directory)
-        if file_dialog.exec_():
-            root = maya_main.get_project_root()
-            path = str(file_dialog.selectedFiles()[0])
-            pm.setAttr("%s.EZSurfacing_root" % root, path)
-            self.path.setText(os.path.basename(path))
-
->>>>>>> added latest push
     def create_project(self):
         """Initializes the scene with the required nodes"""
-        root = maya_main.create_project()
+        root = maya_surfacing_projects.create_project()
         self.update_ui_projects()
 
     def create_texture_object(self):
@@ -195,29 +169,21 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
         if self.list_projects.currentItem():
             selected_project = pm.PyNode(self.list_projects.currentItem().text())
             pm.select(selected_project)
-            maya_main.create_object(selected_project)
+            maya_surfacing_projects.create_object(selected_project)
             self.update_ui_texture_objects(self.list_projects.currentItem())
 
     def delete_texture_object(self):
         if self.list_texture_objects.currentItem():
             selected_object = pm.PyNode(self.list_texture_objects.currentItem().text())
-            if selected_object and maya_main.is_texture_object(selected_object):
+            if selected_object and maya_surfacing_projects.is_texture_object(selected_object):
                 pm.delete(selected_object)
                 self.update_ui_projects()
 
     def update_ui_projects(self):
         """updates the list of texture projects"""
-<<<<<<< HEAD
-        root = EZSurfacing.get_project_root()
-=======
-        root = maya_main.get_project_root()
-        self.path.setText(
-            "Export path: %s"
-            % os.path.basename(pm.getAttr("%s.EZSurfacing_root" % root))
-        )
->>>>>>> added latest push
+        root = maya_surfacing_projects.get_project_root()
         # update_lists
-        projects = maya_main.get_projects()
+        projects = maya_surfacing_projects.get_projects()
         self.list_projects.clear()
         for each in projects:
             self.list_projects.addItem(str(each))
@@ -226,7 +192,7 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
     def update_ui_texture_objects(self, item):
         """updates the list of texture objects in the selected texture project"""
         selected_project = pm.PyNode(str(item.text()))
-        texture_objects = maya_main.get_objects(selected_project)
+        texture_objects = maya_surfacing_projects.get_objects(selected_project)
         self.list_texture_objects.clear()
         for each in texture_objects:
             self.list_texture_objects.addItem(str(each))
@@ -239,23 +205,18 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
             str(self.list_texture_objects.currentItem().text())
         )
         if selected_texture_object:
-            maya_main.add_mesh_transforms_to_object(
+            maya_surfacing_projects.add_mesh_transforms_to_object(
                 pm.PyNode(selected_texture_object), pm.ls(sl=True)
             )
 
     def validate_scene(self):
         """scene validation and update"""
-        maya_main.validate_scene()
+        maya_surfacing_projects.validate_scene()
 
     def export_project(self):
         selected_project = pm.PyNode(str(self.list_projects.currentItem().text()))
         if selected_project:
-            maya_main.export_project(selected_project)
+            maya_surfacing_projects.export_project(selected_project)
 
     def export_all_projects(self):
-        maya_main.export_all_projects()
-
-
-def show():
-    w = MainWindow()
-    w.show(dockable=True, floating=False, area="left")
+        maya_surfacing_projects.export_all_projects()

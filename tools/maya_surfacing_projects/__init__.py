@@ -2,77 +2,77 @@ import pymel.core as pm
 import logging
 import os
 import maya.mel as mel
+import maya.cmds as mc
 from PySide2 import QtWidgets
 import traceback
 import sys
 import random
 
+ATTRIBUTEPROJECT = "surfacing_project"
+ATTRIBUTETEXTUREOBJECT = "surfacing_object"
 
-ATTRIBUTEPROJECT = "EZSurfacing_project"
-ATTRIBUTETEXTUREOBJECT = "EZSurfacing_object"
 
-
-def EZSurfacingInit():
-    """ Initializes the scene by creating the EZSurfacing root
-    an EZSurfacing object, and runs the validation to create and
+def surfacingInit():
+    """ Initializes the scene by creating the surfacing root
+    an surfacing object, and runs the validation to create and
     connect the partition"""
     root = create_project_root()
     if not root.members:
-        EZProject = create_project("project")
-        EZObject = create_object(
-            EZProject, "default_object"
+        surfProject = create_project("project")
+        surfObject = create_object(
+            surfProject, "default_object"
         )
     validate_scene()
 
 
 def create_project_root_node():
     """create projects root node"""
-    EZSurfacing_root = pm.createNode(
-        "objectSet", name="EZSurfacing_root"
+    surfacing_root = pm.createNode(
+        "objectSet", name="surfacing_root"
     )
-    EZSurfacing_root.setAttr(
-        "EZSurfacing_root", "", force=True
+    surfacing_root.setAttr(
+        "surfacing_root", "", force=True
     )
-    return EZSurfacing_root
+    return surfacing_root
 
 
 def create_project_root():
     """create projects root if it doesnt exist"""
     if not get_project_root():
-        EZSurfacing_root = create_project_root_node()
-        return EZSurfacing_root
+        surfacing_root = create_project_root_node()
+        return surfacing_root
     else:
         return get_project_root()
 
 
 def create_project(name=None):
-    """Creates a EZSurfacing project"""
+    """Creates a surfacing project"""
     if not name:
         name = "project"
-    EZSurfacing_project = pm.createNode(
+    surfacing_project = pm.createNode(
         "objectSet", name=name
     )
-    EZSurfacing_project.setAttr(
+    surfacing_project.setAttr(
         ATTRIBUTEPROJECT, "", force=True
     )
-    create_object(EZSurfacing_project)
-    get_project_root().add(EZSurfacing_project)
+    create_object(surfacing_project)
+    get_project_root().add(surfacing_project)
     update_partition()
-    return EZSurfacing_project
+    return surfacing_project
 
 
 def create_object(project, name=None):
-    """Creates a EZSurfacing Object under a given project"""
+    """Creates a surfacing Object under a given project"""
     if get_project_root() and is_project(project):
         if not name:
             name = "object"
-        EZSurfacing_set = pm.createNode(
+        surfacing_set = pm.createNode(
             "objectSet", name=name
         )
-        EZSurfacing_set.setAttr(
+        surfacing_set.setAttr(
             ATTRIBUTETEXTUREOBJECT, "", force=True
         )
-        project.add(EZSurfacing_set)
+        project.add(surfacing_set)
     else:
         raise Exception(
             "No project root, or project given is not valid"
@@ -80,11 +80,11 @@ def create_object(project, name=None):
 
 
 def update_partition():
-    """Recreates the partition node, and reconnects to all the EZSurfacing nodes"""
+    """Recreates the partition node, and reconnects to all the surfacing nodes"""
     partitions = [
         item
         for item in pm.ls(type="partition")
-        if item.hasAttr("EZSurfacing_partition")
+        if item.hasAttr("surfacing_partition")
     ]
     for each in partitions:
         logging.info(
@@ -93,20 +93,20 @@ def update_partition():
         each.sets.disconnect()
         pm.delete(each)
         logging.info("deleted partition")
-    EZSurfacing_partition = pm.createNode(
-        "partition", name="EZSurfacing_partition"
+    surfacing_partition = pm.createNode(
+        "partition", name="surfacing_partition"
     )
     logging.info(
-        "partition created: %s" % EZSurfacing_partition
+        "partition created: %s" % surfacing_partition
     )
-    EZSurfacing_partition.setAttr(
-        "EZSurfacing_partition", "", force=True
+    surfacing_partition.setAttr(
+        "surfacing_partition", "", force=True
     )
     for project in get_projects():
         for object in get_objects(project):
             pm.connectAttr(
                 "%s.partition" % object,
-                EZSurfacing_partition.sets,
+                surfacing_partition.sets,
                 na=True,
             )
             logging.info(
@@ -120,22 +120,22 @@ def get_project_root():
     objSetLs = [
         item
         for item in pm.ls(type="objectSet")
-        if item.hasAttr("EZSurfacing_root")
+        if item.hasAttr("surfacing_root")
     ]
     if len(objSetLs) == 0:
         logging.info(
-            "EZSurfacing_root node found, creating one"
+            "surfacing_root node found, creating one"
         )
         return create_project_root_node()
     elif len(objSetLs) > 1:
         raise Exception(
-            "more than 1 EZSurfacing_root node found"
+            "more than 1 surfacing_root node found"
         )
     return objSetLs[0]
 
 
 def get_projects():
-    """Gets all EZSurfacing Projects under the root"""
+    """Gets all surfacing Projects under the root"""
     objSetLs = [
         item
         for item in pm.ls(type="objectSet")
@@ -150,7 +150,7 @@ def delete_project(project):
 
 
 def get_objects(project):
-    """Gets all EZSurfacing Objects under the given project"""
+    """Gets all surfacing Objects under the given project"""
     if is_project(project):
         return project.members()
     else:
@@ -158,7 +158,7 @@ def get_objects(project):
 
 
 def is_project(project):
-    """Returns is project is of the type EZSurfacing project"""
+    """Returns is project is of the type surfacing project"""
     if project.hasAttr(ATTRIBUTEPROJECT):
         return True
     else:
@@ -166,7 +166,7 @@ def is_project(project):
 
 
 def is_texture_object(texture_object):
-    """Returns is project is of the type EZSurfacing Object"""
+    """Returns is project is of the type surfacing Object"""
     if texture_object.hasAttr(ATTRIBUTETEXTUREOBJECT):
         return True
     else:
@@ -225,14 +225,14 @@ def get_mesh_transforms(object_list):
 
 
 def add_member(texture_object, transform):
-    """Adds the transform to the EZSurfacing Object"""
+    """Adds the transform to the surfacing Object"""
     pm.sets(texture_object, transform, fe=True)
 
 
 def add_mesh_transforms_to_object(
     texture_object, object_list
 ):
-    """Adds all mesh shape transforms from the object list to a EZSurfacing Object"""
+    """Adds all mesh shape transforms from the object list to a surfacing Object"""
     pm.select()
     if texture_object and object_list:
         if is_texture_object(texture_object):
@@ -275,7 +275,7 @@ def abc_export(geo_list, file_path):
             [str(x) for x in geo_list]
         )
         mel_cmd = (
-            r'AbcExport -j "-frameRange 0 0 -uvWrite -dataFormat ogawa -attrPrefix EZ '
+            r'AbcExport -j "-frameRange 0 0 -uvWrite -dataFormat ogawa -attrPrefix surfacing '
             + roots
             + " -file "
             + (file_path + '"')
@@ -287,7 +287,7 @@ def abc_export(geo_list, file_path):
 
 
 def export_project(project, subdiv=1, single_export=True, folder_path = False):
-    """Export EZSurfacing Project"""
+    """Export surfacing Project"""
     current_file = pm.sceneName()
     if single_export:
         check_scene_state()
@@ -339,7 +339,7 @@ def export_project(project, subdiv=1, single_export=True, folder_path = False):
 
 
 def merge_texture_object(texture_object):
-    """Merges all the meshs assigned to a EZSurfacing Object for export"""
+    """Merges all the meshs assigned to a surfacing Object for export"""
     try:
         members = texture_object.members()
         logging.info("Merging members: %s" % members)
@@ -365,7 +365,7 @@ def merge_texture_object(texture_object):
 
 
 def export_all_projects(subdiv=1, folder_path = None):
-    """Export all EZSurfacing Projects"""
+    """Export all surfacing Projects"""
     check_scene_state()
     if not folder_path:
         folder_path = get_folder_path()
@@ -389,7 +389,7 @@ def check_scene_state():
 
 
 def update_mesh_attributes():
-    """Adds the attributes to all the shapes transforms assigned to EZSurfacing Objects
+    """Adds the attributes to all the shapes transforms assigned to surfacing Objects
     This will be used later for quick shader/material creation and assignment"""
     for project in get_projects():
         project.setAttr(ATTRIBUTEPROJECT, project)
@@ -522,10 +522,10 @@ def set_materials_per_project():
         material = pm.shadingNode(
             "blinn",
             asShader=True,
-            name=("EZMaterial_%s" % project),
+            name=("surfMaterial_%s" % project),
         )
         pm.setAttr(
-            "%s.EZMaterial" % material,
+            "%s.surfMaterial" % material,
             str(project),
             force=True,
         )
@@ -545,10 +545,10 @@ def set_materials_per_object():
             material = pm.shadingNode(
                 "blinn",
                 asShader=True,
-                name=("EZMaterial_%s" % surfacingObject),
+                name=("surfMaterial_%s" % surfacingObject),
             )
             pm.setAttr(
-                "%s.EZMaterial" % material,
+                "%s.surfMaterial" % material,
                 str(surfacingObject),
                 force=True,
             )
@@ -572,11 +572,11 @@ def get_random_color(seed):
 
 
 def delete_materials():
-    '''deletes all materials that have EZMaterial attribute'''
+    '''deletes all materials that have surfMaterial attribute'''
     all_materials = pm.ls(type="blinn")
     materials = []
     for material in all_materials:
-        if pm.hasAttr(material, "EZMaterial"):
+        if pm.hasAttr(material, "surfMaterial"):
             materials.append(material)
     pm.delete(materials)
 
