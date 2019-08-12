@@ -1,9 +1,9 @@
 """
-NAME: EZViewportColors_object
+NAME: EZCollectionsCreate_surfacing_project
 ICON: icon.png
 KEYBOARD_SHORTCUT: 
 SCOPE:
-creates viewport colors for EZSurfacing object
+creates collections for maya_main projects
 
 """
 
@@ -20,7 +20,7 @@ creates viewport colors for EZSurfacing object
 #              If raiseTab is passed as True, the tab will be raised to the
 #              front in its pane.
 
-import katana_toolkit.katana_main as EZSurfacing
+import katana.katana_main as EZSurfacing
 
-attribute_name = "geometry.arbitrary.EZSurfacing_object"
-EZSurfacing.create_EZ_viewer_settings(attribute_name)
+attribute_name = "geometry.arbitrary.EZSurfacing_project"
+EZSurfacing.create_EZ_collections(attribute_name)

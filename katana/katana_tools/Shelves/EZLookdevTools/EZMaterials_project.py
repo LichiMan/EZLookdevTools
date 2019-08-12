@@ -1,9 +1,9 @@
 """
-NAME: EZCollectionsCreate_surfacing_project
+NAME: EZMaterials_project
 ICON: icon.png
 KEYBOARD_SHORTCUT: 
 SCOPE:
-creates collections for maya_main projects
+creates materials for EZSurfacing projects
 
 """
 
@@ -20,7 +20,7 @@ creates collections for maya_main projects
 #              If raiseTab is passed as True, the tab will be raised to the
 #              front in its pane.
 
-import katana_toolkit.katana_main as EZSurfacing
+import katana.katana_main as EZSurfacing
 
 attribute_name = "geometry.arbitrary.EZSurfacing_project"
-EZSurfacing.create_EZ_collections(attribute_name)
+EZSurfacing.create_EZ_materials(attribute_name)

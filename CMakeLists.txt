@@ -4,8 +4,9 @@ project("EZTools")
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIRECTORY}/modules)
 
-add_subdirectory(maya_toolkit)
-#add_executable("$(PROJECT_NAME)" "__init__.py")
+add_subdirectory(maya)
+add_subdirectory(tools)
+#add_executable("${PROJECT_NAME}" "__init__.py")
 
-#install(TARGETS "$(PROJECT_NAME)" DESTINATION bin)
-#install(FILES "katana/__init__.py" "maya/__init__.py" DESTINATION source)
+#install(TARGETS "${PROJECT_NAME}" DESTINATION bin)
+#install(FILES "katana/__init__.py" "maya/__init__.py" "tools/__init__.py" DESTINATION source)
