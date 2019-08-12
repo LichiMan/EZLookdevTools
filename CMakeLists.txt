@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION "3.10.2")
 
-project("EZTools")
+project("LookDevTools")
 
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIRECTORY}/modules)
 
