@@ -1,8 +1,8 @@
 import pymel.core as pm
 import logging
 import os
-import maya.mel as mel
-import maya.cmds as mc
+import maya_toolkit.mel as mel
+import maya_toolkit.cmds as mc
 from PySide2 import QtWidgets
 import traceback
 import sys
@@ -424,7 +424,7 @@ def update_mesh_attributes():
 
 def unsaved_scene():
     """ check for unsaved changes """
-    import maya.cmds as cmds
+    import maya_toolkit.cmds as cmds
 
     return cmds.file(q=True, modified=True)
 

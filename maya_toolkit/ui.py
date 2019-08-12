@@ -1,10 +1,10 @@
 import logging
 import pymel.core as pm
 from PySide2 import QtGui, QtWidgets, QtWidgets, QtUiTools
-from maya.app.general.mayaMixin import MayaQWidgetDockableMixin
+from maya_toolkit.app.general.mayaMixin import MayaQWidgetDockableMixin
 import os
 
-import maya.maya_main as maya_main
+import maya_toolkit.maya_main as maya_main
 
 logger = logging.getLogger(__name__)
 
@@ -59,9 +59,9 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
 
         # TODO
         # To remove the manually refesh button
-        # Need to add this to maya as selection changed callback to
+        # Need to add this to maya_toolkit as selection changed callback to
         # update the UI avoiding validating the scene
-        # import maya.OpenMaya as OpenMaya
+        # import maya_toolkit.OpenMaya as OpenMaya
         # idx = OpenMaya.MEventMessage.addEventCallback("SelectionChanged", self.update_ui_projects
         # OpenMaya.MMessage.removeCallback(idx)
 
@@ -213,7 +213,7 @@ class MainWindow(MayaQWidgetDockableMixin, QtWidgets.QMainWindow):
             pm.select(selected_project, ne=True)
 
     def add_to_texture_object(self):
-        """add maya selection to currently selected texture object"""
+        """add maya_toolkit selection to currently selected texture object"""
         selected_texture_object = pm.PyNode(
             str(self.list_texture_objects.currentItem().text())
         )

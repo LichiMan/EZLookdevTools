@@ -60,9 +60,9 @@ class mayaSurfacingProjects(IPlugin):
 
         # TODO
         # To remove the manually refesh button
-        # Need to add this to maya as selection changed callback to
+        # Need to add this to maya_toolkit as selection changed callback to
         # update the UI avoiding validating the scene
-        # import maya.OpenMaya as OpenMaya
+        # import maya_toolkit.OpenMaya as OpenMaya
         # idx = OpenMaya.MEventMessage.addEventCallback("SelectionChanged", self.update_ui_projects
         # OpenMaya.MMessage.removeCallback(idx)
 
@@ -200,7 +200,7 @@ class mayaSurfacingProjects(IPlugin):
             pm.select(selected_project, ne=True)
 
     def add_to_texture_object(self):
-        """add maya selection to currently selected texture object"""
+        """add maya_toolkit selection to currently selected texture object"""
         selected_texture_object = pm.PyNode(
             str(self.list_texture_objects.currentItem().text())
         )
