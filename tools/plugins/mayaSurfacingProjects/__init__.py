@@ -4,6 +4,9 @@ from PySide2.QtWidgets import QApplication, QWidget, QLabel, QMainWindow
 from PySide2 import QtGui, QtWidgets, QtWidgets, QtUiTools, QtCore
 
 import tools.maya_surfacing_projects as maya_surfacing_projects
+import tools.maya_surfacing_viewport as maya_surfacing_viewport
+
+reload(maya_surfacing_projects)
 import pymel.core as pm
 
 class mayaSurfacingProjects(IPlugin):
@@ -109,19 +112,19 @@ class mayaSurfacingProjects(IPlugin):
         self.btn_add_to_texture_object.clicked.connect(self.add_to_texture_object)
         self.btn_validate_scene.clicked.connect(self.validate_scene)
         self.btn_wireframe_color_projects.clicked.connect(
-            maya_surfacing_projects.set_wireframe_colors_per_project
+            maya_surfacing_viewport.set_wireframe_colors_per_project
         )
         self.btn_wireframe_color_objects.clicked.connect(
-            maya_surfacing_projects.set_wireframe_colors_per_object
+            maya_surfacing_viewport.set_wireframe_colors_per_object
         )
         self.btn_wireframe_color_none.clicked.connect(
-            maya_surfacing_projects.set_wifreframe_color_none
+            maya_surfacing_viewport.set_wifreframe_color_none
         )
         self.btn_material_color_projects.clicked.connect(
-            maya_surfacing_projects.set_materials_per_project
+            maya_surfacing_viewport.set_materials_per_project
         )
         self.btn_material_color_objects.clicked.connect(
-            maya_surfacing_projects.set_materials_per_object
+            maya_surfacing_viewport.set_materials_per_object
         )
         self.list_texture_objects.itemClicked.connect(self.select_texture_object)
         self.list_texture_objects.itemDoubleClicked.connect(self.editItem)

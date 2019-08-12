@@ -6,11 +6,10 @@ import maya.cmds as mc
 from PySide2 import QtWidgets
 import traceback
 import sys
-import tools.common.utilities as common_utilities
-
-ATTRIBUTEPROJECT = "surfacing_project"
-ATTRIBUTETEXTUREOBJECT = "surfacing_object"
-
+import random
+import tools.maya_common as ldts_mayaCommon
+import tools.common as ldts_common
+import tools.common.utilities as ldts_utils
 
 def surfacingInit():
     """ Initializes the scene by creating the surfacing root
@@ -53,7 +52,7 @@ def create_project(name=None):
         "objectSet", name=name
     )
     surfacing_project.setAttr(
-        ATTRIBUTEPROJECT, "", force=True
+        ldts_common.ATTR_SURFACING_PROJECT, "", force=True
     )
     create_object(surfacing_project)
     get_project_root().add(surfacing_project)
@@ -70,7 +69,7 @@ def create_object(project, name=None):
             "objectSet", name=name
         )
         surfacing_set.setAttr(
-            ATTRIBUTETEXTUREOBJECT, "", force=True
+            ldts_common.ATTR_SURFACING_OBJECT, "", force=True
         )
         project.add(surfacing_set)
     else:
@@ -139,7 +138,7 @@ def get_projects():
     objSetLs = [
         item
         for item in pm.ls(type="objectSet")
-        if item.hasAttr(ATTRIBUTEPROJECT)
+        if item.hasAttr(ldts_common.ATTR_SURFACING_PROJECT)
     ]
     return objSetLs
 
@@ -159,7 +158,7 @@ def get_objects(project):
 
 def is_project(project):
     """Returns is project is of the type surfacing project"""
-    if project.hasAttr(ATTRIBUTEPROJECT):
+    if project.hasAttr(ldts_common.ATTR_SURFACING_PROJECT):
         return True
     else:
         return False
@@ -167,7 +166,7 @@ def is_project(project):
 
 def is_texture_object(texture_object):
     """Returns is project is of the type surfacing Object"""
-    if texture_object.hasAttr(ATTRIBUTETEXTUREOBJECT):
+    if texture_object.hasAttr(ldts_common.ATTR_SURFACING_OBJECT):
         return True
     else:
         return False
@@ -241,7 +240,6 @@ def add_mesh_transforms_to_object(
                     pm.select(transform)
                     add_member(texture_object, transform)
 
-
 def validate_scene():
     """Removes not allowed or invalid members, updates the partition
     and the meshes attributes"""
@@ -251,22 +249,6 @@ def validate_scene():
         update_mesh_attributes()
     # check all object sets of type texture_object contain only shapes
     pass
-
-
-def create_directoy(path):
-    try:
-        # Create target Directory
-        os.mkdir(path)
-        logging.info("Directory create: %s" % path)
-    except:
-        logging.info("Directory alreay exists: %s" % path)
-
-
-def is_directory(path):
-    if os.path.exists(path) and os.path.isdir(path):
-        return True
-    else:
-        return False
 
 
 def abc_export(geo_list, file_path):
@@ -285,16 +267,15 @@ def abc_export(geo_list, file_path):
             "Succesful Alembic export to: %s" % file_path
         )
 
-
 def export_project(project, subdiv=1, single_export=True, folder_path = False):
     """Export surfacing Project"""
     current_file = pm.sceneName()
     if single_export:
         check_scene_state()
     if not folder_path:
-        folder_path = get_folder_path()
+        folder_path = ldts_mayaCommon.get_folder_path()
     project_geo_list = []
-    if is_directory(folder_path) and is_project(project):
+    if ldts_utils.is_directory(folder_path) and is_project(project):
         for each in get_objects(project):
             merged_geo = merge_texture_object(each)
             if merged_geo:
@@ -321,7 +302,7 @@ def export_project(project, subdiv=1, single_export=True, folder_path = False):
             export_surfacing_object_dir = os.path.join(
                 folder_path, str(project)
             )
-            create_directoy(export_surfacing_object_dir)
+            ldts_utils.create_directoy(export_surfacing_object_dir)
             for geo in project_geo_list:
                 export_root = " -root |" + geo
                 export_surfacing_object_path = os.path.join(
@@ -368,7 +349,7 @@ def export_all_projects(subdiv=1, folder_path = None):
     """Export all surfacing Projects"""
     check_scene_state()
     if not folder_path:
-        folder_path = get_folder_path()
+        folder_path = ldts_mayaCommon.get_folder_path()
     current_file = pm.sceneName()
     for project in get_projects():
         export_project(
@@ -381,8 +362,8 @@ def export_all_projects(subdiv=1, folder_path = None):
 def check_scene_state():
     '''check the scene state, if modified, will ask the
     user to save it'''
-    if unsaved_scene():
-        if save_scene_dialog():
+    if ldts_mayaCommon.unsaved_scene():
+        if ldts_mayaCommon.save_scene_dialog():
             pm.saveFile(force=True)
         else:
             raise ValueError("Unsaved changes")
@@ -392,7 +373,7 @@ def update_mesh_attributes():
     """Adds the attributes to all the shapes transforms assigned to surfacing Objects
     This will be used later for quick shader/material creation and assignment"""
     for project in get_projects():
-        project.setAttr(ATTRIBUTEPROJECT, project)
+        project.setAttr(ldts_common.ATTR_SURFACING_PROJECT, project)
         logging.info(
             "Updating attributes for project: %s" % project
         )
@@ -402,7 +383,7 @@ def update_mesh_attributes():
                 % texture_object_set
             )
             texture_object_set.setAttr(
-                ATTRIBUTETEXTUREOBJECT, texture_object_set
+                ldts_common.ATTR_SURFACING_OBJECT, texture_object_set
             )
             members = texture_object_set.members()
             logging.info(
@@ -411,169 +392,17 @@ def update_mesh_attributes():
             logging.info("--------%s" % members)
             for member in members:
                 member.setAttr(
-                    ATTRIBUTEPROJECT,
+                    ldts_common.ATTR_SURFACING_PROJECT,
                     project.name(),
                     force=True,
                 )
                 member.setAttr(
-                    ATTRIBUTETEXTUREOBJECT,
+                    ldts_common.ATTR_SURFACING_OBJECT,
                     texture_object_set.name(),
                     force=True,
                 )
 
 
-def unsaved_scene():
-    """ check for unsaved changes """
-    import maya.cmds as cmds
-
-    return cmds.file(q=True, modified=True)
 
 
-def save_scene_dialog():
-    """
-    If the scene has unsaved changes, it will ask the user to go ahead save or cancel
-    """
-    msg = QtWidgets.QMessageBox()
-    msg.setIcon(QtWidgets.QMessageBox.Information)
-    msg.setText("Your scene has unsaved changes")
-    msg.setInformativeText("")
-    msg.setWindowTitle("Warning")
-    msg.setDetailedText(
-        "This tool will do undoable changes. It requires you to save your scene, and reopen it after its finished"
-    )
-    msg.setStandardButtons(
-        QtWidgets.QMessageBox.Ok
-        | QtWidgets.QMessageBox.Cancel
-    )
-    retval = msg.exec_()
-    if retval == QtWidgets.QMessageBox.Ok:
-        return True
-    else:
-        return False
 
-
-def set_wifreframe_color_black():
-    '''sets the wireframe color to black'''
-    transforms = pm.ls(type="transform")
-    shape_transforms = get_mesh_transforms(transforms)
-    for mesh in shape_transforms:
-        mesh.overrideEnabled.set(1)
-        mesh.overrideRGBColors.set(0)
-        mesh.overrideColor.set(1)
-
-
-def set_wifreframe_color_none():
-    '''removes the wireframe color for all meshes'''
-    transforms = pm.ls(type="transform")
-    shape_transforms = get_mesh_transforms(transforms)
-    for mesh in shape_transforms:
-        mesh.overrideEnabled.set(0)
-
-
-def set_wireframe_colors_per_project():
-    '''sets the wireframe color for all meshes per 
-    surfacing project. Sets it to black to start with,
-    this implies that the mesh has not be assigned
-    to any surfacing object yet'''
-    set_wifreframe_color_black()
-    projects = get_projects()
-    for project in projects:
-        random.seed(project)
-        wire_color = random.randint(1, 31)
-        for surfacingObject in get_objects(project):
-            for mesh in surfacingObject.members():
-                try:
-                    mesh.overrideEnabled.set(1)
-                    mesh.overrideRGBColors.set(0)
-                    mesh.overrideColor.set(wire_color)
-                except:
-                    logging.error(
-                        "Could not set override color for: %s, might belong to a display layer"
-                        % mesh
-                    )
-
-
-def set_wireframe_colors_per_object():
-    '''sets the wireframe color for all meshes per 
-    surfacing object'''
-    set_wifreframe_color_black()
-    projects = get_projects()
-    for project in projects:
-        for surfacingObject in get_objects(project):
-            for mesh in surfacingObject.members():
-                try:
-                    mesh.overrideEnabled.set(1)
-                    mesh.overrideRGBColors.set(1)
-                    mesh.overrideColorRGB.set(
-                        common_utilities.get_random_color(surfacingObject)
-                    )
-                except:
-                    logging.error(
-                        "Could not set override color for: %s, might belong to a display layer"
-                        % mesh
-                    )
-
-def set_materials_per_project():
-    '''creates a material per surfacing project
-    and assigns it'''
-    delete_materials()
-    projects = get_projects()
-    for project in projects:
-        material = pm.shadingNode(
-            "blinn",
-            asShader=True,
-            name=("surfMaterial_%s" % project),
-        )
-        pm.setAttr(
-            "%s.surfMaterial" % material,
-            str(project),
-            force=True,
-        )
-        pm.select(project)
-        pm.hyperShade(assign=material)
-        material.color.set(
-            common_utilities.get_random_color(project)
-        )
-
-def set_materials_per_object():
-    '''creates a material per surfacing object
-    and assigns it'''
-    delete_materials()
-    projects = get_projects()
-    for project in projects:
-        for surfacingObject in get_objects(project):
-            material = pm.shadingNode(
-                "blinn",
-                asShader=True,
-                name=("surfMaterial_%s" % surfacingObject),
-            )
-            pm.setAttr(
-                "%s.surfMaterial" % material,
-                str(surfacingObject),
-                force=True,
-            )
-            pm.select(surfacingObject)
-            pm.hyperShade(assign=material)
-            material.color.set(
-                common_utilities.get_random_color(surfacingObject)
-            )
-
-def delete_materials():
-    '''deletes all materials that have surfMaterial attribute'''
-    all_materials = pm.ls(type="blinn")
-    materials = []
-    for material in all_materials:
-        if pm.hasAttr(material, "surfMaterial"):
-            materials.append(material)
-    pm.delete(materials)
-
-
-def get_folder_path():
-    """gets a folder path for export"""
-    file_dialog = QtWidgets.QFileDialog()
-    file_dialog.setFileMode(QtWidgets.QFileDialog.Directory)
-    if file_dialog.exec_():
-        path = str(file_dialog.selectedFiles()[0])
-        return path
-    else:
-        return None

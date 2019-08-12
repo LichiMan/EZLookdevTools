@@ -22,5 +22,8 @@ plugins = PluginManager()
 plugins_folder = os.path.join(current_dir,'plugins')
 plugins.setPluginPlaces([plugins_folder])
 plugins.collectPlugins()
+plugins.locatePlugins()
+logging.info('PLUGINS: plugin candidates %s' % plugins.getPluginCandidates())
 for pluginInfo in plugins.getAllPlugins():
     plugins.activatePluginByName(pluginInfo.name)
+    logging.info('PLUGINS: plugin activated %s' % plugins.activatePluginByName(pluginInfo.name))

@@ -5,8 +5,10 @@ import logging
 from functools import partial
 from PySide2.QtWidgets import QApplication, QWidget, QLabel, QMainWindow
 from PySide2 import QtGui, QtWidgets, QtWidgets, QtUiTools, QtCore
-import tools
-
+import tools.maya_common as ldts_mayaCommon
+import tools.common as ldts_common
+import tools.common.utilities as ldts_utils
+import tools as ldts
 
 class HTabWidget(QtWidgets.QTabBar):
     '''
@@ -34,19 +36,21 @@ class HTabWidget(QtWidgets.QTabBar):
         return self.tabSize
 
 class Window(QMainWindow):
+    '''Main Tools UI Window. Loads the plugInfo.plugin_object.plugin_layout
+    QWidget from all loaded plugins as tabs'''
     def __init__(self, *args, **kwargs):
         super(Window, self).__init__(*args, **kwargs)
         self.setWindowTitle("Look Dev Tool Set")
-        self.setGeometry(0, 0, 800, 400)
+        self.setGeometry(0, 0, 500, 900)
         layout = QtWidgets.QGridLayout()
         self.setLayout(layout)
         tabwidget = QtWidgets.QTabWidget()
-        tabwidget.setTabBar(HTabWidget(width=100,height=25))
+        tabwidget.setTabBar(HTabWidget(width=150,height=50))
         tabwidget.setTabPosition(QtWidgets.QTabWidget.West)    
         layout.addWidget(tabwidget, 0, 0)
         plugins_ui = {}
         plugins_buttons = {}
-        for pluginInfo in tools.plugins.getAllPlugins():
+        for pluginInfo in ldts.plugins.getAllPlugins():
             tabwidget.addTab(
                 pluginInfo.plugin_object.plugin_layout,
                 pluginInfo.name)
