@@ -32,16 +32,16 @@ from yapsy.IPlugin import IPlugin
 
 
 class IMultiprocessPlugin(IPlugin):
-	"""
+    """
 	Base class for multiprocessed plugin.
 	"""
 
-	def __init__(self, parent_pipe):
-		IPlugin.__init__(self)
-		self.parent_pipe = parent_pipe
+    def __init__(self, parent_pipe):
+        IPlugin.__init__(self)
+        self.parent_pipe = parent_pipe
 
-	def run(self):
-		"""
+    def run(self):
+        """
 		Override this method in your implementation
 		"""
-		return
+        return

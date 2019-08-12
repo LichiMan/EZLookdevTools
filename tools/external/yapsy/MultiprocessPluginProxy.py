@@ -20,14 +20,15 @@ from yapsy.IPlugin import IPlugin
 
 
 class MultiprocessPluginProxy(IPlugin):
-	"""
+    """
 	This class contains two members that are initialized by the :doc:`MultiprocessPluginManager`.
 
 	self.proc is a reference that holds the multiprocessing.Process instance of the child process.
 
 	self.child_pipe is a reference that holds the multiprocessing.Pipe instance to communicate with the child.
 	"""
-	def __init__(self):
-		IPlugin.__init__(self)
-		self.proc = None		# This attribute holds the multiprocessing.Process instance
-		self.child_pipe = None  # This attribute holds the multiprocessing.Pipe instance
+
+    def __init__(self):
+        IPlugin.__init__(self)
+        self.proc = None  # This attribute holds the multiprocessing.Process instance
+        self.child_pipe = None  # This attribute holds the multiprocessing.Pipe instance

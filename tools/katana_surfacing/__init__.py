@@ -1,6 +1,7 @@
 from Katana import Widgets, FnGeolib, Nodes3DAPI, NodegraphAPI
 import tools.common.utilities as common_utilities
 
+
 def get_locations_hasattr(node, search_location, cel_expression):
     """Get all locations matching a cel_expression, at a location generated at a given
     a node"""

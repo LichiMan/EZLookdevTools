@@ -17,32 +17,36 @@ import multiprocessing as mproc
 from yapsy.IMultiprocessPlugin import IMultiprocessPlugin
 from yapsy.IMultiprocessChildPlugin import IMultiprocessChildPlugin
 from yapsy.MultiprocessPluginProxy import MultiprocessPluginProxy
-from yapsy.PluginManager import  PluginManager
+from yapsy.PluginManager import PluginManager
 
 
 class MultiprocessPluginManager(PluginManager):
-	"""
+    """
 	Subclass of the PluginManager that runs each plugin in a different process
-	"""	
+	"""
 
-	def __init__(self,
-				 categories_filter=None,
-				 directories_list=None,
-				 plugin_info_ext=None,
-				 plugin_locator=None):
-		if categories_filter is None:
-			categories_filter = {"Default": IMultiprocessPlugin}
-		PluginManager.__init__(self,
-								 categories_filter=categories_filter,
-								 directories_list=directories_list,
-								 plugin_info_ext=plugin_info_ext,
-								 plugin_locator=plugin_locator)
-		self.connections = []
+    def __init__(
+        self,
+        categories_filter=None,
+        directories_list=None,
+        plugin_info_ext=None,
+        plugin_locator=None,
+    ):
+        if categories_filter is None:
+            categories_filter = {"Default": IMultiprocessPlugin}
+        PluginManager.__init__(
+            self,
+            categories_filter=categories_filter,
+            directories_list=directories_list,
+            plugin_info_ext=plugin_info_ext,
+            plugin_locator=plugin_locator,
+        )
+        self.connections = []
 
-		
-	def instanciateElementWithImportInfo(self, element, element_name,
-										 plugin_module_name, candidate_filepath):
-		"""This method instanciates each plugin in a new process and links it to
+    def instanciateElementWithImportInfo(
+        self, element, element_name, plugin_module_name, candidate_filepath
+    ):
+        """This method instanciates each plugin in a new process and links it to
 		the parent with a pipe.
 
 		In the parent process context, the plugin's class is replaced by
@@ -58,21 +62,20 @@ class MultiprocessPluginManager(PluginManager):
 		
 		See ``IMultiprocessPlugin``.
 		"""
-		if element is IMultiprocessChildPlugin:
-			# The following will keep retro compatibility for IMultiprocessChildPlugin
-			raise Exception("Preventing instanciation of a bar child plugin interface.")
-		instanciated_element = MultiprocessPluginProxy()
-		parent_pipe, child_pipe = mproc.Pipe()
-		instanciated_element.child_pipe = parent_pipe
-		instanciated_element.proc = MultiprocessPluginManager._PluginProcessWrapper(
-			element_name, plugin_module_name, candidate_filepath,
-			child_pipe)
-		instanciated_element.proc.start()
-		return instanciated_element
+        if element is IMultiprocessChildPlugin:
+            # The following will keep retro compatibility for IMultiprocessChildPlugin
+            raise Exception("Preventing instanciation of a bar child plugin interface.")
+        instanciated_element = MultiprocessPluginProxy()
+        parent_pipe, child_pipe = mproc.Pipe()
+        instanciated_element.child_pipe = parent_pipe
+        instanciated_element.proc = MultiprocessPluginManager._PluginProcessWrapper(
+            element_name, plugin_module_name, candidate_filepath, child_pipe
+        )
+        instanciated_element.proc.start()
+        return instanciated_element
 
-
-	class _PluginProcessWrapper(mproc.Process):
-		"""Helper class that strictly needed to be able to spawn the
+    class _PluginProcessWrapper(mproc.Process):
+        """Helper class that strictly needed to be able to spawn the
 		plugin on Windows but kept also for Unix platform to get a more
 		uniform behaviour.
 
@@ -81,16 +84,20 @@ class MultiprocessPluginManager(PluginManager):
 		been imported in the main thread/process will not be shared with
 		the spawned process.)
 		"""
-		def __init__(self, element_name, plugin_module_name, candidate_filepath, child_pipe):
-			self.element_name = element_name
-			self.child_pipe = child_pipe
-			self.plugin_module_name = plugin_module_name
-			self.candidate_filepath = candidate_filepath
-			mproc.Process.__init__(self)
-	 
-		def run(self):
-			module = PluginManager._importModule(self.plugin_module_name,
-												 self.candidate_filepath)
-			element = getattr(module, self.element_name)
-			e = element(self.child_pipe)
-			e.run()
+
+        def __init__(
+            self, element_name, plugin_module_name, candidate_filepath, child_pipe
+        ):
+            self.element_name = element_name
+            self.child_pipe = child_pipe
+            self.plugin_module_name = plugin_module_name
+            self.candidate_filepath = candidate_filepath
+            mproc.Process.__init__(self)
+
+        def run(self):
+            module = PluginManager._importModule(
+                self.plugin_module_name, self.candidate_filepath
+            )
+            element = getattr(module, self.element_name)
+            e = element(self.child_pipe)
+            e.run()

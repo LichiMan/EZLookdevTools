@@ -6,13 +6,14 @@ from PySide2 import QtGui, QtWidgets, QtWidgets, QtUiTools, QtCore
 import tools.maya_surfacing_projects as maya_surfacing_projects
 import pymel.core as pm
 
+
 class mayaSurfacingProjects(IPlugin):
     name = "mayaSurfacingProjects Plugin"
 
     plugin_layout = None
 
-    def __init__ (self):
-        logging.info('PLUGIN: example_plugin loaded')
+    def __init__(self):
+        logging.info("PLUGIN: example_plugin loaded")
         self.plugin_layout = QtWidgets.QWidget()
         main_layout = QtWidgets.QVBoxLayout()
         project_btns_layout = QtWidgets.QHBoxLayout()
@@ -20,7 +21,7 @@ class mayaSurfacingProjects(IPlugin):
         selection_layout = QtWidgets.QHBoxLayout()
         wireframe_layout = QtWidgets.QHBoxLayout()
         material_layout = QtWidgets.QHBoxLayout()
-        red_text = '#AA0000'
+        red_text = "#AA0000"
 
         # Create UI widgets
         self.refresh = QtWidgets.QPushButton("refresh")
@@ -29,13 +30,15 @@ class mayaSurfacingProjects(IPlugin):
         self.project_new_btn = QtWidgets.QPushButton("new texture project")
         self.project_delete_btn = QtWidgets.QPushButton("X")
         self.project_delete_btn.setMaximumWidth(20)
-        self.project_delete_btn.setStyleSheet('QPushButton {color: %s;}' % red_text)
+        self.project_delete_btn.setStyleSheet("QPushButton {color: %s;}" % red_text)
         self.list_projects = QtWidgets.QListWidget()
         self.list_projects.setSortingEnabled(True)
         self.btn_new_texture_object = QtWidgets.QPushButton("new texture object")
         self.btn_delete_texture_object = QtWidgets.QPushButton("X")
         self.btn_delete_texture_object.setMaximumWidth(20)
-        self.btn_delete_texture_object.setStyleSheet('QPushButton {color: %s;}' % red_text)
+        self.btn_delete_texture_object.setStyleSheet(
+            "QPushButton {color: %s;}" % red_text
+        )
         self.btn_add_to_texture_object = QtWidgets.QPushButton(
             "add selected to texture object"
         )
@@ -48,9 +51,13 @@ class mayaSurfacingProjects(IPlugin):
         self.btn_wireframe_color_objects = QtWidgets.QPushButton("per Surfacing Object")
         self.btn_wireframe_color_none = QtWidgets.QPushButton("X")
         self.btn_wireframe_color_none.setMaximumWidth(20)
-        self.btn_wireframe_color_none.setStyleSheet('QPushButton {color: %s;}' % red_text)
+        self.btn_wireframe_color_none.setStyleSheet(
+            "QPushButton {color: %s;}" % red_text
+        )
         self.lbl_materials = QtWidgets.QLabel("material colors")
-        self.btn_material_color_projects = QtWidgets.QPushButton("per Surfacing Project")
+        self.btn_material_color_projects = QtWidgets.QPushButton(
+            "per Surfacing Project"
+        )
         self.btn_material_color_objects = QtWidgets.QPushButton("per Surfacing Object")
         self.lbl_validate_scene = QtWidgets.QLabel("validation")
         self.btn_validate_scene = QtWidgets.QPushButton("validate scene")
@@ -129,7 +136,6 @@ class mayaSurfacingProjects(IPlugin):
         self.btn_export_project.clicked.connect(self.export_project)
         self.btn_export_all.clicked.connect(self.export_all_projects)
 
-
         self.update_ui_projects()
 
     def editItem(self, item):
@@ -175,7 +181,9 @@ class mayaSurfacingProjects(IPlugin):
     def delete_texture_object(self):
         if self.list_texture_objects.currentItem():
             selected_object = pm.PyNode(self.list_texture_objects.currentItem().text())
-            if selected_object and maya_surfacing_projects.is_texture_object(selected_object):
+            if selected_object and maya_surfacing_projects.is_texture_object(
+                selected_object
+            ):
                 pm.delete(selected_object)
                 self.update_ui_projects()
 
