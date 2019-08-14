@@ -15,7 +15,7 @@ class MayaSurfacingProjects(IPlugin):
     plugin_layout = None
 
     def __init__ (self):
-        logging.info('PLUGIN: example_plugin loaded')
+        logging.info('PLUGIN: MayaSurfacingProjects loaded')
         # Load dcc python packages inside a try, to catch the application
         # environment, this will be replaced by IPlugin Categories
         try:
