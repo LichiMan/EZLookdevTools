@@ -195,6 +195,16 @@ ExamplePlugIn.plugin_layout QtWidget is what you need to populate in order to ad
 <pre>tools/plugins/example_plugin/__init__.py</pre>
 
 ```
+
+DCC_CONTEXT = None
+
+try:
+    # Add your imports here to make sure you
+    # are in the correct dcc
+    DCC_CONTEXT = True
+except:
+    logging.warning('PLUGIN: dcc packages not found')
+
 class ExamplePlugIn(IPlugin):
     '''Example plugin'''
     name = "Example Plugin"
@@ -202,18 +212,26 @@ class ExamplePlugIn(IPlugin):
     plugin_layout = None
 
     def __init__ (self):
-        logging.info('PLUGIN: example_plugin loaded')
-        # Load dcc python packages inside a try, to catch the application
-        # environment, this will be replaced by IPlugin Categories
-        try:
-            import pymel.core as pm
-        except:
-            logging.warning('PLUGIN: KatanaSurfacingProjects ui not loaded, katana libs not found')
+        if not DCC_CONTEXT:
+            logging.warning('PLUGIN: ExamplePlugIn ui not loaded, dcc libs not found')
             self.plugin_layout = QtWidgets.QWidget()
             self.label_ui = QtWidgets.QLabel(self.plugin_layout)
-            self.label_ui.setText('Plugin not available in this application')
+            self.label_ui.setText(
+                'ExamplePlugIn \nPlugin no available in this Application'
+                )
         else:
-        # Plugin begins
+            self.build_ui()
+    
+    def build_ui(self):
+        '''Builds the ui for the plugin'''
+        self.plugin_layout = QtWidgets.QWidget()
+        plugin_layout = QtWidgets.QVBoxLayout()
+
+        #UI Here
+
+        # Set main layout
+        # self.plugin_layout.setLayout(plugin_layout)
+
 ```
 
 

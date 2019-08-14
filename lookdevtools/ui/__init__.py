@@ -39,7 +39,7 @@ class Window(QMainWindow):
     def __init__(self, *args, **kwargs):
         super(Window, self).__init__(*args, **kwargs)
         self.setWindowTitle("Look Dev Tool Set")
-        self.setGeometry(0, 0, 500, 900)
+        self.setGeometry(0, 0, 450, 600)
         layout = QtWidgets.QGridLayout()
         self.setLayout(layout)
         tabwidget = QtWidgets.QTabWidget()
