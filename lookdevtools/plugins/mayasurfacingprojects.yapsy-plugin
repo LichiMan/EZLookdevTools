@@ -1,6 +1,6 @@
 [Core]
 Name = Maya Surfacing Projects
-Module = mayaSurfacingProjects
+Module = mayasurfacingprojects
 
 [Documentation]
 Author = Ezequiel Mastrasso
