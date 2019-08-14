@@ -3,8 +3,8 @@ import imp
 import os
 import logging
 from functools import partial
-from PySide2.QtWidgets import QApplication, QWidget, QLabel, QMainWindow
-from PySide2 import QtGui, QtWidgets, QtWidgets, QtUiTools, QtCore
+
+from .libs import *
 
 import lookdevtools
 
