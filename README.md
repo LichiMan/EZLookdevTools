@@ -40,6 +40,10 @@ set EZ_KATANA_SHELVES=%LOOKDEVTOOLS_ROOT%/katana/katana_shelves
 set KATANA_RESOURCES=%KATANA_RESOURCES%;%EZ_KATANA_TOOLS%;%EZ_KATANA_SHELVES%</pre>
 ##### Nuke Tools
 <pre>set NUKE_PATH=%NUKE_PATH%;%LOOKDEVTOOLS_ROOT%/nuke/plugins</pre>
+##### Mari
+<pre>soon</pre>
+##### Substance Painter
+<pre>soon</pre>
 
 # Tools
 
@@ -47,12 +51,6 @@ set KATANA_RESOURCES=%KATANA_RESOURCES%;%EZ_KATANA_TOOLS%;%EZ_KATANA_SHELVES%</p
 This tools allows you to organize and group your maya meshes into different surfacing projects, and surfacing objects.
 Also handles projects export to alembic files, and surfacing objects merging.
 The attributes added to the meshes transforms allows the assignment of materials and textureSets programatically (currently katana only, see katana shelves).
-
-
-##### USAGE
-```
-import tools.ui as tools.ui
-```
 
 <img width="50%" src="docs/images/mayaEZSurfacing.png" alt="EZSurfacing Tools" style="" /><img width="50%" src="docs/images/mayaEZSurfacing2.png" alt="Surfacing Tools" style="" />
 The pixar cabin, and kitchens shown here ready for surfacing
@@ -87,7 +85,7 @@ It is not recommended using more than 6 meshes (or surfacing Objects) inside a M
 This will export as single alembic, containing its SurfacingObject as single meshes. 
 Tipically this is the file you will bring to Mari or Substance Painter to create a single project.
 
-##### Note
+###### Note
 If using substance painter -using uDim- meshes inside an SurfacingObject should be contained inside a single uDim!
 All SurfacingObjects inside a SurfacingProject should not overlap.
 
