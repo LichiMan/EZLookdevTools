@@ -19,3 +19,7 @@ class KatanaSurfacingProjects(IPlugin):
             self.plugin_layout = QtWidgets.QWidget()
             self.label_ui = QtWidgets.QLabel(self.plugin_layout)
             self.label_ui.setText('Plug in no available in this Application')
+        else:
+            self.plugin_layout = QtWidgets.QWidget()
+            self.label_ui = QtWidgets.QLabel(self.plugin_layout)
+            self.label_ui.setText('Plug in AVAILABLE')

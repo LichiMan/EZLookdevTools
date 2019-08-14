@@ -1,7 +1,6 @@
 import os
 import sys
 import traceback
-from PySide2 import QtWidgets
 import random
 import logging
 
@@ -9,6 +8,7 @@ import pymel.core as pm
 import maya.mel as mel
 import maya.cmds as mc
 
+from lookdevtools.ui.libs import *
 from lookdevtools import common
 from lookdevtools.common import utils
 from lookdevtools.maya import maya

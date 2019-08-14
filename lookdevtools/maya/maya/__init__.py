@@ -1,6 +1,4 @@
-
-from PySide2.QtWidgets import QApplication, QWidget, QLabel, QMainWindow
-from PySide2 import QtGui, QtWidgets, QtWidgets, QtUiTools, QtCore
+from lookdevtools.ui.libs import *
 
 def unsaved_scene():
     """ check for unsaved changes """
