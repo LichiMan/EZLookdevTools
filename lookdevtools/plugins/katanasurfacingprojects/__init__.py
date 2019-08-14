@@ -1,4 +1,6 @@
 import logging
+from functools import partial
+
 from yapsy.IPlugin import IPlugin
 from lookdevtools.ui.libs import *
 
@@ -78,25 +80,25 @@ class KatanaSurfacingProjects(IPlugin):
         # Set main layout
         self.plugin_layout.setLayout(main_layout)
 
-        '''
+        
         # Connect buttons signals
         self.btn_collections_color_projects.clicked.connect(
-            surfacing.create_EZ_collections("geometry.arbitrary.surfacing_project")
+            partial (surfacing.create_EZ_collections,"geometry.arbitrary.surfacing_project")
         )
         
         self.btn_collections_color_objects.clicked.connect(
-            surfacing.create_EZ_collections("geometry.arbitrary.surfacing_object")
+            partial (surfacing.create_EZ_collections,"geometry.arbitrary.surfacing_object")
         )
         self.btn_material_color_projects.clicked.connect(
-            surfacing.create_EZ_materials("geometry.arbitrary.surfacing_project")
+            partial (surfacing.create_EZ_materials,"geometry.arbitrary.surfacing_project")
         )
         self.btn_material_color_objects.clicked.connect(
-            surfacing.create_EZ_materials("geometry.arbitrary.surfacing_object")
+            partial (surfacing.create_EZ_materials,"geometry.arbitrary.surfacing_object")
         )
         self.btn_viewport_color_projects.clicked.connect(
-            surfacing.create_EZ_viewer_settings("geometry.arbitrary.surfacing_project")
+            partial (surfacing.create_EZ_viewer_settings,"geometry.arbitrary.surfacing_project")
         )
         self.btn_viewport_color_objects.clicked.connect(
-            surfacing.create_EZ_viewer_settings("geometry.arbitrary.surfacing_object")
+            partial (surfacing.create_EZ_viewer_settings,"geometry.arbitrary.surfacing_object")
         )
-        '''
+        
