@@ -3,6 +3,8 @@ from yapsy.IPlugin import IPlugin
 from PySide2.QtWidgets import QApplication, QWidget, QLabel, QMainWindow
 from PySide2 import QtGui, QtWidgets, QtWidgets, QtUiTools, QtCore
 
+import pymel.core as pm 
+
 from lookdevtools.maya import maya
 from lookdevtools.maya import surfacing_projects
 from lookdevtools.maya.surfacing_projects import viewport
@@ -17,7 +19,7 @@ class MayaSurfacingProjects(IPlugin):
         # Load dcc python packages inside a try, to catch the application
         # environment, this will be replaced by IPlugin Categories
         try:
-            import pymel.core as pm
+            import pymel.core as pm 
         except:
             logging.warning('PLUGIN: KatanaSurfacingProjects ui not loaded, katana libs not found')
             self.plugin_layout = QtWidgets.QWidget()
@@ -159,7 +161,7 @@ class MayaSurfacingProjects(IPlugin):
 
     def delete_project(self):
         selected_project = pm.PyNode(self.list_projects.currentItem().text())
-        maya.delete_project(selected_project)
+        surfacing_projects.delete_project(selected_project)
         self.update_ui_projects()
 
     def select_texture_object(self, item):
@@ -172,7 +174,7 @@ class MayaSurfacingProjects(IPlugin):
 
     def create_project(self):
         """Initializes the scene with the required nodes"""
-        root = maya.create_project()
+        root = surfacing_projects.create_project()
         self.update_ui_projects()
 
     def create_texture_object(self):
@@ -180,13 +182,13 @@ class MayaSurfacingProjects(IPlugin):
         if self.list_projects.currentItem():
             selected_project = pm.PyNode(self.list_projects.currentItem().text())
             pm.select(selected_project)
-            maya.create_object(selected_project)
+            surfacing_projects.create_object(selected_project)
             self.update_ui_texture_objects(self.list_projects.currentItem())
 
     def delete_texture_object(self):
         if self.list_texture_objects.currentItem():
             selected_object = pm.PyNode(self.list_texture_objects.currentItem().text())
-            if selected_object and maya.is_texture_object(selected_object):
+            if selected_object and surfacing_projects.is_texture_object(selected_object):
                 pm.delete(selected_object)
                 self.update_ui_projects()
 
