@@ -3,7 +3,7 @@
 [Installation](#Installation)   
 [&nbsp;&nbsp;&nbsp;&nbsp;Windows](#Windows)   
 [&nbsp;&nbsp;&nbsp;&nbsp;Linux](#Linux)   
-[Tools](#Plugins)   
+[Tools](#Tools)   
 [&nbsp;&nbsp;&nbsp;&nbsp;Maya Surfacing Projects](#Maya-Surfacing-Projects)  
 [&nbsp;&nbsp;&nbsp;&nbsp;Katana Surfacing Projects](#Katana-Surfacing-Projects)  
 [Macros and Gizmos](#Macros-and-Gizmos)  
@@ -29,7 +29,7 @@ It aims to be the missing glue between maya (uv prepping and organizing), mari/p
 The rendering tools are based on Pixar Renderman.
 
 # Installation
-##### Tools
+##### Root
 <pre>set LOOKDEVTOOLS_ROOT=%PYTHONPATH%;/path/to/the/tools"</pre>
 ##### Python
 <pre>set PYTHONPATH=%PYTHONPATH%;%LOOKDEVTOOLS_ROOT%/"</pre>
