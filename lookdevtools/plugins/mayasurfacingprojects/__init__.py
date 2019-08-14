@@ -1,7 +1,7 @@
 import logging
 from yapsy.IPlugin import IPlugin
-from PySide2.QtWidgets import QApplication, QWidget, QLabel, QMainWindow
-from PySide2 import QtGui, QtWidgets, QtWidgets, QtUiTools, QtCore
+from lookdevtools.ui.libs import *
+
 
 import pymel.core as pm 
 
@@ -31,8 +31,6 @@ class MayaSurfacingProjects(IPlugin):
         project_btns_layout = QtWidgets.QHBoxLayout()
         object_btns_layout = QtWidgets.QHBoxLayout()
         selection_layout = QtWidgets.QHBoxLayout()
-        wireframe_layout = QtWidgets.QHBoxLayout()
-        material_layout = QtWidgets.QHBoxLayout()
         red_text = '#AA0000'
 
         # Create UI widgets
@@ -54,17 +52,6 @@ class MayaSurfacingProjects(IPlugin):
         )
         self.list_texture_objects = QtWidgets.QListWidget()
         self.list_texture_objects.setSortingEnabled(True)
-        self.lbl_wireframe = QtWidgets.QLabel("wireframe colors")
-        self.btn_wireframe_color_projects = QtWidgets.QPushButton(
-            "per Surfacing Project"
-        )
-        self.btn_wireframe_color_objects = QtWidgets.QPushButton("per Surfacing Object")
-        self.btn_wireframe_color_none = QtWidgets.QPushButton("X")
-        self.btn_wireframe_color_none.setMaximumWidth(20)
-        self.btn_wireframe_color_none.setStyleSheet('QPushButton {color: %s;}' % red_text)
-        self.lbl_materials = QtWidgets.QLabel("material colors")
-        self.btn_material_color_projects = QtWidgets.QPushButton("per Surfacing Project")
-        self.btn_material_color_objects = QtWidgets.QPushButton("per Surfacing Object")
         self.lbl_validate_scene = QtWidgets.QLabel("validation")
         self.btn_validate_scene = QtWidgets.QPushButton("validate scene")
         self.lbl_export = QtWidgets.QLabel("Export")
@@ -93,15 +80,6 @@ class MayaSurfacingProjects(IPlugin):
         object_btns_layout.addWidget(self.btn_delete_texture_object)
         main_layout.addWidget(self.btn_add_to_texture_object)
         main_layout.addWidget(self.list_texture_objects)
-        main_layout.addWidget(self.lbl_wireframe)
-        main_layout.addLayout(wireframe_layout)
-        wireframe_layout.addWidget(self.btn_wireframe_color_projects)
-        wireframe_layout.addWidget(self.btn_wireframe_color_objects)
-        wireframe_layout.addWidget(self.btn_wireframe_color_none)
-        main_layout.addWidget(self.lbl_materials)
-        main_layout.addLayout(material_layout)
-        material_layout.addWidget(self.btn_material_color_projects)
-        material_layout.addWidget(self.btn_material_color_objects)
         main_layout.addWidget(self.lbl_validate_scene)
         main_layout.addWidget(self.btn_validate_scene)
         main_layout.addWidget(self.lbl_export)
@@ -121,21 +99,6 @@ class MayaSurfacingProjects(IPlugin):
         self.btn_delete_texture_object.clicked.connect(self.delete_texture_object)
         self.btn_add_to_texture_object.clicked.connect(self.add_to_texture_object)
         self.btn_validate_scene.clicked.connect(self.validate_scene)
-        self.btn_wireframe_color_projects.clicked.connect(
-            viewport.set_wireframe_colors_per_project
-        )
-        self.btn_wireframe_color_objects.clicked.connect(
-            viewport.set_wireframe_colors_per_object
-        )
-        self.btn_wireframe_color_none.clicked.connect(
-            viewport.set_wifreframe_color_none
-        )
-        self.btn_material_color_projects.clicked.connect(
-            viewport.set_materials_per_project
-        )
-        self.btn_material_color_objects.clicked.connect(
-            viewport.set_materials_per_object
-        )
         self.list_texture_objects.itemClicked.connect(self.select_texture_object)
         self.list_texture_objects.itemDoubleClicked.connect(self.editItem)
 

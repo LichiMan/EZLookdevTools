@@ -1,7 +1,7 @@
 import logging
 from yapsy.IPlugin import IPlugin
-from PySide2.QtWidgets import QApplication, QWidget, QLabel, QMainWindow
-from PySide2 import QtGui, QtWidgets, QtWidgets, QtUiTools, QtCore
+
+from lookdevtools.ui.libs import *
 
 
 class KatanaSurfacingProjects(IPlugin):
