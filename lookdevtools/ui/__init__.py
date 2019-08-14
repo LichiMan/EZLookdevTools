@@ -4,7 +4,7 @@ import os
 import logging
 from functools import partial
 
-from .libs import *
+from lookdevtools.ui.libs import *
 
 import lookdevtools
 
@@ -53,6 +53,7 @@ class Window(QMainWindow):
                 pluginInfo.plugin_object.plugin_layout,
                 pluginInfo.name)
         self.setCentralWidget(tabwidget)
+
 
 main_window = QApplication.instance()
 if main_window:
