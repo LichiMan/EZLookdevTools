@@ -1,15 +1,17 @@
-import pymel.core as pm
-import logging
 import os
+import sys
+import traceback
+from PySide2 import QtWidgets
+import random
+import logging
+
+import pymel.core as pm
 import maya.mel as mel
 import maya.cmds as mc
-from PySide2 import QtWidgets
-import traceback
-import sys
-import random
-import tools.maya_common as ldts_mayaCommon
-import tools.common as ldts_common
-import tools.common.utilities as ldts_utils
+
+from lookdevtools import common
+from lookdevtools.common import utils
+from lookdevtools.maya import maya
 
 def surfacingInit():
     """ Initializes the scene by creating the surfacing root
@@ -52,7 +54,7 @@ def create_project(name=None):
         "objectSet", name=name
     )
     surfacing_project.setAttr(
-        ldts_common.ATTR_SURFACING_PROJECT, "", force=True
+        common.ATTR_SURFACING_PROJECT, "", force=True
     )
     create_object(surfacing_project)
     get_project_root().add(surfacing_project)
@@ -69,7 +71,7 @@ def create_object(project, name=None):
             "objectSet", name=name
         )
         surfacing_set.setAttr(
-            ldts_common.ATTR_SURFACING_OBJECT, "", force=True
+            common.ATTR_SURFACING_OBJECT, "", force=True
         )
         project.add(surfacing_set)
     else:
@@ -138,7 +140,7 @@ def get_projects():
     objSetLs = [
         item
         for item in pm.ls(type="objectSet")
-        if item.hasAttr(ldts_common.ATTR_SURFACING_PROJECT)
+        if item.hasAttr(common.ATTR_SURFACING_PROJECT)
     ]
     return objSetLs
 
@@ -158,7 +160,7 @@ def get_objects(project):
 
 def is_project(project):
     """Returns is project is of the type surfacing project"""
-    if project.hasAttr(ldts_common.ATTR_SURFACING_PROJECT):
+    if project.hasAttr(common.ATTR_SURFACING_PROJECT):
         return True
     else:
         return False
@@ -166,7 +168,7 @@ def is_project(project):
 
 def is_texture_object(texture_object):
     """Returns is project is of the type surfacing Object"""
-    if texture_object.hasAttr(ldts_common.ATTR_SURFACING_OBJECT):
+    if texture_object.hasAttr(common.ATTR_SURFACING_OBJECT):
         return True
     else:
         return False
@@ -273,9 +275,9 @@ def export_project(project, subdiv=1, single_export=True, folder_path = False):
     if single_export:
         check_scene_state()
     if not folder_path:
-        folder_path = ldts_mayaCommon.get_folder_path()
+        folder_path = common.get_folder_path()
     project_geo_list = []
-    if ldts_utils.is_directory(folder_path) and is_project(project):
+    if utils.is_directory(folder_path) and is_project(project):
         for each in get_objects(project):
             merged_geo = merge_texture_object(each)
             if merged_geo:
@@ -302,7 +304,7 @@ def export_project(project, subdiv=1, single_export=True, folder_path = False):
             export_surfacing_object_dir = os.path.join(
                 folder_path, str(project)
             )
-            ldts_utils.create_directoy(export_surfacing_object_dir)
+            utils.create_directoy(export_surfacing_object_dir)
             for geo in project_geo_list:
                 export_root = " -root |" + geo
                 export_surfacing_object_path = os.path.join(
@@ -349,7 +351,7 @@ def export_all_projects(subdiv=1, folder_path = None):
     """Export all surfacing Projects"""
     check_scene_state()
     if not folder_path:
-        folder_path = ldts_mayaCommon.get_folder_path()
+        folder_path = common.get_folder_path()
     current_file = pm.sceneName()
     for project in get_projects():
         export_project(
@@ -362,8 +364,8 @@ def export_all_projects(subdiv=1, folder_path = None):
 def check_scene_state():
     '''check the scene state, if modified, will ask the
     user to save it'''
-    if ldts_mayaCommon.unsaved_scene():
-        if ldts_mayaCommon.save_scene_dialog():
+    if common.unsaved_scene():
+        if common.save_scene_dialog():
             pm.saveFile(force=True)
         else:
             raise ValueError("Unsaved changes")
@@ -373,7 +375,7 @@ def update_mesh_attributes():
     """Adds the attributes to all the shapes transforms assigned to surfacing Objects
     This will be used later for quick shader/material creation and assignment"""
     for project in get_projects():
-        project.setAttr(ldts_common.ATTR_SURFACING_PROJECT, project)
+        project.setAttr(common.ATTR_SURFACING_PROJECT, project)
         logging.info(
             "Updating attributes for project: %s" % project
         )
@@ -383,7 +385,7 @@ def update_mesh_attributes():
                 % texture_object_set
             )
             texture_object_set.setAttr(
-                ldts_common.ATTR_SURFACING_OBJECT, texture_object_set
+                common.ATTR_SURFACING_OBJECT, texture_object_set
             )
             members = texture_object_set.members()
             logging.info(
@@ -392,12 +394,12 @@ def update_mesh_attributes():
             logging.info("--------%s" % members)
             for member in members:
                 member.setAttr(
-                    ldts_common.ATTR_SURFACING_PROJECT,
+                    common.ATTR_SURFACING_PROJECT,
                     project.name(),
                     force=True,
                 )
                 member.setAttr(
-                    ldts_common.ATTR_SURFACING_OBJECT,
+                    common.ATTR_SURFACING_OBJECT,
                     texture_object_set.name(),
                     force=True,
                 )

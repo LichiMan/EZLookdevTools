@@ -5,10 +5,8 @@ import logging
 from functools import partial
 from PySide2.QtWidgets import QApplication, QWidget, QLabel, QMainWindow
 from PySide2 import QtGui, QtWidgets, QtWidgets, QtUiTools, QtCore
-import tools.maya_common as ldts_mayaCommon
-import tools.common as ldts_common
-import tools.common.utilities as ldts_utils
-import tools as ldts
+
+import lookdevtools
 
 class HTabWidget(QtWidgets.QTabBar):
     '''
@@ -50,7 +48,7 @@ class Window(QMainWindow):
         layout.addWidget(tabwidget, 0, 0)
         plugins_ui = {}
         plugins_buttons = {}
-        for pluginInfo in ldts.plugins.getAllPlugins():
+        for pluginInfo in lookdevtools.plugins.getAllPlugins():
             tabwidget.addTab(
                 pluginInfo.plugin_object.plugin_layout,
                 pluginInfo.name)
