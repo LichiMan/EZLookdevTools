@@ -7,9 +7,6 @@ from lookdevtools.maya import maya
 from lookdevtools.maya import surfacing_projects
 from lookdevtools.maya.surfacing_projects import viewport
 
-reload(maya)
-import pymel.core as pm
-
 class MayaSurfacingProjects(IPlugin):
     name = "mayaSurfacingProjects Plugin"
 
@@ -17,6 +14,16 @@ class MayaSurfacingProjects(IPlugin):
 
     def __init__ (self):
         logging.info('PLUGIN: example_plugin loaded')
+        # Load dcc python packages inside a try, to catch the application
+        # environment, this will be replaced by IPlugin Categories
+        try:
+            import pymel.core as pm
+        except:
+            logging.warning('PLUGIN: KatanaSurfacingProjects ui not loaded, katana libs not found')
+            self.plugin_layout = QtWidgets.QWidget()
+            self.label_ui = QtWidgets.QLabel(self.plugin_layout)
+            self.label_ui.setText('Plugin not available in this application')
+            return False
         self.plugin_layout = QtWidgets.QWidget()
         main_layout = QtWidgets.QVBoxLayout()
         project_btns_layout = QtWidgets.QHBoxLayout()
