@@ -21,6 +21,8 @@
 [&nbsp;&nbsp;&nbsp;&nbsp;Example plugin](#Example-plugin)   
 [Credits](#Credits)   
 
+| WARNING: Under development, do not use (yet!) |
+| --- |
 
 # LookdevTools
 A tool set for maya, katana, renderman, and nuke for surfacing and look development.  
