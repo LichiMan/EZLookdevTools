@@ -210,7 +210,7 @@ class ExamplePlugIn(IPlugin):
             self.plugin_layout = QtWidgets.QWidget()
             self.label_ui = QtWidgets.QLabel(self.plugin_layout)
             self.label_ui.setText('Plugin not available in this application')
-            return False
+        else:
         # Plugin begins
 ```
 
