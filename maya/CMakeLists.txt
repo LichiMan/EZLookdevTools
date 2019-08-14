@@ -2,6 +2,7 @@ set(SOURCE_FILES
     "__init_.py"
 )
 
+#set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIRECTORY}/modules)
 find_package(Maya REQUIRED)
 
 include_directories(${MAYA_INCLUDE_DIR})
