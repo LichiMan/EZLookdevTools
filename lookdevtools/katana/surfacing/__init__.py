@@ -1,6 +1,7 @@
 from Katana import Widgets, FnGeolib, Nodes3DAPI, NodegraphAPI
 
 from lookdevtools.common import utils
+from lookdevtools.katana import katana
 
 def create_EZ_collections(attribute_name):
     '''Creates a group stack with 1 collection create per attribute_name value found
@@ -8,9 +9,9 @@ def create_EZ_collections(attribute_name):
     #attribute_name = "geometry.arbitrary.EZSurfacing_object"
     #attribute_name = "geometry.arbitrary.EZSurfacing_project"'''
     rootNode = NodegraphAPI.GetRootNode()
-    selected_node = utils.get_selected_nodes(single=True)
+    selected_node = katana.get_selected_nodes(single=True)
     node_outPort = selected_node.getOutputPort("out")
-    EZSurfacing_projects = utils.get_objects_attribute_values(selected_node, attribute_name)
+    EZSurfacing_projects = katana.get_objects_attribute_values(selected_node, attribute_name)
     group_stack = NodegraphAPI.CreateNode("GroupStack", rootNode)
     group_stack.setName("EZSurfacing_collections")
     group_stack_inputPort = group_stack.getInputPort("in")
@@ -32,7 +33,7 @@ def create_EZ_collections(attribute_name):
             % (attribute_name, EZSurfacing_project),
             0,
         )
-        utils.add_node_to_group_last(group_stack, collection_create)
+        katana.add_node_to_group_last(group_stack, collection_create)
 
         NodegraphAPI.SetNodePosition(collection_create, (0, position_y))
         position_y = position_y - 50
@@ -42,15 +43,15 @@ def create_EZ_viewer_settings(attribute_name):
     rootNode = NodegraphAPI.GetRootNode()
     material_stack = NodegraphAPI.CreateNode("GroupStack", rootNode)
     material_stack.setName("EZSurfacing_viewer_settings")
-    selected_node = utils.get_selected_nodes(single=True)
-    attribute_values = utils.get_objects_attribute_values(selected_node, attribute_name)
+    selected_node = katana.get_selected_nodes(single=True)
+    attribute_values = katana.get_objects_attribute_values(selected_node, attribute_name)
     position_y = 0
 
     for attribute_value in attribute_values:
         random_color = utils.get_random_color(attribute_value)
         viewer_settings = NodegraphAPI.CreateNode("ViewerObjectSettings", rootNode)
         viewer_settings.setName("viewerColor_%s" % attribute_value)
-        utils.add_node_to_group_last(material_stack, viewer_settings, inputPort="input")
+        katana.add_node_to_group_last(material_stack, viewer_settings, inputPort="input")
 
         viewer_settings_value = viewer_settings.getParameter(
             "args.viewer.default.drawOptions.color"
@@ -80,8 +81,8 @@ def create_EZ_materials(attribute_name, assign_random_color=False):
     rootNode = NodegraphAPI.GetRootNode()
     material_stack = NodegraphAPI.CreateNode("GroupStack", rootNode)
     material_stack.setName("EZSurfacing_materials")
-    selected_node = utils.get_selected_nodes(single=True)
-    attribute_values = utils.get_objects_attribute_values(selected_node, attribute_name)
+    selected_node = katana.get_selected_nodes(single=True)
+    attribute_values = katana.get_objects_attribute_values(selected_node, attribute_name)
     position_y = 0
     for attribute_value in attribute_values:
         material_group = NodegraphAPI.CreateNode("Group", rootNode)
@@ -93,7 +94,7 @@ def create_EZ_materials(attribute_name, assign_random_color=False):
         material_group_returnPort = material_group.getReturnPort("out")
         material_group_sendPort.connect(material_group_returnPort)
 
-        utils.add_node_to_group_last(material_stack, material_group)
+        katana.add_node_to_group_last(material_stack, material_group)
         NodegraphAPI.SetNodePosition(material_group, (0, position_y))
 
         material_merge = NodegraphAPI.CreateNode("Merge", rootNode)
@@ -101,7 +102,7 @@ def create_EZ_materials(attribute_name, assign_random_color=False):
         material_merge_inputPort = material_merge.addInputPort("in")
         material_merge_materialPort = material_merge.addInputPort("material")
 
-        utils.add_node_to_group_last(material_group, material_merge)
+        katana.add_node_to_group_last(material_group, material_merge)
         NodegraphAPI.SetNodePosition(material_merge, (0, -150))
 
         material_network = NodegraphAPI.CreateNode("NetworkMaterial", rootNode)
@@ -147,7 +148,7 @@ def create_EZ_materials(attribute_name, assign_random_color=False):
 
         material_assign = NodegraphAPI.CreateNode("MaterialAssign", rootNode)
 
-        utils.add_node_to_group_last(material_group, material_assign, inputPort="input")
+        katana.add_node_to_group_last(material_group, material_assign, inputPort="input")
 
         cel_statement = '/root/world//*{attr("%s.value") == "%s"}' % (
             attribute_name,

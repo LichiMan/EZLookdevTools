@@ -2,9 +2,16 @@ import logging
 from yapsy.IPlugin import IPlugin
 from lookdevtools.ui.libs import *
 
-from lookdevtools.maya import maya
-from lookdevtools.maya import surfacing_projects
-from lookdevtools.maya.surfacing_projects import viewport
+DCC_CONTEXT = None
+
+try:
+    import pymel.core as pm
+    from lookdevtools.maya import maya
+    from lookdevtools.maya import surfacing_projects
+    from lookdevtools.maya.surfacing_projects import viewport
+    DCC_CONTEXT = True
+except:
+    logging.warning('PLUGIN: Maya packages not loaded, not this dcc')
 
 class MayaSurfacingProjects(IPlugin):
     name = "mayaSurfacingProjects Plugin"
@@ -15,95 +22,96 @@ class MayaSurfacingProjects(IPlugin):
         logging.info('PLUGIN: MayaSurfacingProjects loaded')
         # Load dcc python packages inside a try, to catch the application
         # environment, this will be replaced by IPlugin Categories
-        try:
-            import pymel.core as pm 
-        except:
-            logging.warning('PLUGIN: KatanaSurfacingProjects ui not loaded, katana libs not found')
+        if not DCC_CONTEXT:
+            logging.warning('PLUGIN: KatanaSurfacingProjects  not loaded, dcc libs not found')
             self.plugin_layout = QtWidgets.QWidget()
             self.label_ui = QtWidgets.QLabel(self.plugin_layout)
-            self.label_ui.setText('Plugin not available in this application')
+            self.label_ui.setText('MayaSurfacingProjects\nPlugin not available in this application')
         else:
-            self.plugin_layout = QtWidgets.QWidget()
-            main_layout = QtWidgets.QVBoxLayout()
-            project_btns_layout = QtWidgets.QHBoxLayout()
-            object_btns_layout = QtWidgets.QHBoxLayout()
-            selection_layout = QtWidgets.QHBoxLayout()
-            red_text = '#AA0000'
+            self.build_ui()
 
-            # Create UI widgets
-            self.refresh = QtWidgets.QPushButton("refresh")
-            self.sync_selection = QtWidgets.QCheckBox("Sync object set selection")
-            self.expand_selection = QtWidgets.QCheckBox("expand selection to members")
-            self.project_new_btn = QtWidgets.QPushButton("new texture project")
-            self.project_delete_btn = QtWidgets.QPushButton("X")
-            self.project_delete_btn.setMaximumWidth(20)
-            self.project_delete_btn.setStyleSheet('QPushButton {color: %s;}' % red_text)
-            self.list_projects = QtWidgets.QListWidget()
-            self.list_projects.setSortingEnabled(True)
-            self.btn_new_texture_object = QtWidgets.QPushButton("new texture object")
-            self.btn_delete_texture_object = QtWidgets.QPushButton("X")
-            self.btn_delete_texture_object.setMaximumWidth(20)
-            self.btn_delete_texture_object.setStyleSheet('QPushButton {color: %s;}' % red_text)
-            self.btn_add_to_texture_object = QtWidgets.QPushButton(
-                "add selected to texture object"
-            )
-            self.list_texture_objects = QtWidgets.QListWidget()
-            self.list_texture_objects.setSortingEnabled(True)
-            self.lbl_validate_scene = QtWidgets.QLabel("validation")
-            self.btn_validate_scene = QtWidgets.QPushButton("validate scene")
-            self.lbl_export = QtWidgets.QLabel("Export")
-            self.btn_export_project = QtWidgets.QPushButton("Selected Project")
-            self.btn_export_all = QtWidgets.QPushButton("All Projects")
+    def build_ui(self):
+        self.plugin_layout = QtWidgets.QWidget()
+        main_layout = QtWidgets.QVBoxLayout()
+        project_btns_layout = QtWidgets.QHBoxLayout()
+        object_btns_layout = QtWidgets.QHBoxLayout()
+        selection_layout = QtWidgets.QHBoxLayout()
+        red_text = '#AA0000'
 
-            # TODO
-            # To remove the manually refesh button
-            # Need to add this to maya as selection changed callback to
-            # update the UI avoiding validating the scene
-            # import maya.OpenMaya as OpenMaya
-            # idx = OpenMaya.MEventMessage.addEventCallback("SelectionChanged", self.update_ui_projects
-            # OpenMaya.MMessage.removeCallback(idx)
+        # Create UI widgets
+        self.refresh = QtWidgets.QPushButton("refresh")
+        self.sync_selection = QtWidgets.QCheckBox("Sync object set selection")
+        self.expand_selection = QtWidgets.QCheckBox("expand selection to members")
+        self.project_new_btn = QtWidgets.QPushButton("new texture project")
+        self.project_delete_btn = QtWidgets.QPushButton("X")
+        self.project_delete_btn.setMaximumWidth(20)
+        self.project_delete_btn.setStyleSheet('QPushButton {color: %s;}' % red_text)
+        self.list_projects = QtWidgets.QListWidget()
+        self.list_projects.setSortingEnabled(True)
+        self.btn_new_texture_object = QtWidgets.QPushButton("new texture object")
+        self.btn_delete_texture_object = QtWidgets.QPushButton("X")
+        self.btn_delete_texture_object.setMaximumWidth(20)
+        self.btn_delete_texture_object.setStyleSheet('QPushButton {color: %s;}' % red_text)
+        self.btn_add_to_texture_object = QtWidgets.QPushButton(
+            "add selected to texture object"
+        )
+        self.list_texture_objects = QtWidgets.QListWidget()
+        self.list_texture_objects.setSortingEnabled(True)
+        self.lbl_validate_scene = QtWidgets.QLabel("validation")
+        self.btn_validate_scene = QtWidgets.QPushButton("validate scene")
+        self.lbl_export = QtWidgets.QLabel("Export")
+        self.btn_export_project = QtWidgets.QPushButton("Selected Project")
+        self.btn_export_all = QtWidgets.QPushButton("All Projects")
 
-            # Attach widgets to the main layout
-            main_layout.addWidget(self.refresh)
-            main_layout.addLayout(selection_layout)
-            selection_layout.addWidget(self.sync_selection)
-            selection_layout.addWidget(self.expand_selection)
-            main_layout.addLayout(project_btns_layout)
-            project_btns_layout.addWidget(self.project_new_btn)
-            project_btns_layout.addWidget(self.project_delete_btn)
-            main_layout.addWidget(self.list_projects)
-            main_layout.addLayout(object_btns_layout)
-            object_btns_layout.addWidget(self.btn_new_texture_object)
-            object_btns_layout.addWidget(self.btn_delete_texture_object)
-            main_layout.addWidget(self.btn_add_to_texture_object)
-            main_layout.addWidget(self.list_texture_objects)
-            main_layout.addWidget(self.lbl_validate_scene)
-            main_layout.addWidget(self.btn_validate_scene)
-            main_layout.addWidget(self.lbl_export)
-            main_layout.addWidget(self.btn_export_project)
-            main_layout.addWidget(self.btn_export_all)
+        # TODO
+        # To remove the manually refesh button
+        # Need to add this to maya as selection changed callback to
+        # update the UI avoiding validating the scene
+        # import maya.OpenMaya as OpenMaya
+        # idx = OpenMaya.MEventMessage.addEventCallback("SelectionChanged", self.update_ui_projects
+        # OpenMaya.MMessage.removeCallback(idx)
 
-            # Set main layout
-            self.plugin_layout.setLayout(main_layout)
+        # Attach widgets to the main layout
+        main_layout.addWidget(self.refresh)
+        main_layout.addLayout(selection_layout)
+        selection_layout.addWidget(self.sync_selection)
+        selection_layout.addWidget(self.expand_selection)
+        main_layout.addLayout(project_btns_layout)
+        project_btns_layout.addWidget(self.project_new_btn)
+        project_btns_layout.addWidget(self.project_delete_btn)
+        main_layout.addWidget(self.list_projects)
+        main_layout.addLayout(object_btns_layout)
+        object_btns_layout.addWidget(self.btn_new_texture_object)
+        object_btns_layout.addWidget(self.btn_delete_texture_object)
+        main_layout.addWidget(self.btn_add_to_texture_object)
+        main_layout.addWidget(self.list_texture_objects)
+        main_layout.addWidget(self.lbl_validate_scene)
+        main_layout.addWidget(self.btn_validate_scene)
+        main_layout.addWidget(self.lbl_export)
+        main_layout.addWidget(self.btn_export_project)
+        main_layout.addWidget(self.btn_export_all)
 
-            # Connect buttons signals
-            self.refresh.clicked.connect(self.update_ui_projects)
-            self.project_new_btn.clicked.connect(self.create_project)
-            self.project_delete_btn.clicked.connect(self.delete_project)
-            self.list_projects.itemClicked.connect(self.update_ui_texture_objects)
-            self.list_projects.itemDoubleClicked.connect(self.editItem)
-            self.btn_new_texture_object.clicked.connect(self.create_texture_object)
-            self.btn_delete_texture_object.clicked.connect(self.delete_texture_object)
-            self.btn_add_to_texture_object.clicked.connect(self.add_to_texture_object)
-            self.btn_validate_scene.clicked.connect(self.validate_scene)
-            self.list_texture_objects.itemClicked.connect(self.select_texture_object)
-            self.list_texture_objects.itemDoubleClicked.connect(self.editItem)
+        # Set main layout
+        self.plugin_layout.setLayout(main_layout)
 
-            self.btn_export_project.clicked.connect(self.export_project)
-            self.btn_export_all.clicked.connect(self.export_all_projects)
+        # Connect buttons signals
+        self.refresh.clicked.connect(self.update_ui_projects)
+        self.project_new_btn.clicked.connect(self.create_project)
+        self.project_delete_btn.clicked.connect(self.delete_project)
+        self.list_projects.itemClicked.connect(self.update_ui_texture_objects)
+        self.list_projects.itemDoubleClicked.connect(self.editItem)
+        self.btn_new_texture_object.clicked.connect(self.create_texture_object)
+        self.btn_delete_texture_object.clicked.connect(self.delete_texture_object)
+        self.btn_add_to_texture_object.clicked.connect(self.add_to_texture_object)
+        self.btn_validate_scene.clicked.connect(self.validate_scene)
+        self.list_texture_objects.itemClicked.connect(self.select_texture_object)
+        self.list_texture_objects.itemDoubleClicked.connect(self.editItem)
+
+        self.btn_export_project.clicked.connect(self.export_project)
+        self.btn_export_all.clicked.connect(self.export_all_projects)
 
 
-            self.update_ui_projects()
+        self.update_ui_projects()
 
     def editItem(self, item):
         import pymel.core as pm 
