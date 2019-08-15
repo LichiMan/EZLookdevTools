@@ -1,9 +1,9 @@
 """
-NAME: ViewportColors_object
+NAME: Look dev Tools UI
 ICON: icon.png
 KEYBOARD_SHORTCUT: 
 SCOPE:
-creates viewport colors for Surfacing object
+Brings up the tools UI
 
 """
 
@@ -20,7 +20,6 @@ creates viewport colors for Surfacing object
 #              If raiseTab is passed as True, the tab will be raised to the
 #              front in its pane.
 
-from lookdevtools.katana import surfacing
-
-attribute_name = "geometry.arbitrary.surfacing_object"
-surfacing.create_viewer_settings(attribute_name)
+import lookdevtools
+from lookdevtools import ui
+reload(ui)

@@ -1,9 +1,9 @@
 """
-NAME: EZMaterials_object
+NAME: Materials_object
 ICON: icon.png
 KEYBOARD_SHORTCUT: 
 SCOPE:
-creates materials for EZSurfacing projects
+creates materials for Surfacing projects
 
 """
 
@@ -22,5 +22,5 @@ creates materials for EZSurfacing projects
 
 from lookdevtools.katana import surfacing
 
-attribute_name = "geometry.arbitrary.EZSurfacing_object"
+attribute_name = "geometry.arbitrary.surfacing_object"
 surfacing.create_materials(attribute_name)

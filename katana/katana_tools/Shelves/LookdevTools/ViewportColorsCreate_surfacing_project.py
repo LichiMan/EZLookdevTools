@@ -1,9 +1,9 @@
 """
-NAME: EZViewportColors_project
+NAME: ViewportColors_project
 ICON: icon.png
 KEYBOARD_SHORTCUT: 
 SCOPE:
-creates viewport colors for EZSurfacing projects
+creates viewport colors for Surfacing projects
 
 """
 
@@ -22,5 +22,5 @@ creates viewport colors for EZSurfacing projects
 
 from lookdevtools.katana import surfacing
 
-attribute_name = "geometry.arbitrary.EZSurfacing_project"
+attribute_name = "geometry.arbitrary.surfacing_project"
 surfacing.create_viewer_settings(attribute_name)
