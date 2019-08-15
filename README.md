@@ -35,7 +35,9 @@ The rendering tools are based on Pixar Renderman.
 <pre># Lookdevtools
 export LOOKDEVTOOLS="/run/media/ezequielm/misc/wrk/dev/EZLookdevTools""</pre>
 ##### Python
-<pre>set PYTHONPATH=%PYTHONPATH%;%LOOKDEVTOOLS_ROOT%/"</pre>
+<pre>
+# PYTHONPATH
+export PYTHONPATH="${PYTHONPATH}:$LOOKDEVTOOLS"</pre>
 ##### Katana Tools
 Add this to your katana launcher
 <pre>## Lookdevtools
