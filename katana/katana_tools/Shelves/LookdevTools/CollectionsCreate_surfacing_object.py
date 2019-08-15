@@ -1,9 +1,9 @@
 """
-NAME: EZCollectionsCreate_surfacing_object
+NAME: CollectionsCreate_surfacing_object
 ICON: icon.png
 KEYBOARD_SHORTCUT: 
 SCOPE:
-creates collections for EZSurfacing object
+creates collections for Surfacing object
 
 """
 
@@ -22,5 +22,5 @@ creates collections for EZSurfacing object
 
 from lookdevtools.katana import surfacing
 
-attribute_name = "geometry.arbitrary.EZSurfacing_object"
+attribute_name = "geometry.arbitrary.surfacing_object"
 surfacing.create_collections(attribute_name)
