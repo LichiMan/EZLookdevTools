@@ -44,7 +44,19 @@ class Window(QMainWindow):
         self.setLayout(layout)
         tabwidget = QtWidgets.QTabWidget()
         tabwidget.setTabBar(HTabWidget(width=150,height=50))
-        tabwidget.setTabPosition(QtWidgets.QTabWidget.West)    
+        tabwidget.setTabPosition(QtWidgets.QTabWidget.West)
+
+        # Stylesheet fix for Katana
+        # With default colors, the tab text is almost the
+        # same as the tab background
+        stylesheet = """
+        QTabBar::tab:unselected {background: #222222;}
+        QTabWidget>QWidget>QWidget{background: #222222;}
+        QTabBar::tab:selected {background: #303030;}
+        QTabWidget>QWidget>QWidget{background: #303030;}
+        """
+        tabwidget.setStyleSheet(stylesheet)
+        
         layout.addWidget(tabwidget, 0, 0)
         plugins_ui = {}
         plugins_buttons = {}
