@@ -20,7 +20,7 @@ creates viewport colors for EZSurfacing object
 #              If raiseTab is passed as True, the tab will be raised to the
 #              front in its pane.
 
-import katana.katana_main as EZSurfacing
+from lookdevtools.katana import surfacing
 
 attribute_name = "geometry.arbitrary.EZSurfacing_object"
-EZSurfacing.create_EZ_viewer_settings(attribute_name)
+surfacing.create_viewer_settings(attribute_name)

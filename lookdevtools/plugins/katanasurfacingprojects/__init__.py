@@ -83,22 +83,22 @@ class KatanaSurfacingProjects(IPlugin):
         
         # Connect buttons signals
         self.btn_collections_color_projects.clicked.connect(
-            partial (surfacing.create_EZ_collections,"geometry.arbitrary.surfacing_project")
+            partial (surfacing.create_collections,"geometry.arbitrary.surfacing_project")
         )
         
         self.btn_collections_color_objects.clicked.connect(
-            partial (surfacing.create_EZ_collections,"geometry.arbitrary.surfacing_object")
+            partial (surfacing.create_collections,"geometry.arbitrary.surfacing_object")
         )
         self.btn_material_color_projects.clicked.connect(
-            partial (surfacing.create_EZ_materials,"geometry.arbitrary.surfacing_project")
+            partial (surfacing.create_materials,"geometry.arbitrary.surfacing_project")
         )
         self.btn_material_color_objects.clicked.connect(
-            partial (surfacing.create_EZ_materials,"geometry.arbitrary.surfacing_object")
+            partial (surfacing.create_materials,"geometry.arbitrary.surfacing_object")
         )
         self.btn_viewport_color_projects.clicked.connect(
-            partial (surfacing.create_EZ_viewer_settings,"geometry.arbitrary.surfacing_project")
+            partial (surfacing.create_viewer_settings,"geometry.arbitrary.surfacing_project")
         )
         self.btn_viewport_color_objects.clicked.connect(
-            partial (surfacing.create_EZ_viewer_settings,"geometry.arbitrary.surfacing_object")
+            partial (surfacing.create_viewer_settings,"geometry.arbitrary.surfacing_object")
         )
         

@@ -3,7 +3,7 @@ from Katana import Widgets, FnGeolib, Nodes3DAPI, NodegraphAPI
 from lookdevtools.common import utils
 from lookdevtools.katana import katana
 
-def create_EZ_collections(attribute_name):
+def create_collections(attribute_name):
     '''Creates a group stack with 1 collection create per attribute_name value found
     This can used to find values of EZSurf attributes as in
     #attribute_name = "geometry.arbitrary.EZSurfacing_object"
@@ -39,7 +39,7 @@ def create_EZ_collections(attribute_name):
         position_y = position_y - 50
     return collections_name_list
 
-def create_EZ_viewer_settings(attribute_name):
+def create_viewer_settings(attribute_name):
     rootNode = NodegraphAPI.GetRootNode()
     material_stack = NodegraphAPI.CreateNode("GroupStack", rootNode)
     material_stack.setName("EZSurfacing_viewer_settings")
@@ -77,7 +77,7 @@ def create_EZ_viewer_settings(attribute_name):
         position_y = position_y - 50
 
 
-def create_EZ_materials(attribute_name, assign_random_color=False):
+def create_materials(attribute_name, assign_random_color=False):
     rootNode = NodegraphAPI.GetRootNode()
     material_stack = NodegraphAPI.CreateNode("GroupStack", rootNode)
     material_stack.setName("EZSurfacing_materials")

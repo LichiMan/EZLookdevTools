@@ -1,5 +1,5 @@
 """
-NAME: EZMaterials_object
+NAME: EZMaterials_project
 ICON: icon.png
 KEYBOARD_SHORTCUT: 
 SCOPE:
@@ -20,7 +20,7 @@ creates materials for EZSurfacing projects
 #              If raiseTab is passed as True, the tab will be raised to the
 #              front in its pane.
 
-import katana.katana_main as EZSurfacing
+from lookdevtools.katana import surfacing
 
-attribute_name = "geometry.arbitrary.EZSurfacing_object"
-EZSurfacing.create_EZ_materials(attribute_name)
+attribute_name = "geometry.arbitrary.EZSurfacing_project"
+surfacing.create_materials(attribute_name)

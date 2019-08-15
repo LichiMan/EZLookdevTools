@@ -1,9 +1,9 @@
 """
-NAME: EZViewportColors_project
+NAME: EZMaterials_object
 ICON: icon.png
 KEYBOARD_SHORTCUT: 
 SCOPE:
-creates viewport colors for EZSurfacing projects
+creates materials for EZSurfacing projects
 
 """
 
@@ -20,7 +20,7 @@ creates viewport colors for EZSurfacing projects
 #              If raiseTab is passed as True, the tab will be raised to the
 #              front in its pane.
 
-import katana.katana_main as EZSurfacing
+from lookdevtools.katana import surfacing
 
-attribute_name = "geometry.arbitrary.EZSurfacing_project"
-EZSurfacing.create_EZ_viewer_settings(attribute_name)
+attribute_name = "geometry.arbitrary.EZSurfacing_object"
+surfacing.create_materials(attribute_name)
