@@ -1,9 +1,9 @@
 """
-NAME: EZCollectionsCreate_surfacing_object
+NAME: EZCollectionsCreate_surfacing_project
 ICON: icon.png
 KEYBOARD_SHORTCUT: 
 SCOPE:
-creates collections for EZSurfacing object
+creates collections for EZSurfacing projects
 
 """
 
@@ -20,7 +20,7 @@ creates collections for EZSurfacing object
 #              If raiseTab is passed as True, the tab will be raised to the
 #              front in its pane.
 
-import katana.katana_main as EZSurfacing
+from lookdevtools.katana import surfacing
 
-attribute_name = "geometry.arbitrary.EZSurfacing_object"
-EZSurfacing.create_EZ_collections(attribute_name)
+attribute_name = "geometry.arbitrary.EZSurfacing_project"
+surfacing.create_collections(attribute_name)
