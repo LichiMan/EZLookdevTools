@@ -2,5 +2,5 @@
 build
 
 \.vscode/
-
+.vs
 *.pyc
