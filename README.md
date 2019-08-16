@@ -259,6 +259,12 @@ Description = This is an example plugin configure, with UI entry points.
 Ezequiel Mastrasso  
 Anant Gupta
 
+### Open Source Packages
+
+fuzzywuzzy   
+lucidity   
+yapsy   
+
 ### Shader Ball
 Mathieu Maurel   
 https://www.artstation.com/artwork/wKveZ
