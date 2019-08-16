@@ -9,7 +9,7 @@ import maya.mel as mel
 import maya.cmds as mc
 
 from lookdevtools.ui.libs import *
-from lookdevtools import common
+from lookdevtools.common.constants import *
 from lookdevtools.common import utils
 from lookdevtools.maya import maya
 
@@ -54,7 +54,7 @@ def create_project(name=None):
         "objectSet", name=name
     )
     surfacing_project.setAttr(
-        common.ATTR_SURFACING_PROJECT, "", force=True
+        ATTR_SURFACING_PROJECT, "", force=True
     )
     create_object(surfacing_project)
     get_project_root().add(surfacing_project)
@@ -71,7 +71,7 @@ def create_object(project, name=None):
             "objectSet", name=name
         )
         surfacing_set.setAttr(
-            common.ATTR_SURFACING_OBJECT, "", force=True
+            ATTR_SURFACING_OBJECT, "", force=True
         )
         project.add(surfacing_set)
     else:
@@ -140,7 +140,7 @@ def get_projects():
     objSetLs = [
         item
         for item in pm.ls(type="objectSet")
-        if item.hasAttr(common.ATTR_SURFACING_PROJECT)
+        if item.hasAttr(ATTR_SURFACING_PROJECT)
     ]
     return objSetLs
 
@@ -160,7 +160,7 @@ def get_objects(project):
 
 def is_project(project):
     """Returns is project is of the type surfacing project"""
-    if project.hasAttr(common.ATTR_SURFACING_PROJECT):
+    if project.hasAttr(ATTR_SURFACING_PROJECT):
         return True
     else:
         return False
@@ -168,7 +168,7 @@ def is_project(project):
 
 def is_texture_object(texture_object):
     """Returns is project is of the type surfacing Object"""
-    if texture_object.hasAttr(common.ATTR_SURFACING_OBJECT):
+    if texture_object.hasAttr(ATTR_SURFACING_OBJECT):
         return True
     else:
         return False
@@ -275,7 +275,7 @@ def export_project(project, subdiv=1, single_export=True, folder_path = False):
     if single_export:
         check_scene_state()
     if not folder_path:
-        folder_path = common.get_folder_path()
+        folder_path = maya.get_folder_path()
     project_geo_list = []
     if utils.is_directory(folder_path) and is_project(project):
         for each in get_objects(project):
@@ -375,7 +375,7 @@ def update_mesh_attributes():
     """Adds the attributes to all the shapes transforms assigned to surfacing Objects
     This will be used later for quick shader/material creation and assignment"""
     for project in get_projects():
-        project.setAttr(common.ATTR_SURFACING_PROJECT, project)
+        project.setAttr(ATTR_SURFACING_PROJECT, project)
         logging.info(
             "Updating attributes for project: %s" % project
         )
@@ -385,7 +385,7 @@ def update_mesh_attributes():
                 % texture_object_set
             )
             texture_object_set.setAttr(
-                common.ATTR_SURFACING_OBJECT, texture_object_set
+                ATTR_SURFACING_OBJECT, texture_object_set
             )
             members = texture_object_set.members()
             logging.info(
@@ -394,12 +394,12 @@ def update_mesh_attributes():
             logging.info("--------%s" % members)
             for member in members:
                 member.setAttr(
-                    common.ATTR_SURFACING_PROJECT,
+                    ATTR_SURFACING_PROJECT,
                     project.name(),
                     force=True,
                 )
                 member.setAttr(
-                    common.ATTR_SURFACING_OBJECT,
+                    ATTR_SURFACING_OBJECT,
                     texture_object_set.name(),
                     force=True,
                 )
