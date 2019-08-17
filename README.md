@@ -1,8 +1,6 @@
 # Table of Contents
 [LookdevTools](#LookdevTools)  
 [Installation](#Installation)   
-[&nbsp;&nbsp;&nbsp;&nbsp;Windows](#Windows)   
-[&nbsp;&nbsp;&nbsp;&nbsp;Linux](#Linux)   
 [Tools](#Tools)   
 [&nbsp;&nbsp;&nbsp;&nbsp;Maya Surfacing Projects](#Maya-Surfacing-Projects)  
 [&nbsp;&nbsp;&nbsp;&nbsp;Katana Surfacing Projects](#Katana-Surfacing-Projects)  
@@ -34,11 +32,18 @@ The rendering tools are based on Pixar Renderman.
 ##### Root
 <pre># Lookdevtools
 export LOOKDEVTOOLS="/run/media/ezequielm/misc/wrk/dev/EZLookdevTools""</pre>
-##### Python
 <pre>
 # PYTHONPATH
 export PYTHONPATH="${PYTHONPATH}:$LOOKDEVTOOLS"</pre>
-##### Katana Tools
+<pre>
+# Renderman RMAN
+# Replace this path for your Renderman Install!!
+export RMANTREE=/opt/pixar/RenderManProServer-22.5
+export PATH="${PATH}:$RMANTREE/bin"
+</pre>
+<pre># NUKE
+export NUKE_PATH=$NUKE_PATH:$LOOKDEVTOOLS/nuke/plugins</pre>
+##### katana_tools
 Add this to your katana launcher
 <pre>## Lookdevtools
 export LDT_KATANA_ROOT=$LOOKDEVTOOLS/katana
@@ -46,9 +51,6 @@ export LDT_KATANA_TOOLS=$LOOKDEVTOOLS/katana/katana_tools
 export LDT_KATANA_SHELVES=$LOOKDEVTOOLS/katana/katana_shelves
 export KATANA_RESOURCES=$KATANA_RESOURCES:$LDT_KATANA_TOOLS:$LDT_KATANA_SHELVES:$PB/katana_tools
 </pre>
-##### Nuke Tools
-<pre># NUKE
-export NUKE_PATH=$NUKE_PATH:$LOOKDEVTOOLS/nuke/plugins</pre>
 ##### Mari
 <pre>soon</pre>
 ##### Substance Painter
