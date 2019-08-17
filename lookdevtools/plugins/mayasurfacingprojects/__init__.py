@@ -53,12 +53,15 @@ class MayaSurfacingProjects(IPlugin):
         self.btn_delete_texture_object.setMaximumWidth(20)
         self.btn_delete_texture_object.setStyleSheet('QPushButton {color: %s;}' % red_text)
         self.btn_add_to_texture_object = QtWidgets.QPushButton(
-            "add selected to texture object"
+            "add selected meshes to texture object"
         )
         self.list_texture_objects = QtWidgets.QListWidget()
         self.list_texture_objects.setSortingEnabled(True)
         self.lbl_validate_scene = QtWidgets.QLabel("validation")
-        self.btn_validate_scene = QtWidgets.QPushButton("validate scene")
+        self.btn_validate_scene = QtWidgets.QPushButton("check scene")
+        self.btn_validate_scene.setToolTip('Pops any non-allow types from surfacing\n'
+                                            'projects and objects. And makes sure meshes are\n'
+                                            'in one and only one surfacing object')
         self.lbl_export = QtWidgets.QLabel("Export")
         self.btn_export_project = QtWidgets.QPushButton("Selected Project")
         self.btn_export_all = QtWidgets.QPushButton("All Projects")
@@ -110,11 +113,7 @@ class MayaSurfacingProjects(IPlugin):
         self.btn_export_project.clicked.connect(self.export_project)
         self.btn_export_all.clicked.connect(self.export_all_projects)
 
-
-        self.update_ui_projects()
-
     def editItem(self, item):
-        import pymel.core as pm 
         item_object_set = pm.PyNode(str(item.text()))
         text, okPressed = QtWidgets.QInputDialog.getText(
             self, "", "rename to:", QtWidgets.QLineEdit.Normal, str(item.text())
@@ -129,13 +128,11 @@ class MayaSurfacingProjects(IPlugin):
                 self.update_ui_projects()
 
     def delete_project(self):
-        import pymel.core as pm 
         selected_project = pm.PyNode(self.list_projects.currentItem().text())
         surfacing_projects.delete_project(selected_project)
         self.update_ui_projects()
 
     def select_texture_object(self, item):
-        import pymel.core as pm 
         """selects the texture object on the scene"""
         selected_texture_object = pm.PyNode(str(item.text()))
         if self.sync_selection.isChecked():
@@ -150,7 +147,6 @@ class MayaSurfacingProjects(IPlugin):
 
     def create_texture_object(self):
         """Creates a new texture object set"""
-        import pymel.core as pm 
         if self.list_projects.currentItem():
             selected_project = pm.PyNode(self.list_projects.currentItem().text())
             pm.select(selected_project)
@@ -158,7 +154,6 @@ class MayaSurfacingProjects(IPlugin):
             self.update_ui_texture_objects(self.list_projects.currentItem())
 
     def delete_texture_object(self):
-        import pymel.core as pm 
         if self.list_texture_objects.currentItem():
             selected_object = pm.PyNode(self.list_texture_objects.currentItem().text())
             if selected_object and surfacing_projects.is_texture_object(selected_object):
@@ -176,7 +171,6 @@ class MayaSurfacingProjects(IPlugin):
         self.list_texture_objects.clear()
 
     def update_ui_texture_objects(self, item):
-        import pymel.core as pm 
         """updates the list of texture objects in the selected texture project"""
         selected_project = pm.PyNode(str(item.text()))
         texture_objects = surfacing_projects.get_objects(selected_project)
@@ -187,7 +181,6 @@ class MayaSurfacingProjects(IPlugin):
             pm.select(selected_project, ne=True)
 
     def add_to_texture_object(self):
-        import pymel.core as pm 
         """add maya selection to currently selected texture object"""
         selected_texture_object = pm.PyNode(
             str(self.list_texture_objects.currentItem().text())
@@ -202,7 +195,6 @@ class MayaSurfacingProjects(IPlugin):
         surfacing_projects.validate_scene()
 
     def export_project(self):
-        import pymel.core as pm 
         selected_project = pm.PyNode(str(self.list_projects.currentItem().text()))
         if selected_project:
             surfacing_projects.export_project(selected_project)
