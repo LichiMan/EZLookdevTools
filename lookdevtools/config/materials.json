@@ -1,30 +1,33 @@
 {"config": {
     "surfacing":   {
-        "PxrSurface": { // allowed materials
+        "PxrSurface": { // List is "PxrSurfaceInputName" : "texture filename"
             "diffuse_weight": "diffuseGain",
             "diffuse_color":"diffuseColor",
             "diffuse_roughness":"diffuseRoughness",
+
             "specular_color":"specularEdgeColor",
             "specular_roughness":"specularRoughness",
             "specular_ior":"specularIor", //in prman, extinction coefficient
             "specular_bump":"specularBumpNormal",
-            "secondary_specular_color":"roughSpecularEdgeColor",
-            "secondary_specular_roughness":"roughSpecularRoughness",
-            "secondary_specular_ior":"roughSpecularIor", // prman:extinction coefficient
-            "secondary_specular_bump":"roughSpecularBumpNormalX",
+            "specularExtinctionCoeff":"metalness",// prman:extinction coefficient
+
             "coat_color":"clearcoatEdgeColor",
             "coat_roughness":"clearcoatRoughness",
-            "coat_ior":"clearcoatIor", // prman:extinction coefficient
+            "coat_ior":"clearcoatIor", 
             "coat_bump":"clearcoatBumpNormal",
+
             "subsurface_weight":"subsurfaceGain",
             "subsurface_color":"subsurfaceColor",
-            "transmission_weight":"refractionGain",
+
+            "transmission_weight":"refractionGain", // prman:glass:refraction
             "reflection_weight":"reflectionGain", // prman:glass:reflection
-            "transmission_color":"refractionColor", // prman:glass:refraction
-            "glassRoughness":"glassRoughness", 
-            "emission_weight":"glowGain",
+            "transmission_color":"refractionColor", // prman:glass:refraction color
+            "glassRoughness":"glassRoughness", // prman:glass:roughness
+
+            "emission_weight":"glowGain", // prman:glow
             "emission_color":"glowColor", // prman:glow
-            "normal":"true"
+
+            "normal":"true" // global bump
             }
         }
     }

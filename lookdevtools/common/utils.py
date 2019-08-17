@@ -1,6 +1,8 @@
 import random
 import os
 import logging
+from lookdevtools.external import fuzzywuzzy
+from lookdevtools.external.fuzzywuzzy import *
 
 def get_random_color(seed):
     random.seed(seed + "_r")
@@ -47,3 +49,33 @@ def get_files_in_folder (path, recursive = False, pattern = None):
     else:
         raise ValueError("Path not valid")
     return file_list
+
+# fuzz.ratio
+# fuzz.partial_ratio
+# fuzz.token_sort_ratio
+# fuzz.token_set_ratio
+
+def string_matching_ratio(stringA, stringB):
+    """Compares two strings and returns a ratio"""
+    # We can -in the future- change the fuzzy string
+    # comparisson algorigth here, maybe bitap with
+    # partial substring matching will be better
+    # Test Results:
+    '''
+    Different channels fuzzy ratio
+        ('baseColor','diffusecolor')        =   67
+        ('base','diffusecolor')             =   25
+        ('specular','specularColor')        =   76
+        ('specular','specularcolor')        =   76
+        ('specular_color', 'specular_bump') =   67
+        ('coat_color', 'coat_ior')          =   78
+        ('secondary_specular_color', 'secondary_specular_ior')  =   91
+        ('subsurface_weight', 'subsurface_Color')   =  67
+        ('emission', 'emission_weight')     =   70
+    Same channel diferent naming ratio
+        ('diffuse_weight','diffuseGain')    =   64
+    '''
+    print fuzzywuzzy.fuzz.token_set_ratio(stringA, stringB)
+
+# from lookdevtools.common import utils
+# print utils.string_matching_ratio('a','b')

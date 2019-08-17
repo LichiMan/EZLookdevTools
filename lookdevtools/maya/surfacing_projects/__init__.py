@@ -9,6 +9,7 @@ import maya.mel as mel
 import maya.cmds as mc
 
 from lookdevtools.ui.libs import *
+from lookdevtools.ui import qtutils
 from lookdevtools.common.constants import *
 from lookdevtools.common import utils
 from lookdevtools.maya import maya
@@ -275,7 +276,7 @@ def export_project(project, single_export=True, folder_path = False):
     if single_export:
         check_scene_state()
     if not folder_path:
-        folder_path = maya.get_folder_path()
+        folder_path = qtutils.get_folder_path()
     project_geo_list = []
     if utils.is_directory(folder_path) and is_project(project):
         for each in get_objects(project):
@@ -351,7 +352,7 @@ def export_all_projects(folder_path = None):
     """Export all surfacing Projects"""
     check_scene_state()
     if not folder_path:
-        folder_path = common.get_folder_path()
+        folder_path = qtutils.get_folder_path()
     current_file = pm.sceneName()
     for project in get_projects():
         export_project(
@@ -364,8 +365,8 @@ def export_all_projects(folder_path = None):
 def check_scene_state():
     '''check the scene state, if modified, will ask the
     user to save it'''
-    if common.unsaved_scene():
-        if common.save_scene_dialog():
+    if maya.unsaved_scene():
+        if maya.save_scene_dialog():
             pm.saveFile(force=True)
         else:
             raise ValueError("Unsaved changes")
