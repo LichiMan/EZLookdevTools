@@ -1,3 +1,6 @@
+# Subdivision level to apply to geometry for Surfacing alembics
+SURFACING_SUBDIV_ITERATIONS = 2
+
 # Attributes names used for taggin meshes for surfacing
 # and later texture to mesh matching
 ATTR_SURFACING_PROJECT = "surfacing_project"

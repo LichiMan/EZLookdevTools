@@ -269,7 +269,7 @@ def abc_export(geo_list, file_path):
             "Succesful Alembic export to: %s" % file_path
         )
 
-def export_project(project, subdiv=1, single_export=True, folder_path = False):
+def export_project(project, single_export=True, folder_path = False):
     """Export surfacing Project"""
     current_file = pm.sceneName()
     if single_export:
@@ -283,10 +283,10 @@ def export_project(project, subdiv=1, single_export=True, folder_path = False):
             if merged_geo:
                 project_geo_list.append(merged_geo)
         if project_geo_list:
-            if subdiv:
+            if SURFACING_SUBDIV_ITERATIONS:
                 for geo in project_geo_list:
                     logging.info(
-                        "subdivision level: %s" % subdiv
+                        "subdivision level: %s" % SURFACING_SUBDIV_ITERATIONS
                     )
                     logging.info(
                         "subdividing merged members: %s"
@@ -295,7 +295,7 @@ def export_project(project, subdiv=1, single_export=True, folder_path = False):
                     # -mth 0 -sdt 2 -ovb 1 -ofb 3 -ofc 0 -ost 0 -ocr 0 -dv 3 -bnr 1 -c 1 -kb 1
                     # -ksb 1 -khe 0 -kt 1 -kmb 1 -suv 1 -peh 0 -sl 1 -dpe 1 -ps 0.1 -ro 1 -ch 1
                     pm.polySmooth(
-                        geo, mth=0, sdt=2, ovb=1, dv=subdiv
+                        geo, mth=0, sdt=2, ovb=1, dv=SURFACING_SUBDIV_ITERATIONS
                     )
             export_file_path = os.path.join(
                 folder_path, str(project) + ".abc"
@@ -347,7 +347,7 @@ def merge_texture_object(texture_object):
         return False
 
 
-def export_all_projects(subdiv=1, folder_path = None):
+def export_all_projects(folder_path = None):
     """Export all surfacing Projects"""
     check_scene_state()
     if not folder_path:
@@ -355,7 +355,7 @@ def export_all_projects(subdiv=1, folder_path = None):
     current_file = pm.sceneName()
     for project in get_projects():
         export_project(
-            project, subdiv=subdiv, single_export=False, folder_path = folder_path
+            project, single_export=False, folder_path = folder_path
         )
     pm.openFile(current_file, force=True)
     return True
