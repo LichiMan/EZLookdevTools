@@ -1,0 +1,31 @@
+{"config": {
+    "surfacing":   {
+        "PxrSurface": { // allowed materials
+            "diffuse_weight": "diffuseGain",
+            "diffuse_color":"diffuseColor",
+            "diffuse_roughness":"diffuseRoughness",
+            "specular_color":"specularEdgeColor",
+            "specular_roughness":"specularRoughness",
+            "specular_ior":"specularIor", //in prman, extinction coefficient
+            "specular_bump":"specularBumpNormal",
+            "secondary_specular_color":"roughSpecularEdgeColor",
+            "secondary_specular_roughness":"roughSpecularRoughness",
+            "secondary_specular_ior":"roughSpecularIor", // prman:extinction coefficient
+            "secondary_specular_bump":"roughSpecularBumpNormalX",
+            "coat_color":"clearcoatEdgeColor",
+            "coat_roughness":"clearcoatRoughness",
+            "coat_ior":"clearcoatIor", // prman:extinction coefficient
+            "coat_bump":"clearcoatBumpNormal",
+            "subsurface_weight":"subsurfaceGain",
+            "subsurface_color":"subsurfaceColor",
+            "transmission_weight":"refractionGain",
+            "reflection_weight":"reflectionGain", // prman:glass:reflection
+            "transmission_color":"refractionColor", // prman:glass:refraction
+            "glassRoughness":"glassRoughness", 
+            "emission_weight":"glowGain",
+            "emission_color":"glowColor", // prman:glow
+            "normal":"true"
+            }
+        }
+    }
+}
