@@ -4,6 +4,7 @@
 [Tools](#Tools)   
 [&nbsp;&nbsp;&nbsp;&nbsp;Maya Surfacing Projects](#Maya-Surfacing-Projects)  
 [&nbsp;&nbsp;&nbsp;&nbsp;Maya Surfacing Viewport](#Maya-Surfacing-Viewport)  
+[&nbsp;&nbsp;&nbsp;&nbsp;txmake](#txmake)  
 [&nbsp;&nbsp;&nbsp;&nbsp;Maya Surfacing](#Maya-Surfacing)  
 [&nbsp;&nbsp;&nbsp;&nbsp;Material Mapping](#Material-Mapping)  
 [&nbsp;&nbsp;&nbsp;&nbsp;Katana Surfacing Projects](#Katana-Surfacing-Projects)  
@@ -107,14 +108,23 @@ All SurfacingObjects inside a SurfacingProject should not overlap.
 
 Assign blank materials, or wireframe colors to surfacing projects or surfacing objects 
 
+## txmake
+
+There are plenty of txmake tools available.  
+What makes this tool slightly different is:
+- multiprocessing: Run as many simultaneous txmakes as you want. This gives a performance boost of up to 9 times faster (as tested) when converting many textures at once.
+- extra arguments list.
+- search texture files recursively in a given folder.
+
 ## Maya Surfacing
 
+Auto material creation.  
 Create shaders, import textures, and assign them to the meshes.  
 There is 2 ways to do this:  
-1 - From a folder
-2 - From a json material config file
+- From a folder  
+- From a json material config file  
 
-If you are sure your textures are named correctly, select a folder and let the tools figure out the rest
+If you are sure your textures are named correctly, select a folder and let the tools figure out the rest.  
 If unsure, first use the Material Mapping tool to check that all textures data from names are read correctly, make changes if needed, and save the settings as a json file.
 
 ## Material mapping
