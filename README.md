@@ -260,7 +260,7 @@ class ExamplePlugIn(IPlugin):
         #UI Here
 
         # Set main layout
-        # self.plugin_layout.setLayout(plugin_layout)
+        self.plugin_layout.setLayout(plugin_layout)
 
 ```
 
