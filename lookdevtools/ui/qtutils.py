@@ -1,7 +1,7 @@
 from lookdevtools.ui.libs import *
 
 def get_folder_path():
-    """gets a folder path for export"""
+    """Gets a folder path from the user"""
     file_dialog = QtWidgets.QFileDialog()
     file_dialog.setFileMode(QtWidgets.QFileDialog.Directory)
     if file_dialog.exec_():

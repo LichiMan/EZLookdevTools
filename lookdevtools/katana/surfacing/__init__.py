@@ -40,6 +40,7 @@ def create_collections(attribute_name):
     return collections_name_list
 
 def create_viewer_settings(attribute_name):
+    """Creates a group stack with groups, that contain viewport color settings"""
     rootNode = NodegraphAPI.GetRootNode()
     material_stack = NodegraphAPI.CreateNode("GroupStack", rootNode)
     material_stack.setName("EZSurfacing_viewer_settings")
@@ -78,6 +79,8 @@ def create_viewer_settings(attribute_name):
 
 
 def create_materials(attribute_name, assign_random_color=False):
+    """Creates a group stack, with groups that each contain a material network
+    with is shader, and material assign""" 
     rootNode = NodegraphAPI.GetRootNode()
     material_stack = NodegraphAPI.CreateNode("GroupStack", rootNode)
     material_stack.setName("EZSurfacing_materials")

@@ -2,6 +2,8 @@ import logging
 from yapsy.IPlugin import IPlugin
 from lookdevtools.ui.libs import *
 
+logger = logging.getLogger(__name__)
+
 DCC_CONTEXT = None
 
 try:
@@ -11,7 +13,7 @@ try:
     from lookdevtools.maya.surfacing_projects import viewport
     DCC_CONTEXT = True
 except:
-    logging.warning('PLUGIN: Maya packages not loaded, not this dcc')
+    logger.warning('PLUGIN: Maya packages not loaded, not this dcc')
 
 class MayaSurfacingProjects(IPlugin):
     name = "mayaSurfacingProjects Plugin"
@@ -19,11 +21,11 @@ class MayaSurfacingProjects(IPlugin):
     plugin_layout = None
 
     def __init__ (self):
-        logging.info('PLUGIN: MayaSurfacingProjects loaded')
+        logger.info('PLUGIN: MayaSurfacingProjects loaded')
         # Load dcc python packages inside a try, to catch the application
         # environment, this will be replaced by IPlugin Categories
         if not DCC_CONTEXT:
-            logging.warning('PLUGIN: KatanaSurfacingProjects  not loaded, dcc libs not found')
+            logger.warning('PLUGIN: KatanaSurfacingProjects  not loaded, dcc libs not found')
             self.plugin_layout = QtWidgets.QWidget()
             self.label_ui = QtWidgets.QLabel(self.plugin_layout)
             self.label_ui.setText('MayaSurfacingProjects\nPlugin not available in this application')
@@ -119,7 +121,7 @@ class MayaSurfacingProjects(IPlugin):
             self, "", "rename to:", QtWidgets.QLineEdit.Normal, str(item.text())
         )
         if okPressed and text != "":
-            logging.info("renaming objsetSet %s to %s" % (item.text(), text))
+            logger.info("renaming objsetSet %s to %s" % (item.text(), text))
             try:
                 pm.rename(item_object_set, text)
             except:

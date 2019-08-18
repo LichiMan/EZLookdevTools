@@ -8,6 +8,9 @@ from lookdevtools.common import utils
 from lookdevtools.maya import maya
 from lookdevtools.maya import surfacing_projects
 
+logger = logging.getLogger(__name__)
+
+
 def set_wifreframe_color_black():
     '''sets the wireframe color to black'''
     transforms = pm.ls(type="transform")
@@ -43,7 +46,7 @@ def set_wireframe_colors_per_project():
                     mesh.overrideRGBColors.set(0)
                     mesh.overrideColor.set(wire_color)
                 except:
-                    logging.error(
+                    logger.error(
                         "Could not set override color for: %s, might belong to a display layer"
                         % mesh
                     )
@@ -64,7 +67,7 @@ def set_wireframe_colors_per_object():
                         utils.get_random_color(surfacingObject)
                     )
                 except:
-                    logging.error(
+                    logger.error(
                         "Could not set override color for: %s, might belong to a display layer"
                         % mesh
                     )

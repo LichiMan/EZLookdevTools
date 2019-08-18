@@ -4,6 +4,8 @@ import logging
 import platform
 import subprocess
 
+logger = logging.getLogger(__name__)
+
 # Were are assuming txmake exists in the PATH
 PLATFORM = platform.system()
 if PLATFORM == 'Windows':
@@ -12,6 +14,7 @@ else:
     TXMAKE_EXEC='txmake'
 
 def convert_to_tx (file_list):
+    """Converts a list of full path files into tx textures"""
     for file_path in file_list:
         file_basename = os.path.basename(file_path)
         basename = os.path.basename(file_path)
@@ -21,7 +24,7 @@ def convert_to_tx (file_list):
         try:
             # example command line
             # txmake -compression dwaa -mode periodic in.tif out.tex
-            logging.info('Converting %s into .tex format' % basename)
+            logger.info('Converting %s into .tex format' % basename)
             subprocess.call([TXMAKE_EXEC,
                         '-compression',
                         'dwaa',
@@ -30,4 +33,4 @@ def convert_to_tx (file_list):
                         file_path,
                         tex_file_path])
         except OSError:
-            logging.error('txmake was not found in the PATH!')
+            logger.error('txmake was not found in the PATH!')
