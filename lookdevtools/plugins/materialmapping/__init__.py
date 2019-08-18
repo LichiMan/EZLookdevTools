@@ -5,6 +5,7 @@ from lookdevtools.ui.libs import *
 from lookdevtools.ui import qtutils
 from lookdevtools.common import utils
 from lookdevtools.common import templates
+from lookdevtools.common.constants import TEXTURESET_ELEMENT_PATTERN
 from lookdevtools.maya.surfacing_projects import materials
 reload(utils)
 DCC_CONTEXT = None
@@ -37,6 +38,8 @@ class MaterialMapping(IPlugin):
     
     def build_ui(self):
         self.plugin_layout = QtWidgets.QWidget()
+        self.lbl_custom_template = QtWidgets.QLabel('File load template')
+        self.ln_custom_template = QtWidgets.QLineEdit(TEXTURESET_ELEMENT_PATTERN)
         self.btn_search_files = QtWidgets.QPushButton(
             "Search files in folder"
         )
@@ -52,6 +55,8 @@ class MaterialMapping(IPlugin):
         main_layout = QtWidgets.QVBoxLayout()
 
         # Attach widgets to the main layout
+        main_layout.addWidget(self.lbl_custom_template)
+        main_layout.addWidget(self.ln_custom_template)
         main_layout.addWidget(self.btn_search_files)
         main_layout.addWidget(self.form_widget)
         main_layout.addWidget(self.btn_load)

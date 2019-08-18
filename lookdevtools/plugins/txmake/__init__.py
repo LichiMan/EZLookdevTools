@@ -39,6 +39,8 @@ class TxMake(IPlugin):
         self.lbl_txmake = QtWidgets.QLabel("Convert Textures to .tex renderman format")
         self.lbl_extension = QtWidgets.QLabel("file extension search")
         self.line_extension = QtWidgets.QLineEdit(".exr")
+        self.lbl_arguments = QtWidgets.QLabel("comma separated arguments")
+        self.line_arguments = QtWidgets.QLineEdit("")
         self.cbox_recursive = QtWidgets.QCheckBox("search subdirectories")
         self.btn_txmake = QtWidgets.QPushButton(
             "Select a folder"
@@ -50,6 +52,8 @@ class TxMake(IPlugin):
         main_layout.setAlignment(QtCore.Qt.AlignTop)
         txmake_layout.addWidget(self.lbl_extension)
         txmake_layout.addWidget(self.line_extension)
+        txmake_layout.addWidget(self.lbl_arguments)
+        txmake_layout.addWidget(self.line_arguments)
         txmake_layout.addWidget(self.cbox_recursive)
         txmake_layout.addWidget(self.btn_txmake)
 
