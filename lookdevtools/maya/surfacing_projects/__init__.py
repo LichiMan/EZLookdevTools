@@ -9,7 +9,8 @@ import maya.mel as mel
 import maya.cmds as mc
 
 from lookdevtools.ui.libs import *
-from lookdevtools import common
+from lookdevtools.ui import qtutils
+from lookdevtools.common.constants import *
 from lookdevtools.common import utils
 from lookdevtools.maya import maya
 
@@ -54,7 +55,7 @@ def create_project(name=None):
         "objectSet", name=name
     )
     surfacing_project.setAttr(
-        common.ATTR_SURFACING_PROJECT, "", force=True
+        ATTR_SURFACING_PROJECT, "", force=True
     )
     create_object(surfacing_project)
     get_project_root().add(surfacing_project)
@@ -71,7 +72,7 @@ def create_object(project, name=None):
             "objectSet", name=name
         )
         surfacing_set.setAttr(
-            common.ATTR_SURFACING_OBJECT, "", force=True
+            ATTR_SURFACING_OBJECT, "", force=True
         )
         project.add(surfacing_set)
     else:
@@ -140,7 +141,7 @@ def get_projects():
     objSetLs = [
         item
         for item in pm.ls(type="objectSet")
-        if item.hasAttr(common.ATTR_SURFACING_PROJECT)
+        if item.hasAttr(ATTR_SURFACING_PROJECT)
     ]
     return objSetLs
 
@@ -160,7 +161,7 @@ def get_objects(project):
 
 def is_project(project):
     """Returns is project is of the type surfacing project"""
-    if project.hasAttr(common.ATTR_SURFACING_PROJECT):
+    if project.hasAttr(ATTR_SURFACING_PROJECT):
         return True
     else:
         return False
@@ -168,7 +169,7 @@ def is_project(project):
 
 def is_texture_object(texture_object):
     """Returns is project is of the type surfacing Object"""
-    if texture_object.hasAttr(common.ATTR_SURFACING_OBJECT):
+    if texture_object.hasAttr(ATTR_SURFACING_OBJECT):
         return True
     else:
         return False
@@ -269,13 +270,13 @@ def abc_export(geo_list, file_path):
             "Succesful Alembic export to: %s" % file_path
         )
 
-def export_project(project, subdiv=1, single_export=True, folder_path = False):
+def export_project(project, single_export=True, folder_path = False):
     """Export surfacing Project"""
     current_file = pm.sceneName()
     if single_export:
         check_scene_state()
     if not folder_path:
-        folder_path = common.get_folder_path()
+        folder_path = qtutils.get_folder_path()
     project_geo_list = []
     if utils.is_directory(folder_path) and is_project(project):
         for each in get_objects(project):
@@ -283,10 +284,10 @@ def export_project(project, subdiv=1, single_export=True, folder_path = False):
             if merged_geo:
                 project_geo_list.append(merged_geo)
         if project_geo_list:
-            if subdiv:
+            if SURFACING_SUBDIV_ITERATIONS:
                 for geo in project_geo_list:
                     logging.info(
-                        "subdivision level: %s" % subdiv
+                        "subdivision level: %s" % SURFACING_SUBDIV_ITERATIONS
                     )
                     logging.info(
                         "subdividing merged members: %s"
@@ -295,7 +296,7 @@ def export_project(project, subdiv=1, single_export=True, folder_path = False):
                     # -mth 0 -sdt 2 -ovb 1 -ofb 3 -ofc 0 -ost 0 -ocr 0 -dv 3 -bnr 1 -c 1 -kb 1
                     # -ksb 1 -khe 0 -kt 1 -kmb 1 -suv 1 -peh 0 -sl 1 -dpe 1 -ps 0.1 -ro 1 -ch 1
                     pm.polySmooth(
-                        geo, mth=0, sdt=2, ovb=1, dv=subdiv
+                        geo, mth=0, sdt=2, ovb=1, dv=SURFACING_SUBDIV_ITERATIONS
                     )
             export_file_path = os.path.join(
                 folder_path, str(project) + ".abc"
@@ -347,15 +348,15 @@ def merge_texture_object(texture_object):
         return False
 
 
-def export_all_projects(subdiv=1, folder_path = None):
+def export_all_projects(folder_path = None):
     """Export all surfacing Projects"""
     check_scene_state()
     if not folder_path:
-        folder_path = common.get_folder_path()
+        folder_path = qtutils.get_folder_path()
     current_file = pm.sceneName()
     for project in get_projects():
         export_project(
-            project, subdiv=subdiv, single_export=False, folder_path = folder_path
+            project, single_export=False, folder_path = folder_path
         )
     pm.openFile(current_file, force=True)
     return True
@@ -364,8 +365,8 @@ def export_all_projects(subdiv=1, folder_path = None):
 def check_scene_state():
     '''check the scene state, if modified, will ask the
     user to save it'''
-    if common.unsaved_scene():
-        if common.save_scene_dialog():
+    if maya.unsaved_scene():
+        if maya.save_scene_dialog():
             pm.saveFile(force=True)
         else:
             raise ValueError("Unsaved changes")
@@ -375,7 +376,7 @@ def update_mesh_attributes():
     """Adds the attributes to all the shapes transforms assigned to surfacing Objects
     This will be used later for quick shader/material creation and assignment"""
     for project in get_projects():
-        project.setAttr(common.ATTR_SURFACING_PROJECT, project)
+        project.setAttr(ATTR_SURFACING_PROJECT, project)
         logging.info(
             "Updating attributes for project: %s" % project
         )
@@ -385,7 +386,7 @@ def update_mesh_attributes():
                 % texture_object_set
             )
             texture_object_set.setAttr(
-                common.ATTR_SURFACING_OBJECT, texture_object_set
+                ATTR_SURFACING_OBJECT, texture_object_set
             )
             members = texture_object_set.members()
             logging.info(
@@ -394,12 +395,12 @@ def update_mesh_attributes():
             logging.info("--------%s" % members)
             for member in members:
                 member.setAttr(
-                    common.ATTR_SURFACING_PROJECT,
+                    ATTR_SURFACING_PROJECT,
                     project.name(),
                     force=True,
                 )
                 member.setAttr(
-                    common.ATTR_SURFACING_OBJECT,
+                    ATTR_SURFACING_OBJECT,
                     texture_object_set.name(),
                     force=True,
                 )

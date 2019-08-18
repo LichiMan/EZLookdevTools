@@ -7,6 +7,9 @@ from functools import partial
 from lookdevtools.ui.libs import *
 
 import lookdevtools
+reload(lookdevtools)
+
+plugins = lookdevtools.load_plugins()
 
 class HTabWidget(QtWidgets.QTabBar):
     '''
@@ -60,7 +63,7 @@ class Window(QMainWindow):
         layout.addWidget(tabwidget, 0, 0)
         plugins_ui = {}
         plugins_buttons = {}
-        for pluginInfo in lookdevtools.plugins.getAllPlugins():
+        for pluginInfo in plugins.getAllPlugins():
             tabwidget.addTab(
                 pluginInfo.plugin_object.plugin_layout,
                 pluginInfo.name)
