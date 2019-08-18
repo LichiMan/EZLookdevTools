@@ -1,8 +1,12 @@
 import random
 import os
 import logging
+import json
+
 from lookdevtools.external import fuzzywuzzy
-from lookdevtools.external.fuzzywuzzy import *
+from lookdevtools.external.fuzzywuzzy import fuzz
+from lookdevtools.common import templates
+from lookdevtools.common.templates import TEXTURESET_ELEMENT_MATCHING_RATIO
 
 def get_random_color(seed):
     random.seed(seed + "_r")
@@ -75,7 +79,26 @@ def string_matching_ratio(stringA, stringB):
     Same channel diferent naming ratio
         ('diffuse_weight','diffuseGain')    =   64
     '''
-    print fuzzywuzzy.fuzz.token_set_ratio(stringA, stringB)
+    return fuzz.token_set_ratio(stringA, stringB)
 
-# from lookdevtools.common import utils
-# print utils.string_matching_ratio('a','b')
+def load_json(file_path):
+    with open(file_path) as handle:
+        dictdump = json.loads(handle.read())
+    return dictdump
+
+def save_json(file_path, data):
+    pass
+
+def get_config():
+    return load_json('/run/media/ezequielm/misc/wrk/dev/EZLookdevTools/lookdevtools/config/materials.json')
+
+def search_material_mapping(textureset_element = None):
+    config = get_config()
+    logging.info('TEXTURESET_ELEMENT_MATCHING_RATIO = %s' % TEXTURESET_ELEMENT_MATCHING_RATIO)
+    for key in config['material_mapping']['PxrSurface']:
+        ratio = string_matching_ratio(textureset_element, key)
+        logging.info('comparing %s with %s. Ratio is %s' %(textureset_element, key, ratio))
+        if ratio > TEXTURESET_ELEMENT_MATCHING_RATIO:
+            logging.info('ratio above threshold. Matched %s with %s.' %(textureset_element, key))
+            return config['material_mapping']['PxrSurface'][key]
+    return 'None'

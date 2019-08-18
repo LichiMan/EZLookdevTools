@@ -1,34 +1,35 @@
-{"config": {
-    "surfacing":   {
-        "PxrSurface": { // List is "PxrSurfaceInputName" : "texture filename"
-            "diffuse_weight": "diffuseGain",
-            "diffuse_color":"diffuseColor",
-            "diffuse_roughness":"diffuseRoughness",
+{
+    "material_mapping":   {
+        "PxrSurface": { 
+            "diffuseWeight": "diffuseGain",
+            "base": "diffuseGain",
+            "diffuseColor":"diffuseColor",
+            "baseColor":"diffuseColor",
+            "diffuseRoughness":"diffuseRoughness",
 
-            "specular_color":"specularEdgeColor",
-            "specular_roughness":"specularRoughness",
-            "specular_ior":"specularIor", //in prman, extinction coefficient
-            "specular_bump":"specularBumpNormal",
-            "specularExtinctionCoeff":"metalness",// prman:extinction coefficient
+            "specularColor":"specularEdgeColor",
+            "specularRoughness":"specularRoughness",
+            "specularIor":"specularIor", 
+            "specularBump":"specularBumpNormal",
+            "metalness":"specularExtinctionCoeff",
 
-            "coat_color":"clearcoatEdgeColor",
-            "coat_roughness":"clearcoatRoughness",
-            "coat_ior":"clearcoatIor", 
-            "coat_bump":"clearcoatBumpNormal",
+            "coatColor":"clearcoatEdgeColor",
+            "coatRoughness":"clearcoatRoughness",
+            "coatIor":"clearcoatIor", 
+            "coatBump":"clearcoatBumpNormal",
 
-            "subsurface_weight":"subsurfaceGain",
-            "subsurface_color":"subsurfaceColor",
+            "subsurfaceWeight":"subsurfaceGain",
+            "subsurfaceColor":"subsurfaceColor",
 
-            "transmission_weight":"refractionGain", // prman:glass:refraction
-            "reflection_weight":"reflectionGain", // prman:glass:reflection
-            "transmission_color":"refractionColor", // prman:glass:refraction color
-            "glassRoughness":"glassRoughness", // prman:glass:roughness
+            "transmissionWeight":"refractionGain", 
+            "reflectionWeight":"reflectionGain", 
+            "transmissionColor":"refractionColor", 
+            "glassRoughness":"glassRoughness",
 
-            "emission_weight":"glowGain", // prman:glow
-            "emission_color":"glowColor", // prman:glow
+            "emissionWeight":"glowGain",
+            "emissionColor":"glowColor",
 
-            "normal":"true" // global bump
+            "normal":"bump"
             }
         }
     }
-}

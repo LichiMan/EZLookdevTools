@@ -3,6 +3,8 @@
 [Installation](#Installation)   
 [Tools](#Tools)   
 [&nbsp;&nbsp;&nbsp;&nbsp;Maya Surfacing Projects](#Maya-Surfacing-Projects)  
+[&nbsp;&nbsp;&nbsp;&nbsp;Maya Surfacing Viewport](#Maya-Surfacing-Viewport)  
+[&nbsp;&nbsp;&nbsp;&nbsp;Material Mapping](#Material-Mapping)  
 [&nbsp;&nbsp;&nbsp;&nbsp;Katana Surfacing Projects](#Katana-Surfacing-Projects)  
 [Macros and Gizmos](#Macros-and-Gizmos)  
 [&nbsp;&nbsp;&nbsp;&nbsp;Katana](#Katana)   
@@ -100,9 +102,28 @@ Tipically this is the file you will bring to Mari or Substance Painter to create
 If using substance painter -using uDim- meshes inside an SurfacingObject should be contained inside a single uDim!
 All SurfacingObjects inside a SurfacingProject should not overlap.
 
+## Maya Surfacing Viewport
+
+Assign blank materials, or wireframe colors to surfacing projects or surfacing objects 
+
+## Material mapping
+
+Load all textures from a folder, and the tool will -for each texturing file- load its surfacing project, surfacing_object, colorspace, textureset_element name as well as what shader_plug it should be connected in a PxrSurface shader.
+Make any necessary changes in this excel like interface before exporting this as a material setup json file.
+This json file will be essentially your glue between the individual textures and meshes for automatic material creations.   
+The tool uses fuzzy string matching to give naming some flexibility to errors, different spellings, or camel casing
+However, the texture template from config/constants.py should match
+<pre>
+{surfacing_project}_{surfacing_object}_{textureset_element}_{colorspace}.{UDim}.{extension}
+For example:
+   room_chair_baseColor_sRGB.1001.exr
+</pre>
+
+<img width="100%" src="docs/images/materialMapping.png" alt="EZSurfacing Tools" style="margin-right: 10px;" />
+
 ## Katana Surfacing Projects
 
-Run EZCollections from the shelve to automaticaly create collections based on the EZ attributes found in the scene graph.
+Run collection create from the shelve to automaticaly create collections based on the surfacing attributes found in the scene graph.
 Create either the Surfacing Project, or the Surfacing Object collections.
 A node must be selected before running, this node will be used as the scene point where to process and examine the scene graph locations.   
 

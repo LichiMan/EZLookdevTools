@@ -1,6 +1,9 @@
 import logging
+from functools import partial
 from yapsy.IPlugin import IPlugin
 from lookdevtools.ui.libs import *
+from lookdevtools.ui import qtutils
+from lookdevtools.maya.surfacing_projects import materials
 
 DCC_CONTEXT = None
 
@@ -39,22 +42,30 @@ class MayaMaterials(IPlugin):
         # Create UI widgets
         # wireframe colors
         self.lbl_materials = QtWidgets.QLabel("search textures and create materials")
-        self.lbl_materials_per_project = QtWidgets.QPushButton(
+        self.btn_materials_per_project = QtWidgets.QPushButton(
             "per Surfacing Project"
         )
-        self.lbl_materials_per_object = QtWidgets.QPushButton(
-            "per Surfacing Object"
-        )
-        self.btn_wireframe_color_objects = QtWidgets.QPushButton("search textures in folder")
+        self.btn_materials_per_object = QtWidgets.QPushButton("per Surfacing Object")
 
         # Attach widgets to the main layout
         main_layout.addWidget(self.lbl_materials)
         main_layout.addLayout(wireframe_layout)
         main_layout.setAlignment(QtCore.Qt.AlignTop)
-        wireframe_layout.addWidget(self.lbl_materials_per_project)
-        wireframe_layout.addWidget(self.btn_wireframe_color_objects)
+        wireframe_layout.addWidget(self.btn_materials_per_project)
+        wireframe_layout.addWidget(self.btn_materials_per_object)
 
         # Set main layout
         self.plugin_layout.setLayout(main_layout)
 
         # Connect buttons signals
+        self.btn_materials_per_project.clicked.connect(
+            partial (self.create_materials,"geometry.arbitrary.surfacing_project")
+        )
+        self.btn_materials_per_object.clicked.connect(
+            partial (self.create_materials,"geometry.arbitrary.surfacing_object")
+        )
+    
+    def create_materials(self, attribute):
+        search_folder = qtutils.get_folder_path()
+        logging.info('Search folder: %s' %search_folder)
+        logging.info('Search attribute: %s' %attribute)
