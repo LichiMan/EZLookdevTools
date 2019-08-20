@@ -129,7 +129,7 @@ If unsure, first use the Material Mapping tool to check that all textures data f
 
 ## Material mapping
 
-Load all textures from a folder, and the tool will -for each texturing file- load its surfacing project, surfacing_object, colorspace, textureset_element name as well as what shader_plug it should be connected in a PxrSurface shader.
+Load all textures from a folder, and the tool will -for each texturing file- load its surfacing project, surfacing_object, colorspace, textureset_element name as well as what shader_plug it should be connected in a PxrSurface shader, and group them together by udim.
 Make any necessary changes in this excel like interface before exporting this as a material setup json file.
 This json file will be essentially your glue between the individual textures and meshes for automatic material creations.   
 The tool uses fuzzy string matching to give naming some flexibility to errors, different spellings, or camel casing
