@@ -384,7 +384,7 @@ def update_mesh_attributes():
         )
         for texture_object_set in get_objects(project):
             logger.info(
-                "----Updating attributes for object texture set: %s"
+                "\tUpdating attributes for object texture set: %s"
                 % texture_object_set
             )
             texture_object_set.setAttr(
@@ -392,9 +392,8 @@ def update_mesh_attributes():
             )
             members = texture_object_set.members()
             logger.info(
-                "--------Updating mesh for meshes:"
+                "\t\tUpdating attr for meshes: %s" % members
             )
-            logger.info("--------%s" % members)
             for member in members:
                 member.setAttr(
                     ATTR_SURFACING_PROJECT,
