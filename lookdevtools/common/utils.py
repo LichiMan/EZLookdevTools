@@ -113,3 +113,13 @@ def search_material_mapping(textureset_element = None):
             logger.info('ratio above threshold. Matched %s with %s.' %(textureset_element, key))
             return config['material_mapping']['PxrSurface'][key]
     return 'None'
+
+def get_unique_key_values(list, key):
+    """Get unique key values from a list of dicts"""
+    uniques = []
+    for each in list:
+        value = each[key]
+        if value not in uniques:
+           uniques.append(value)
+    logger.info('Unique keys found: %s' %uniques)
+    print uniques
