@@ -8,6 +8,8 @@ def get_locations_hasattr(node, search_location, cel_expression):
     return matchedLocationPaths
 
 def get_selected_nodes(single=False):
+    """Get selected nodes from the node graph, if single is given will
+    check if a single node is selected"""
     nodes = NodegraphAPI.GetAllSelectedNodes()
     if single:
         if len(nodes) != 1:

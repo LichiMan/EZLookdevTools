@@ -5,9 +5,11 @@ import logging
 from functools import partial
 
 from lookdevtools.ui.libs import *
-
 import lookdevtools
 reload(lookdevtools)
+
+logger = logging.getLogger(__name__)
+
 
 plugins = lookdevtools.load_plugins()
 

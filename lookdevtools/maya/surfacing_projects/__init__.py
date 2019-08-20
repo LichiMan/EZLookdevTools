@@ -14,6 +14,8 @@ from lookdevtools.common.constants import *
 from lookdevtools.common import utils
 from lookdevtools.maya import maya
 
+logger = logging.getLogger(__name__)
+
 def surfacingInit():
     """ Initializes the scene by creating the surfacing root
     an surfacing object, and runs the validation to create and
@@ -89,16 +91,16 @@ def update_partition():
         if item.hasAttr("surfacing_partition")
     ]
     for each in partitions:
-        logging.info(
+        logger.info(
             "disconnecting existing partition: %s" % each
         )
         each.sets.disconnect()
         pm.delete(each)
-        logging.info("deleted partition")
+        logger.info("deleted partition")
     surfacing_partition = pm.createNode(
         "partition", name="surfacing_partition"
     )
-    logging.info(
+    logger.info(
         "partition created: %s" % surfacing_partition
     )
     surfacing_partition.setAttr(
@@ -111,7 +113,7 @@ def update_partition():
                 surfacing_partition.sets,
                 na=True,
             )
-            logging.info(
+            logger.info(
                 "partition connected: %s " % object
             )
     pass
@@ -125,7 +127,7 @@ def get_project_root():
         if item.hasAttr("surfacing_root")
     ]
     if len(objSetLs) == 0:
-        logging.info(
+        logger.info(
             "surfacing_root node found, creating one"
         )
         return create_project_root_node()
@@ -196,7 +198,7 @@ def remove_invalid_members():
             else:
                 for member in object.members():
                     if not member.type() == "transform":
-                        logging.info(
+                        logger.info(
                             "removing invalid member: %s"
                             % member
                         )
@@ -204,7 +206,7 @@ def remove_invalid_members():
                     elif not member.listRelatives(
                         type="mesh"
                     ):
-                        logging.info(
+                        logger.info(
                             "removing invalid member: %s"
                             % member
                         )
@@ -266,7 +268,7 @@ def abc_export(geo_list, file_path):
             + (file_path + '"')
         )
         mel.eval(mel_cmd)
-        logging.info(
+        logger.info(
             "Succesful Alembic export to: %s" % file_path
         )
 
@@ -286,10 +288,10 @@ def export_project(project, single_export=True, folder_path = False):
         if project_geo_list:
             if SURFACING_SUBDIV_ITERATIONS:
                 for geo in project_geo_list:
-                    logging.info(
+                    logger.info(
                         "subdivision level: %s" % SURFACING_SUBDIV_ITERATIONS
                     )
-                    logging.info(
+                    logger.info(
                         "subdividing merged members: %s"
                         % geo
                     )
@@ -326,13 +328,13 @@ def merge_texture_object(texture_object):
     """Merges all the meshs assigned to a surfacing Object for export"""
     try:
         members = texture_object.members()
-        logging.info("Merging members: %s" % members)
+        logger.info("Merging members: %s" % members)
         geo_name = "%s_geo" % str(texture_object)
         if len(members) > 1:
             geo = pm.polyUnite(*members, n=geo_name)
             return geo[0]
         else:
-            logging.info(
+            logger.info(
                 "single object found, skipping merge: %s"
                 % members[0]
             )
@@ -341,7 +343,7 @@ def merge_texture_object(texture_object):
             return members[0]
     except:
         traceback.print_exc(file=sys.stdout)
-        logging.error(
+        logger.error(
             "Could not merge members of: %s"
             % texture_object
         )
@@ -377,11 +379,11 @@ def update_mesh_attributes():
     This will be used later for quick shader/material creation and assignment"""
     for project in get_projects():
         project.setAttr(ATTR_SURFACING_PROJECT, project)
-        logging.info(
+        logger.info(
             "Updating attributes for project: %s" % project
         )
         for texture_object_set in get_objects(project):
-            logging.info(
+            logger.info(
                 "----Updating attributes for object texture set: %s"
                 % texture_object_set
             )
@@ -389,10 +391,10 @@ def update_mesh_attributes():
                 ATTR_SURFACING_OBJECT, texture_object_set
             )
             members = texture_object_set.members()
-            logging.info(
+            logger.info(
                 "--------Updating mesh for meshes:"
             )
-            logging.info("--------%s" % members)
+            logger.info("--------%s" % members)
             for member in members:
                 member.setAttr(
                     ATTR_SURFACING_PROJECT,

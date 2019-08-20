@@ -7,7 +7,8 @@ from lookdevtools.ui.libs import *
 from lookdevtools.ui import qtutils
 from lookdevtools.common import utils
 from lookdevtools.renderman import txmake
-reload(txmake)
+
+logger = logging.getLogger(__name__)
 
 # Non DCC specific
 DCC_CONTEXT = True
@@ -18,11 +19,11 @@ class TxMake(IPlugin):
     plugin_layout = None
 
     def __init__ (self):
-        logging.info('PLUGIN: TxMake loaded')
+        logger.info('PLUGIN: TxMake loaded')
         # Load dcc python packages inside a try, to catch the application
         # environment, this will be replaced by IPlugin Categories
         if not DCC_CONTEXT:
-            logging.warning('PLUGIN: TxMake  not loaded, dcc libs not found')
+            logger.warning('PLUGIN: TxMake  not loaded, dcc libs not found')
             self.plugin_layout = QtWidgets.QWidget()
             self.label_ui = QtWidgets.QLabel(self.plugin_layout)
             self.label_ui.setText('TxMake\nPlugin not available in this application')

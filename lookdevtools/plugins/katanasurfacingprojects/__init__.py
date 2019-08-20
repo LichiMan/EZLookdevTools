@@ -4,6 +4,8 @@ from functools import partial
 from yapsy.IPlugin import IPlugin
 from lookdevtools.ui.libs import *
 
+logger = logging.getLogger(__name__)
+
 DCC_CONTEXT = None
 
 try:
@@ -11,7 +13,7 @@ try:
     from lookdevtools.katana import surfacing
     DCC_CONTEXT = True
 except:
-    logging.warning('PLUGIN: Katana packages not loaded, not this dcc')
+    logger.warning('PLUGIN: Katana packages not loaded, not this dcc')
 
 class KatanaSurfacingProjects(IPlugin):
     '''Build katana collections and materials for surfacing projects'''
@@ -20,9 +22,9 @@ class KatanaSurfacingProjects(IPlugin):
     plugin_layout = None
 
     def __init__ (self):
-        logging.info('PLUGIN: KatanaSurfacingProjects loaded')
+        logger.info('PLUGIN: KatanaSurfacingProjects loaded')
         if not DCC_CONTEXT:
-            logging.warning('PLUGIN: KatanaSurfacingProjects not loaded, dcc libs not found')
+            logger.warning('PLUGIN: KatanaSurfacingProjects not loaded, dcc libs not found')
             self.plugin_layout = QtWidgets.QWidget()
             self.label_ui = QtWidgets.QLabel(self.plugin_layout)
             self.label_ui.setText('KatanaSurfacingProjects\nPlugin no available in this Application')

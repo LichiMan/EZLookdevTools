@@ -5,6 +5,8 @@ from lookdevtools.ui.libs import *
 from lookdevtools.ui import qtutils
 from lookdevtools.maya.surfacing_projects import materials
 
+logger = logging.getLogger(__name__)
+
 DCC_CONTEXT = None
 
 try:
@@ -14,7 +16,7 @@ try:
     from lookdevtools.maya.surfacing_projects import viewport
     DCC_CONTEXT = True
 except:
-    logging.warning('PLUGIN: Maya packages not loaded, not this dcc')
+    logger.warning('PLUGIN: Maya packages not loaded, not this dcc')
 
 class MayaMaterials(IPlugin):
     name = "MayaMaterials Plugin"
@@ -22,11 +24,11 @@ class MayaMaterials(IPlugin):
     plugin_layout = None
 
     def __init__ (self):
-        logging.info('PLUGIN: MayaMaterials loaded')
+        logger.info('PLUGIN: MayaMaterials loaded')
         # Load dcc python packages inside a try, to catch the application
         # environment, this will be replaced by IPlugin Categories
         if not DCC_CONTEXT:
-            logging.warning('PLUGIN: MayaMaterials  not loaded, dcc libs not found')
+            logger.warning('PLUGIN: MayaMaterials  not loaded, dcc libs not found')
             self.plugin_layout = QtWidgets.QWidget()
             self.label_ui = QtWidgets.QLabel(self.plugin_layout)
             self.label_ui.setText('MayaMaterials\nPlugin not available in this application')
@@ -67,5 +69,5 @@ class MayaMaterials(IPlugin):
     
     def create_materials(self, attribute):
         search_folder = qtutils.get_folder_path()
-        logging.info('Search folder: %s' %search_folder)
-        logging.info('Search attribute: %s' %attribute)
+        logger.info('Search folder: %s' %search_folder)
+        logger.info('Search attribute: %s' %attribute)
