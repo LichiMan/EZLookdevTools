@@ -6,9 +6,10 @@ SURFACING_SUBDIV_ITERATIONS = 2
 ATTR_SURFACING_PROJECT = "surfacing_project"
 ATTR_SURFACING_OBJECT = "surfacing_object"
 
-# Attributes names used for taggin material nodes
-ATTR_MATERIAL = "surfacing_material"
-ATTR_MATERIAL_VP = "surfacing_material_vp"
+# Attributes names used for tagging material, shading groups
+ATTR_MATERIAL = "surfacing_material" # values: 'project' or 'object']
+ATTR_MATERIAL_ASSIGN = "surfacing_assign" # contains the surfacing project or object it was assigned to
+ATTR_MATERIAL_VP = "surfacing_material_vp" # values: 'project' or 'object']
 
 # String matching ratios to compare strings against lucidity
 # patterns elements.
