@@ -43,6 +43,8 @@ class MaterialMapping(IPlugin):
         self.plugin_layout = QtWidgets.QWidget()
         self.lbl_custom_template = QtWidgets.QLabel('File load template')
         self.ln_custom_template = QtWidgets.QLineEdit(TEXTURESET_ELEMENT_PATTERN)
+        self.lbl_extension = QtWidgets.QLabel('Find files with extension')
+        self.ln_extension = QtWidgets.QLineEdit('tif')
         self.import_layout = QtWidgets.QHBoxLayout()
         self.lbl_import = QtWidgets.QLabel('Import textures')
         self.btn_search_files = QtWidgets.QPushButton(
@@ -62,6 +64,9 @@ class MaterialMapping(IPlugin):
         # Attach widgets to the main layout
         main_layout.addWidget(self.lbl_custom_template)
         main_layout.addWidget(self.ln_custom_template)
+        main_layout.addWidget(self.lbl_extension)
+        main_layout.addWidget(self.ln_extension)
+
         main_layout.addWidget(self.btn_search_files)
         main_layout.addWidget(self.form_widget)
         main_layout.addLayout(self.import_layout)
