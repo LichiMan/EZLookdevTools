@@ -71,32 +71,37 @@ class MaterialMapping(IPlugin):
         self.btn_search_files.clicked.connect(
             self.load_textures
         )
-        self.btn_load.clicked.connect(
+        #self.btn_load.clicked.connect(
+        #    self.load_json
+        #)
+        self.btn_save.clicked.connect(
             self.load_json
         )
     
     def load_textures(self):
         config = utils.get_config_materials()
         search_folder = qtutils.get_folder_path()
-        logger.info('Search folder: %s' %search_folder)
-        file_list = utils.get_files_in_folder(search_folder, recursive = True, pattern= '.tif')
-        custom_template = self.ln_custom_template.text()
-        logger.info('Using template: %s' %custom_template)
-        file_templates = []
-        for file_path in file_list:
-            try:
-                file_template_object = templates.custom_texture_file_template(custom_template)
-                file_template = file_template_object.parse(file_path)
-                file_template['file_path'] = file_path
+        if search_folder:
+            self.form_widget.setRowCount(0)
+            logger.info('Search folder: %s' %search_folder)
+            file_list = utils.get_files_in_folder(search_folder, recursive = True, pattern= '.tif')
+            custom_template = self.ln_custom_template.text()
+            logger.info('Using template: %s' %custom_template)
+            file_templates = []
+            for file_path in file_list:
                 try:
-                    file_template['shader_plug'] = config['material_mapping']['PxrSurface'][file_template['textureset_element']]
-                except:
-                    file_template['shader_plug'] = "None"
-                file_templates.append(file_template)
-            except BaseException:
-                logger.warning('File pattern not matched: %s' %file)
-        self.form_widget.setRowCount(len(file_templates))
-        self.populate_form(file_templates)
+                    file_template_object = templates.custom_texture_file_template(custom_template)
+                    file_template = file_template_object.parse(file_path)
+                    file_template['file_path'] = file_path
+                    try:
+                        file_template['shader_plug'] = config['material_mapping']['PxrSurface'][file_template['textureset_element']]
+                    except:
+                        file_template['shader_plug'] = "None"
+                    file_templates.append(file_template)
+                except BaseException:
+                    logger.warning('File pattern not matched: %s' %file)
+            self.form_widget.setRowCount(len(file_templates))
+            self.populate_form(file_templates)
             
     def populate_form(self,file_templates):
         for num, file_template in enumerate(file_templates):
@@ -138,6 +143,33 @@ class MaterialMapping(IPlugin):
                 self.form_widget.setItem(num, 6, item)
             except:
                 pass
-        
+    
+    def get_form_data(self):
+        file_templates = []
+        form_column_count = self.form_widget.columnCount()
+        logger.info('Form column count: %s' %form_column_count)
+        form_row_count = self.form_widget.rowCount()
+        logger.info('Form row count: %s' %form_row_count)
+        logger.info('Retrieving form data')
+        row = 0
+        while row < form_row_count:
+            column = 0
+            file_templates.append({})
+            while column < form_column_count:
+                logger.info('Form Coords %s,%s' %(row,column))
+                try:
+                    item_text = self.form_widget.item(row,column).text()  
+                except:
+                    item_text = ''     
+                column_name = self.form_widget.horizontalHeaderItem(column).text()
+                logger.info('Data pair %s,%s' %(column_name,item_text))
+                logger.info('Appending to data index %s' %column)
+                file_templates[row][column_name] = item_text
+                column = column + 1
+            row = row + 1
+        print file_templates
+        return file_templates
+
     def load_json(self):
-        pass
+        self.get_form_data()
+        
