@@ -114,12 +114,27 @@ def search_material_mapping(textureset_element = None):
             return config['material_mapping']['PxrSurface'][key]
     return 'None'
 
-def get_unique_key_values(list, key):
+def get_unique_key_values(file_template_list, key):
     """Get unique key values from a list of dicts"""
     uniques = []
-    for each in list:
+    for each in file_template_list:
         value = each[key]
         if value not in uniques:
            uniques.append(value)
     logger.info('Unique keys found: %s' %uniques)
-    print uniques
+    return uniques
+
+def get_udim_file_templates(file_template_list):
+    """Given a [] of files with <udim> in the file path, returns unique dicts"""
+    # TODO: There has to a better way to do this!
+    for each in file_template_list:
+        each['file_path'] = each['file_path'].replace(each['udim'], '<udim>')
+    unique_values = get_unique_key_values(file_template_list, 'file_path')
+    found_values = []
+    udim_groups = []
+    for each in file_template_list:
+        path = each['file_path']
+        if path not in found_values:
+            found_values.append(path)
+            udim_groups.append(each)
+    return udim_groups

@@ -87,10 +87,10 @@ class MaterialMapping(IPlugin):
             file_list = utils.get_files_in_folder(search_folder, recursive = True, pattern= '.tif')
             custom_template = self.ln_custom_template.text()
             logger.info('Using template: %s' %custom_template)
+            file_template_object = templates.custom_texture_file_template(custom_template)
             file_templates = []
             for file_path in file_list:
                 try:
-                    file_template_object = templates.custom_texture_file_template(custom_template)
                     file_template = file_template_object.parse(file_path)
                     file_template['file_path'] = file_path
                     try:
@@ -100,8 +100,15 @@ class MaterialMapping(IPlugin):
                     file_templates.append(file_template)
                 except BaseException:
                     logger.warning('File pattern not matched: %s' %file)
-            self.form_widget.setRowCount(len(file_templates))
-            self.populate_form(file_templates)
+            
+            # not grouped by udims
+            # self.form_widget.setRowCount(len(file_templates))
+            # self.populate_form(file_templates)
+
+            # group by udims
+            grouped_templates = utils.get_udim_file_templates(file_templates)
+            self.form_widget.setRowCount(len(grouped_templates))
+            self.populate_form(grouped_templates)
             
     def populate_form(self,file_templates):
         for num, file_template in enumerate(file_templates):
