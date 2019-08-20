@@ -1,9 +1,0 @@
-[Core]
-Name = Maya Surfacing Viewport
-Module = mayasurfacingviewport
-
-[Documentation]
-Author = Ezequiel Mastrasso
-Version = 1.0
-Website = //ezequielm.com
-Description = Viewport Surfacing in Maya

@@ -1,6 +1,11 @@
 import logging
 import pymel.core as pm
 
+from lookdevtools.common import utils
+from lookdevtools.maya import surfacing_projects
+from lookdevtools.common.constants import ATTR_SURFACING_PROJECT
+from lookdevtools.common.constants import ATTR_SURFACING_OBJECT
+
 logger = logging.getLogger(__name__)
 
 def create_shader(node_type=None, name=None):
@@ -50,4 +55,32 @@ def create_file_node(name):
     pm.connectAttr(placement_node.wrapV, file_node.wrapV)
     return file_node
     
-create_file_node('fileOne')
+def get_surfacing_projects_matching_parsed(parsed_files):
+    """ Gets a parsed files template dict, and finds matching surfacing projects
+    in the maya file"""
+    local_surfacing_projects = surfacing_projects.get_projects()
+    parsed_surfacing_projects = utils.get_unique_key_values(parsed_files, ATTR_SURFACING_PROJECT)
+
+    surfacing_projects_found = []
+
+    for project in local_surfacing_projects:
+        project_name = project.getAttr(ATTR_SURFACING_PROJECT)
+        if project_name in parsed_surfacing_projects:
+            surfacing_projects_found.append(project)
+    return surfacing_projects_found
+
+def def_surfacing_objects_matching_parsed(parsed_files):
+    """ Gets a parsed files template dict, and finds matching surfacing objects
+    in the maya file"""
+    local_surfacing_projects = surfacing_projects.get_projects()
+    parsed_surfacing_objects = utils.get_unique_key_values(parsed_files, ATTR_SURFACING_PROJECT)
+    surfacing_objects_found = []
+
+    for project in local_surfacing_projects:
+        project_name = project.getAttr(ATTR_SURFACING_PROJECT)
+        local_surfacing_objects = surfacing_projects.get_objects(project)
+        for local_surfacing_object in local_surfacing_objects:
+            object_name = local_surfacing_object.getAttr(ATTR_SURFACING_OBJECT)
+            if object_name in parsed_surfacing_objects:
+                surfacing_objects_found.append(local_surfacing_object)
+    return surfacing_objects_found

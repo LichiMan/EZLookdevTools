@@ -11,6 +11,70 @@ from lookdevtools.common.constants import CONFIG_MATERIALS_JSON
 
 logger = logging.getLogger(__name__)
 
+"""
+json format for parsed textures is the following
+In this case, the textures files have been condensed by the udim,
+And the {udim} pattern matched part of the filepath has been replaced with <udim>
+[
+    {u'udim': u'1001',
+        u'filepath': u'/run/media/ezequielm/misc/wrk/current/cabinPixar/textures/armChair/armchair_all_baseColor_sRGB.<udim>.tif',
+        u'surfacing_project': u'armchair',
+        u'colorspace': u'sRGB',
+        u'surfacing_object': u'all',
+        u'textureset_element': u'baseColor',
+        u'shader_plug': u'diffuseColor'},
+    {u'udim': u'1001',
+        u'filepath': u'/run/media/ezequielm/misc/wrk/current/cabinPixar/textures/armChair/armchair_all_Height_raw.<udim>.tif',
+        u'surfacing_project': u'armchair',
+        u'colorspace': u'raw',
+        u'surfacing_object': u'all',
+        u'textureset_element': u'Height',
+        u'shader_plug': u'None'},
+    {u'udim': u'1001',
+        u'filepath': u'/run/media/ezequielm/misc/wrk/current/cabinPixar/textures/armChair/armchair_all_Metalness_raw.<udim>.tif',
+        u'surfacing_project': u'armchair',
+        u'colorspace': u'raw',
+        u'surfacing_object': u'all',
+        u'textureset_element': u'Metalness',
+        u'shader_plug': u'specularExtinctionCoeff'},
+    {u'udim': u'1001',
+        u'filepath': u'/run/media/ezequielm/misc/wrk/current/cabinPixar/textures/armChair/armchair_all_Normal_raw.<udim>.tif',
+        u'surfacing_project': u'armchair',
+        u'colorspace': u'raw',
+        u'surfacing_object': u'all',
+        u'textureset_element': u'Normal',
+        u'shader_plug': u'bump'},
+    {u'udim': u'1001',
+        u'filepath': u'/run/media/ezequielm/misc/wrk/current/cabinPixar/textures/armChair/armchair_all_specularRoughness_raw.<udim>.tif',
+        u'surfacing_project': u'armchair',
+        u'colorspace': u'raw',
+        u'surfacing_object': u'all',
+        u'textureset_element': u'specularRoughness',
+        u'shader_plug': u'specularRoughness'
+    }
+]
+
+Non condensed example. Notice the several baseColor entrie, with different udims
+[
+    {u'udim': u'1001',
+        u'filepath': u'/run/media/ezequielm/misc/wrk/current/cabinPixar/textures/armChair/armchair_all_baseColor_sRGB.1001.tif',
+        u'surfacing_project': u'armchair',
+        u'colorspace': u'sRGB',
+        u'surfacing_object': u'all',
+        u'textureset_element': u'baseColor',
+        u'shader_plug': u'diffuseColor'},
+    {u'udim': u'1002',
+        u'filepath': u'/run/media/ezequielm/misc/wrk/current/cabinPixar/textures/armChair/armchair_all_baseColor_sRGB.1002.tif',
+        u'surfacing_project': u'armchair',
+        u'colorspace': u'sRGB',
+        u'surfacing_object': u'all',
+        u'textureset_element': u'baseColor',
+        u'shader_plug': u'diffuseColor'},
+    ...
+    ...
+]
+"""
+
 def get_random_color(seed):
     """Returns a random color using a seed. Used by
     all material creating, and viewport color functions

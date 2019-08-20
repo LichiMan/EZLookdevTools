@@ -43,14 +43,18 @@ class MaterialMapping(IPlugin):
         self.plugin_layout = QtWidgets.QWidget()
         self.lbl_custom_template = QtWidgets.QLabel('File load template')
         self.ln_custom_template = QtWidgets.QLineEdit(TEXTURESET_ELEMENT_PATTERN)
+        self.lbl_extension = QtWidgets.QLabel('Find files with extension')
+        self.ln_extension = QtWidgets.QLineEdit('tif')
+        self.import_layout = QtWidgets.QHBoxLayout()
+        self.lbl_import = QtWidgets.QLabel('Import textures')
         self.btn_search_files = QtWidgets.QPushButton(
             "Search files in folder"
         )
-        self.btn_save = QtWidgets.QPushButton(
-            "Save json"
+        self.btn_import_textures_surfacing_project = QtWidgets.QPushButton(
+            "by surfacing_project"
         )
-        self.btn_load = QtWidgets.QPushButton(
-            "Load json"
+        self.btn_import_textures_surfacing_object = QtWidgets.QPushButton(
+            "by surfacing_object"
         )
         self.form_widget = QtWidgets.QTableWidget(0, 7)
         col_headers = ['filepath', 'surfacing_project', 'surfacing_object', 'textureset_element', 'colorspace','udim', 'shader_plug']
@@ -60,10 +64,15 @@ class MaterialMapping(IPlugin):
         # Attach widgets to the main layout
         main_layout.addWidget(self.lbl_custom_template)
         main_layout.addWidget(self.ln_custom_template)
+        main_layout.addWidget(self.lbl_extension)
+        main_layout.addWidget(self.ln_extension)
+
         main_layout.addWidget(self.btn_search_files)
         main_layout.addWidget(self.form_widget)
-        main_layout.addWidget(self.btn_load)
-        main_layout.addWidget(self.btn_save)
+        main_layout.addLayout(self.import_layout)
+        self.import_layout.addWidget(self.lbl_import)
+        self.import_layout.addWidget(self.btn_import_textures_surfacing_project)
+        self.import_layout.addWidget(self.btn_import_textures_surfacing_object)
 
         # Set main layout
         self.plugin_layout.setLayout(main_layout)
@@ -74,7 +83,7 @@ class MaterialMapping(IPlugin):
         #self.btn_load.clicked.connect(
         #    self.load_json
         #)
-        self.btn_save.clicked.connect(
+        self.btn_import_textures_surfacing_project.clicked.connect(
             self.load_json
         )
     
