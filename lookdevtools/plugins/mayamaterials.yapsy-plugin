@@ -1,9 +1,0 @@
-[Core]
-Name = Maya Materials
-Module = mayamaterials
-
-[Documentation]
-Author = Ezequiel Mastrasso
-Version = 1.0
-Website = //ezequielm.com
-Description = Search textures and create materials in Maya

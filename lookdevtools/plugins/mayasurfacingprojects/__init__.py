@@ -38,6 +38,8 @@ class MayaSurfacingProjects(IPlugin):
         project_btns_layout = QtWidgets.QHBoxLayout()
         object_btns_layout = QtWidgets.QHBoxLayout()
         selection_layout = QtWidgets.QHBoxLayout()
+        wireframe_layout = QtWidgets.QHBoxLayout()
+        material_layout = QtWidgets.QHBoxLayout()
         red_text = '#AA0000'
 
         # Create UI widgets
@@ -68,6 +70,20 @@ class MayaSurfacingProjects(IPlugin):
         self.btn_export_project = QtWidgets.QPushButton("Selected Project")
         self.btn_export_all = QtWidgets.QPushButton("All Projects")
 
+        # wireframe colors
+        self.lbl_wireframe = QtWidgets.QLabel("wireframe colors")
+        self.btn_wireframe_color_projects = QtWidgets.QPushButton(
+            "per Surfacing Project"
+        )
+        self.btn_wireframe_color_objects = QtWidgets.QPushButton("per Surfacing Object")
+        self.btn_wireframe_color_none = QtWidgets.QPushButton("X")
+        self.btn_wireframe_color_none.setMaximumWidth(20)
+        self.btn_wireframe_color_none.setStyleSheet('QPushButton {color: %s;}' % red_text)
+        # material colors
+        self.lbl_materials = QtWidgets.QLabel("material colors")
+        self.btn_material_color_projects = QtWidgets.QPushButton("per Surfacing Project")
+        self.btn_material_color_objects = QtWidgets.QPushButton("per Surfacing Object")
+
         # TODO
         # To remove the manually refesh button
         # Need to add this to maya as selection changed callback to
@@ -96,6 +112,18 @@ class MayaSurfacingProjects(IPlugin):
         main_layout.addWidget(self.btn_export_project)
         main_layout.addWidget(self.btn_export_all)
 
+        # Attach widgets to the main layout
+        main_layout.addWidget(self.lbl_wireframe)
+        main_layout.addLayout(wireframe_layout)
+        main_layout.setAlignment(QtCore.Qt.AlignTop)
+        wireframe_layout.addWidget(self.btn_wireframe_color_projects)
+        wireframe_layout.addWidget(self.btn_wireframe_color_objects)
+        wireframe_layout.addWidget(self.btn_wireframe_color_none)
+        main_layout.addWidget(self.lbl_materials)
+        main_layout.addLayout(material_layout)
+        material_layout.addWidget(self.btn_material_color_projects)
+        material_layout.addWidget(self.btn_material_color_objects)
+
         # Set main layout
         self.plugin_layout.setLayout(main_layout)
 
@@ -111,9 +139,23 @@ class MayaSurfacingProjects(IPlugin):
         self.btn_validate_scene.clicked.connect(self.validate_scene)
         self.list_texture_objects.itemClicked.connect(self.select_texture_object)
         self.list_texture_objects.itemDoubleClicked.connect(self.editItem)
-
         self.btn_export_project.clicked.connect(self.export_project)
         self.btn_export_all.clicked.connect(self.export_all_projects)
+        self.btn_wireframe_color_projects.clicked.connect(
+            viewport.set_wireframe_colors_per_project
+        )
+        self.btn_wireframe_color_objects.clicked.connect(
+            viewport.set_wireframe_colors_per_object
+        )
+        self.btn_wireframe_color_none.clicked.connect(
+            viewport.set_wifreframe_color_none
+        )
+        self.btn_material_color_projects.clicked.connect(
+            viewport.set_materials_per_project
+        )
+        self.btn_material_color_objects.clicked.connect(
+            viewport.set_materials_per_object
+        )
 
     def editItem(self, item):
         item_object_set = pm.PyNode(str(item.text()))
