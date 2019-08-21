@@ -245,10 +245,25 @@ def add_mesh_transforms_to_object(
                     pm.select(transform)
                     add_member(texture_object, transform)
 
+def remove_invalid_characters():
+    """removes not allowed characters from surfacing projects and names like '_' """
+    project_root = get_project_root()
+    surfacing_projects = get_projects()
+    invalid_character = '_'
+    for project in surfacing_projects:
+        if invalid_character in project.name():
+            project.rename(project.name().replace(invalid_character,''))
+            logger.info('Invalid character removed from surfacing_project, new name: %s' % project)
+        for surfacing_object in get_objects(project):
+            if invalid_character in surfacing_object.name():
+                surfacing_object.rename(surfacing_object.name().replace(invalid_character,''))
+                logger.info('Invalid characters removed from surfacing_object, new name: %s' % surfacing_object)
+
 def validate_scene():
     """Removes not allowed or invalid members, updates the partition
     and the meshes attributes"""
     if get_project_root:
+        remove_invalid_characters()
         remove_invalid_members()
         update_partition()
         update_mesh_attributes()
