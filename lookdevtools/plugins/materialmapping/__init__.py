@@ -6,6 +6,8 @@ from lookdevtools.ui import qtutils
 from lookdevtools.common import utils
 from lookdevtools.common import templates
 from lookdevtools.common.constants import TEXTURESET_ELEMENT_PATTERN
+from lookdevtools.common.constants import ATTR_SURFACING_PROJECT
+from lookdevtools.common.constants import ATTR_SURFACING_OBJECT
 from lookdevtools.maya.surfacing_projects import materials
 reload(utils)
 
@@ -57,7 +59,7 @@ class MaterialMapping(IPlugin):
             "by surfacing_object"
         )
         self.form_widget = QtWidgets.QTableWidget(0, 7)
-        col_headers = ['filepath', 'surfacing_project', 'surfacing_object', 'textureset_element', 'colorspace','udim', 'shader_plug']
+        col_headers = ['filepath', 'surfacing_project', 'surfacing_object', 'textureset_element', 'colorspace','shader_plug', 'assign_to']
         self.form_widget.setHorizontalHeaderLabels(col_headers)
         main_layout = QtWidgets.QVBoxLayout()
 
@@ -147,16 +149,27 @@ class MaterialMapping(IPlugin):
             except:
                 logger.warning('colorspace not in file_template dict.')
             try:
-                item = QtWidgets.QTableWidgetItem(file_template['udim'])
-                self.form_widget.setItem(num, 5, item)
-            except:
-                logger.warning('udim not in file_template dict.')
-            try:
                 search_plug = utils.search_material_mapping(file_template['textureset_element'])
                 item = QtWidgets.QTableWidgetItem(search_plug)
                 if search_plug == 'None':
                     logger.warning('textureset_element could not be mappend to a shader plug: %s' %file_template['textureset_element'])
-                self.form_widget.setItem(num, 6, item)
+                self.form_widget.setItem(num, 5, item)
+            except:
+                pass
+            try:
+                # This 
+                local_surfacing_projects = surfacing_projects.get_projects()
+                logger.info('Searching for "%s" in local projects %s'% (file_template['surfacing_object'],local_surfacing_projects))
+                for project in local_surfacing_projects:
+                    project_name = project.getAttr(ATTR_SURFACING_PROJECT)
+                    local_surfacing_objects = surfacing_projects.get_objects(project)
+                    logger.info('Searching objects in project: %s', project_name)
+                    for local_surfacing_object in local_surfacing_objects:
+                        object_name = local_surfacing_object.getAttr(ATTR_SURFACING_OBJECT)
+                        if object_name == file_template['surfacing_object']:
+                            logger.info('Found matching local surfacing object: %s' % file_template['surfacing_object'])
+                            item = QtWidgets.QTableWidgetItem(object_name)
+                            self.form_widget.setItem(num, 6, item)
             except:
                 pass
     
