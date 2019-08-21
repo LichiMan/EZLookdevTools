@@ -157,6 +157,7 @@ class MaterialMapping(IPlugin):
             except:
                 pass
             try:
+                # This 
                 local_surfacing_projects = surfacing_projects.get_projects()
                 logger.info('Searching for "%s" in local projects %s'% (file_template['surfacing_object'],local_surfacing_projects))
                 for project in local_surfacing_projects:
@@ -166,11 +167,11 @@ class MaterialMapping(IPlugin):
                     for local_surfacing_object in local_surfacing_objects:
                         object_name = local_surfacing_object.getAttr(ATTR_SURFACING_OBJECT)
                         if object_name == file_template['surfacing_object']:
-                            logger.info('Found matching local surfacing object: %s' % file_template['textureset_element'])
+                            logger.info('Found matching local surfacing object: %s' % file_template['surfacing_object'])
                             item = QtWidgets.QTableWidgetItem(object_name)
                             self.form_widget.setItem(num, 6, item)
             except:
-                logger.warning('Could not find texture surfacing_object in your current maya file.')
+                pass
     
     def get_form_data(self):
         file_templates = []
