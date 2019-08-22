@@ -4,12 +4,11 @@ from yapsy.IPlugin import IPlugin
 from lookdevtools.ui.libs import *
 from lookdevtools.ui import qtutils
 from lookdevtools.common import utils
+from lookdevtools.maya.maya import materials
 from lookdevtools.common import templates
 from lookdevtools.common.constants import TEXTURESET_ELEMENT_PATTERN
 from lookdevtools.common.constants import ATTR_SURFACING_PROJECT
 from lookdevtools.common.constants import ATTR_SURFACING_OBJECT
-from lookdevtools.maya.surfacing_projects import materials
-reload(utils)
 
 logger = logging.getLogger(__name__)
 
@@ -58,8 +57,8 @@ class MaterialMapping(IPlugin):
         self.btn_import_textures_surfacing_object = QtWidgets.QPushButton(
             "by surfacing_object"
         )
-        self.form_widget = QtWidgets.QTableWidget(0, 7)
-        col_headers = ['filepath', 'surfacing_project', 'surfacing_object', 'textureset_element', 'colorspace','shader_plug', 'assign_to']
+        self.form_widget = QtWidgets.QTableWidget(0, 8)
+        col_headers = ['filepath', 'surfacing_project', 'surfacing_object', 'textureset_element', 'colorspace','shader_plug', 'maya_prj', 'maya_obj']
         self.form_widget.setHorizontalHeaderLabels(col_headers)
         main_layout = QtWidgets.QVBoxLayout()
 
@@ -86,7 +85,7 @@ class MaterialMapping(IPlugin):
         #    self.load_json
         #)
         self.btn_import_textures_surfacing_project.clicked.connect(
-            self.load_json
+            self.import_textures_surfacing_project
         )
     
     def load_textures(self):
@@ -107,7 +106,7 @@ class MaterialMapping(IPlugin):
                     try:
                         file_template['shader_plug'] = config['material_mapping']['PxrSurface'][file_template['textureset_element']]
                     except:
-                        file_template['shader_plug'] = "None"
+                        file_template['shader_plug'] = ''
                     file_templates.append(file_template)
                 except BaseException:
                     logger.warning('File pattern not matched: %s' %file)
@@ -151,7 +150,7 @@ class MaterialMapping(IPlugin):
             try:
                 search_plug = utils.search_material_mapping(file_template['textureset_element'])
                 item = QtWidgets.QTableWidgetItem(search_plug)
-                if search_plug == 'None':
+                if search_plug == None:
                     logger.warning('textureset_element could not be mappend to a shader plug: %s' %file_template['textureset_element'])
                 self.form_widget.setItem(num, 5, item)
             except:
@@ -162,6 +161,9 @@ class MaterialMapping(IPlugin):
                 logger.info('Searching for "%s" in local projects %s'% (file_template['surfacing_object'],local_surfacing_projects))
                 for project in local_surfacing_projects:
                     project_name = project.getAttr(ATTR_SURFACING_PROJECT)
+                    if project_name == file_template['surfacing_project']:
+                        item = QtWidgets.QTableWidgetItem(project_name)
+                        self.form_widget.setItem(num, 6, item)
                     local_surfacing_objects = surfacing_projects.get_objects(project)
                     logger.info('Searching objects in project: %s', project_name)
                     for local_surfacing_object in local_surfacing_objects:
@@ -169,7 +171,7 @@ class MaterialMapping(IPlugin):
                         if object_name == file_template['surfacing_object']:
                             logger.info('Found matching local surfacing object: %s' % file_template['surfacing_object'])
                             item = QtWidgets.QTableWidgetItem(object_name)
-                            self.form_widget.setItem(num, 6, item)
+                            self.form_widget.setItem(num, 7, item)
             except:
                 pass
     
@@ -196,9 +198,50 @@ class MaterialMapping(IPlugin):
                 file_templates[row][column_name] = item_text
                 column = column + 1
             row = row + 1
-        print file_templates
         return file_templates
 
-    def load_json(self):
-        self.get_form_data()
+    def import_textures_surfacing_project(self):
+        parsed_files = self.get_form_data()
+        prj_shaders = {}
+        for maya_prj in utils.get_unique_key_values(parsed_files, "maya_prj"):
+            # create material and shading group
+            PxrSurface, shading_group = pm.createSurfaceShader( 'PxrSurface' )
+            maya_prj_set = surfacing_projects.get_project(maya_prj)
+            pm.select(maya_prj_set)
+            meshes = pm.ls(sl=True)
+            pm.sets(shading_group, forceElement=meshes)
+            pm.select(None)
+            # Assign shading_group to meshes
+            # here
+            #objects = pm.ls(sl=True)
+
+            #pm.sets(shading_group, forceElement=objects)
+            prj_shaders[maya_prj] = PxrSurface
+        for parsed_file in parsed_files:
+            if parsed_file['maya_prj']:
+                logger.info('creating material for %s' %parsed_file['maya_prj'])
+                if parsed_file['shader_plug']:
+                    logger.info('Importing element %s to objectSet %s' %(parsed_file['textureset_element'],parsed_file['maya_prj']))
+                    # create file_node
+                    file_node = materials.create_file_node(name='surfProj_%s_file'%parsed_file['maya_prj'])
+                    # set file_node file path
+                    file_node.fileTextureName.set(parsed_file['filepath'])
+                    file_node.uvTilingMode.set(3)
+                    # do colorspace here
+                    if 'rgb' in parsed_file['colorspace'].lower():
+                       file_node.colorSpace.set("sRGB")   
+                    # try outColor, if fails fall back to outAlpha
+                    # might need to map out connector in config
+                    try:
+                        file_node.outColor.connect('%s.%s' %(prj_shaders[parsed_file['maya_prj']], parsed_file['shader_plug']))
+                    except BaseException:
+                        logger.error('Could not connect shading nodes')
+                    try:
+                        file_node.outAlpha.connect('%s.%s' %(prj_shaders[parsed_file['maya_prj']], parsed_file['shader_plug']))
+                    except BaseException:
+                        logger.error('Could not connect shading nodes')
+                    # get surfacing project
+                    # assign shading_group to surfacig_project
+            else:
+                logger.info('Skipping %s, no shader plug or project to assign' %parsed_file['textureset_element'])
         
