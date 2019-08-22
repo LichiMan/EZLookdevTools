@@ -176,7 +176,7 @@ def search_material_mapping(textureset_element = None):
         if ratio > TEXTURESET_ELEMENT_MATCHING_RATIO:
             logger.info('ratio above threshold. Matched %s with %s.' %(textureset_element, key))
             return config['material_mapping']['PxrSurface'][key]
-    return 'None'
+    return None
 
 def get_unique_key_values(file_template_list, key):
     """Get unique key values from a list of dicts"""
@@ -192,7 +192,7 @@ def get_udim_file_templates(file_template_list):
     """Given a [] of files with <udim> in the file path, returns unique dicts"""
     # TODO: There has to a better way to do this!
     for each in file_template_list:
-        each['file_path'] = each['file_path'].replace(each['udim'], '<udim>')
+        each['file_path'] = each['file_path'].replace(each['udim'], '<UDIM>')
     unique_values = get_unique_key_values(file_template_list, 'file_path')
     found_values = []
     udim_groups = []
