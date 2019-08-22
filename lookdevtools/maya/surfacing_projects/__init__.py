@@ -147,6 +147,13 @@ def get_projects():
     ]
     return objSetLs
 
+def get_project(name=None):
+    """Gets all surfacing Projects under the root"""
+    projects_list = get_projects()
+    for each in projects_list:
+        if name == each.name():
+            return each
+    return None
 
 def delete_project(project):
     if is_project(project):
