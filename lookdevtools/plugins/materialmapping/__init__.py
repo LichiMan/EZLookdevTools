@@ -94,7 +94,7 @@ class MaterialMapping(IPlugin):
         if search_folder:
             self.form_widget.setRowCount(0)
             logger.info('Search folder: %s' %search_folder)
-            file_list = utils.get_files_in_folder(search_folder, recursive = True, pattern= '.tif')
+            file_list = utils.get_files_in_folder(search_folder, recursive = True, pattern= self.ln_extension.text())
             custom_template = self.ln_custom_template.text()
             logger.info('Using template: %s' %custom_template)
             file_template_object = templates.custom_texture_file_template(custom_template)
