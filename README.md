@@ -5,7 +5,6 @@
 [&nbsp;&nbsp;&nbsp;&nbsp;Maya Surfacing Projects](#Maya-Surfacing-Projects)  
 [&nbsp;&nbsp;&nbsp;&nbsp;Maya Surfacing Viewport](#Maya-Surfacing-Viewport)  
 [&nbsp;&nbsp;&nbsp;&nbsp;txmake](#txmake)  
-[&nbsp;&nbsp;&nbsp;&nbsp;Maya Surfacing](#Maya-Surfacing)  
 [&nbsp;&nbsp;&nbsp;&nbsp;Material Mapping](#Material-Mapping)  
 [&nbsp;&nbsp;&nbsp;&nbsp;Katana Surfacing Projects](#Katana-Surfacing-Projects)  
 [Macros and Gizmos](#Macros-and-Gizmos)  
@@ -63,50 +62,58 @@ export KATANA_RESOURCES=$KATANA_RESOURCES:$LDT_KATANA_TOOLS:$LDT_KATANA_SHELVES:
 # Tools
 
 ## Maya Surfacing Projects
-This tools allows you to organize and group your maya meshes into different surfacing projects, and surfacing objects.
-Also handles projects export to alembic files, and surfacing objects merging.
-The attributes added to the meshes transforms allows the assignment of materials and textureSets programatically (currently katana only, see katana shelves).
+This tools allows you to:
+* Organize maya meshes into different surfacing projects, and surfacing objects.
+* Merge meshes for surfacing
+* Export alembic files for surfacing
 
-<img width="50%" src="docs/images/mayaEZSurfacing.png" alt="EZSurfacing Tools" style="" /><img width="50%" src="docs/images/mayaEZSurfacing2.png" alt="Surfacing Tools" style="" />
+### Hierarchical Structure Example
+* room
+  * Floor
+    * wood
+    * rug
+  * walls
+      * wallFront
+      * wallLeft
+      * skirtings
+* armChair
+  * leather
+    * back
+    * sit
+    * sides
+  * wood
+    * armrests
+    * legs
+
 The pixar cabin, and kitchens shown here ready for surfacing
+<img width="50%" src="docs/images/mayaEZSurfacing.png" alt="EZSurfacing Tools" style="" /><img width="50%" src="docs/images/mayaEZSurfacing2.png" alt="Surfacing Tools" style="" />
 
 <img width="48%" src="docs/images/mayaEZSurfacing_export.gif" alt="EZSurfacing Tools" style="" /><img width="48%" src="docs/images/mayaEZSurfacing_create.gif" alt="EZSurfacing Tools" style="" />
 
-## Hierarchical Structure
-* Surfacing_projectA
-  * Surfacing_objectA
-    * mesh1
-    * mesh2
-    * mesh3
-  * Surfacing_objectA
-      * mesh1
-      * mesh2
-      * mesh3
-* Surfacing_projectB
-  * Surfacing_objectB
-    * mesh4
-    * mesh5
+#### Export
 
-##### SurfacingObject  
-All meshses inside a SurfacingObject will be merged to a single geometry for export.
-The SurfacingObject will also be exported individually to a folder, named after the SurfacingProject they belong
-```
-SurfacingObject meshes are important for Mari where the amount of different meshes can impact your
-performance,as Mari is optimized for one single mesh. The more meshes, the slower Mari will be,
-It is not recommended using more than 6 meshes (or surfacing Objects) inside a Mari project.
-```
-
-##### SurfacingObject:
-This will export as single alembic, containing its SurfacingObject as single meshes. 
+##### Surfacing Projects:
+It exports each surfacing projects as a single alembic file, containing its SurfacingObjects. 
 Tipically this is the file you will bring to Mari or Substance Painter to create a single project.
 
-###### Note
-If using substance painter -using uDim- meshes inside an SurfacingObject should be contained inside a single uDim!
-All SurfacingObjects inside a SurfacingProject should not overlap.
+##### SurfacingObjects
+At export time, meshes inside a Surfacing Object will be merged to a single mesh.
+The SurfacingObject will also be exported individually to a folder, named after the SurfacingProject they belong
+```
+As Mari is optimized for one single mesh, SurfacingObjects count inside a surfacing project is important.   
+The amount of different meshes can impact your performance. The more meshes you have, the slower Mari will be.
+It is not recommended using more than 8 meshes (or surfacing Objects) inside a Mari project.
+```
 
-## Maya Surfacing Viewport
+###### Substance Painter Note
+When using Substance Painter -with uDim-:
+*  Meshes inside an SurfacingObject should be contained inside a single uDim  
+   As these will be merged into a single mesh.
+*  SurfacingObjects inside a SurfacingProject should not have overlapping Uvs.   
 
-Assign blank materials, or wireframe colors to surfacing projects or surfacing objects 
+##### Maya Surfacing Viewport
+
+Assign materials, or wireframe colors to surfacing projects or surfacing objects to visualize them in the Viewport.
 
 ## txmake
 
@@ -116,24 +123,13 @@ What makes this tool slightly different is:
 - extra arguments list.
 - search texture files recursively in a given folder.
 
-## Maya Surfacing
-
-Auto material creation.  
-Create shaders, import textures, and assign them to the meshes.  
-There is 2 ways to do this:  
-- From a folder  
-- From a json material config file  
-
-If you are sure your textures are named correctly, select a folder and let the tools figure out the rest.  
-If unsure, first use the Material Mapping tool to check that all textures data from names are read correctly, make changes if needed, and save the settings as a json file.
-
 ## Material mapping
 
-Load all textures from a folder, and the tool will -for each texturing file- load its surfacing project, surfacing_object, colorspace, textureset_element name as well as what shader_plug it should be connected in a PxrSurface shader, and group them together by udim.
-Make any necessary changes in this excel like interface before exporting this as a material setup json file.
-This json file will be essentially your glue between the individual textures and meshes for automatic material creations.   
-The tool uses fuzzy string matching to give naming some flexibility to errors, different spellings, or camel casing
-However, the texture template from config/constants.py should match
+Imports textures into your maya scene.
+
+Make sure the custom template matchs your file naming convention.
+Read textures from a folder, and the tool will -for each texture file- load its surfacing project, surfacing_object, colorspace, textureset_element name as well as what shader_plug it should be connected in a PxrSurface shader, and group them together by udim.
+Make any necessary changes in this excel like interface before importing. At this point you can change what the textures will be assigned too manually.
 <pre>
 {surfacing_project}_{surfacing_object}_{textureset_element}_{colorspace}.{UDim}.{extension}
 For example:
@@ -142,17 +138,25 @@ For example:
 
 <img width="100%" src="docs/images/materialMapping.png" alt="EZSurfacing Tools" style="margin-right: 10px;" />
 
+###### Note
+The tool uses fuzzy string matching to give naming some flexibility to errors, different spellings, or camel casing.
+
 ## Katana Surfacing Projects
 
-Run collection create from the shelve to automaticaly create collections based on the surfacing attributes found in the scene graph.
-Create either the Surfacing Project, or the Surfacing Object collections.
-A node must be selected before running, this node will be used as the scene point where to process and examine the scene graph locations.   
+Creates collections based on the surfacing attributes found in the scene graph.
+Creates materials based on the surfacing attributes
+It can also assign colors in the VP, matching the colors of the maya Viewport materials and wireframe.
 
-It can also be used to create collections of all unique values for any give attribute
+<img width="100%" src="docs/images/katanaEZCollections2.png" alt="EZSurfacing Tools" style="margin-right: 10px;" />
+
+It can also be used to create collections of all unique values for any give attribute.
 
 <img width="40%" src="docs/images/katanaEZCollectionsShelves.jpg" alt="EZSurfacing Tools" style="margin-right: 10px;" />
 
-Collection, viewport colors and material assignments are based on attribute values at locations as in.
+###### Note
+A node must be selected before running, this node will be used as the scene point where to process and examine the scene graph locations.   
+
+Collections, viewport colors, and material assignments are based on attribute values at locations as in.
 ```
 /root/world//*{attr("geometry.arbitrary.myCustomAttribute") == value
 ```
@@ -161,21 +165,22 @@ The attributes used from this tools are
 geometry.arbitrary.surfacing_project
 geometry.arbitrary.surfacing_object
 ```
-<img width="100%" src="docs/images/katanaEZCollections2.png" alt="EZSurfacing Tools" style="margin-right: 10px;" />
 
 # Macros and Gizmos
 
 ## Katana
 
 ### Material Lookdev
-Quickly isolate materials from the scene and visualize them.
-Use the default Shaderball (cloth geo optional), or connect your own geometry.  
-Requires a gaffer input.
+Isolate materials from the scene and visualize them with a shaderBall.
+Use the default Shaderball (cloth geo optional), or connect your own geometry.
 
 <img width="50%" src="docs/images/mayaEZPrmanMaterialLookdev.png" alt="EZSurfacing Tools" style="margin-right: 10px;" />
 
+###### Note
+Requires a gaffer input.
+
 ### TextureSet Loader
-This macro allows to load multiple texture files using tokens or keywords.
+Loads multiple texture files using tokens or keywords.
 Load materials or texture sets from substance, megascans, or mari with ease, in a single node.
 
 Using the ```<element>``` keyword for each map, and ```_MAPID_``` for renderman to pick up uDIMs if an atlas style is selected.  
@@ -192,9 +197,13 @@ Each texture set element (for ie: baseColor, or normal) can be added to the list
 
 
 ### Texture locatization
-Opscript to search and replace paths in all PxrTexture nodes inside a network material at scenegraph location's ```.material.nodes```
+Opscript to search and replace paths in all PxrTexture nodes at ```.material.nodes```
 
 <img width="50%" src="docs/images/katanaTextureLocatization.png" alt="EZSurfacing Tools" style="margin-right: 10px;" />
+
+###### Note
+Point this Opscript to /root/world/geo//*, in the case that kfls are assigned to the objects.
+Or to /materials//* in case the materials are local to your scene.
 
 ### Interactive Filters
 Miscelaneous interactive filters for renderman 22
@@ -234,6 +243,9 @@ Select a lightgroup layer from the preset menu, and mute/solo/color correct it
 Creates a contact sheet of all the default lightgroups
 
 <img width="50%" src="docs/images/nukeLigthgroupsContactSheet.jpg"      alt="EZSurfacing Tools" style="margin-right: 10px;" />
+
+###### Note
+Expects ligthgroups layers named as in: lightgroup_a, lightgroup_b, lightgroup_c. 
 
 ## Writing tools
 ### Developing Plugins
