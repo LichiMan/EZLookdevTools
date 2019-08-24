@@ -156,7 +156,7 @@ class MaterialMapping(IPlugin):
             except:
                 pass
             try:
-                # This 
+                # Match parsed surfacing projects and objects to the open maya file 
                 local_surfacing_projects = surfacing_projects.get_projects()
                 logger.info('Searching for "%s" in local projects %s'% (file_template['surfacing_object'],local_surfacing_projects))
                 for project in local_surfacing_projects:
@@ -202,7 +202,40 @@ class MaterialMapping(IPlugin):
 
     def import_textures_surfacing_project(self):
         parsed_files = self.get_form_data()
-        prj_shaders = {}
+        shaders = self.create_surfacing_shaders(parsed_files = parsed_files, key = 'maya_prj')
+        self.import_textures( parsed_files= parsed_files, key='maya_proj', shaders=shaders)
+    
+    def import_textures(self, parsed_files = None, key = None, shaders = None):
+        for parsed_file in parsed_files:
+            if parsed_file['maya_prj']:
+                logger.info('creating material for %s' %parsed_file['maya_prj'])
+                if parsed_file['shader_plug']:
+                    logger.info('Importing element %s to objectSet %s' %(parsed_file['textureset_element'],parsed_file['maya_prj']))
+                    # create file_node
+                    file_node = materials.create_file_node(name='surfProj_%s_file'%parsed_file['maya_prj'])
+                    # set file_node file path and udim
+                    file_node.fileTextureName.set(parsed_file['filepath'])
+                    file_node.uvTilingMode.set(3)
+                    # do colorspace here
+                    if 'rgb' in parsed_file['colorspace'].lower():
+                       file_node.colorSpace.set("sRGB")   
+                    # try outColor, if fails fall back to outAlpha
+                    # might need to map out connector in config
+                    try:
+                        file_node.outColor.connect('%s.%s' %(shaders[parsed_file['maya_prj']], parsed_file['shader_plug']))
+                    except BaseException:
+                        logger.error('Could not connect shading nodes')
+                    try:
+                        file_node.outAlpha.connect('%s.%s' %(shaders[parsed_file['maya_prj']], parsed_file['shader_plug']))
+                    except BaseException:
+                        logger.error('Could not connect shading nodes')
+                    # get surfacing project
+                    # assign shading_group to surfacig_project
+            else:
+                logger.info('Skipping %s, no shader plug or project to assign' %parsed_file['textureset_element'])
+    
+    def create_surfacing_shaders(self, parsed_files = None, key = None):
+        shaders = {}
         for maya_prj in utils.get_unique_key_values(parsed_files, "maya_prj"):
             # create material and shading group
             PxrSurface, shading_group = pm.createSurfaceShader( 'PxrSurface' )
@@ -216,32 +249,5 @@ class MaterialMapping(IPlugin):
             #objects = pm.ls(sl=True)
 
             #pm.sets(shading_group, forceElement=objects)
-            prj_shaders[maya_prj] = PxrSurface
-        for parsed_file in parsed_files:
-            if parsed_file['maya_prj']:
-                logger.info('creating material for %s' %parsed_file['maya_prj'])
-                if parsed_file['shader_plug']:
-                    logger.info('Importing element %s to objectSet %s' %(parsed_file['textureset_element'],parsed_file['maya_prj']))
-                    # create file_node
-                    file_node = materials.create_file_node(name='surfProj_%s_file'%parsed_file['maya_prj'])
-                    # set file_node file path
-                    file_node.fileTextureName.set(parsed_file['filepath'])
-                    file_node.uvTilingMode.set(3)
-                    # do colorspace here
-                    if 'rgb' in parsed_file['colorspace'].lower():
-                       file_node.colorSpace.set("sRGB")   
-                    # try outColor, if fails fall back to outAlpha
-                    # might need to map out connector in config
-                    try:
-                        file_node.outColor.connect('%s.%s' %(prj_shaders[parsed_file['maya_prj']], parsed_file['shader_plug']))
-                    except BaseException:
-                        logger.error('Could not connect shading nodes')
-                    try:
-                        file_node.outAlpha.connect('%s.%s' %(prj_shaders[parsed_file['maya_prj']], parsed_file['shader_plug']))
-                    except BaseException:
-                        logger.error('Could not connect shading nodes')
-                    # get surfacing project
-                    # assign shading_group to surfacig_project
-            else:
-                logger.info('Skipping %s, no shader plug or project to assign' %parsed_file['textureset_element'])
-        
+            shaders[maya_prj] = PxrSurface
+        return shaders
