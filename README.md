@@ -68,29 +68,33 @@ This tools allows you to:
 * Export alembic files for surfacing
 
 ### Hierarchical Structure Example
-* room
-  * Floor
-    * wood
-    * rug
-  * walls
-      * wallFront
-      * wallLeft
-      * skirtings
-* armChair
-  * leather
-    * back
-    * sit
-    * sides
-  * wood
-    * armrests
-    * legs
-
-The pixar cabin, and kitchens shown here ready for surfacing
-<img width="50%" src="docs/images/mayaEZSurfacing.png" alt="EZSurfacing Tools" style="" /><img width="50%" src="docs/images/mayaEZSurfacing2.png" alt="Surfacing Tools" style="" />
+* surfacing_root
+    * room 
+        * Floor
+            * wood
+            * rug
+        * walls
+            * wallFront
+            * wallLeft
+            * skirtings
+    * armChair
+        * leather
+            * back
+            * sit
+            * sides
+        * wood
+            * armrests
+            * legs
+        * blanket
+            * fabricSquare
+            * edgingFabric
 
 <img width="48%" src="docs/images/mayaEZSurfacing_export.gif" alt="EZSurfacing Tools" style="" /><img width="48%" src="docs/images/mayaEZSurfacing_create.gif" alt="EZSurfacing Tools" style="" />
 
 #### Export
+
+The pixar cabin, and kitchens shown here ready for surfacing  
+<img width="50%" src="docs/images/mayaEZSurfacing.png" alt="EZSurfacing Tools" style="" /><img width="50%" src="docs/images/mayaEZSurfacing2.png" alt="Surfacing Tools" style="" />
 
 ##### Surfacing Projects:
 It exports each surfacing projects as a single alembic file, containing its SurfacingObjects. 
@@ -99,6 +103,12 @@ Tipically this is the file you will bring to Mari or Substance Painter to create
 ##### SurfacingObjects
 At export time, meshes inside a Surfacing Object will be merged to a single mesh.
 The SurfacingObject will also be exported individually to a folder, named after the SurfacingProject they belong
+
+##### export example
+The armchair example from above exported   
+<img width="50%" src="docs/images/mayaEZSurfacingExport.png" alt="Surfacing Tools" style="" />
+
+
 ```
 As Mari is optimized for one single mesh, SurfacingObjects count inside a surfacing project is important.   
 The amount of different meshes can impact your performance. The more meshes you have, the slower Mari will be.
@@ -107,18 +117,19 @@ It is not recommended using more than 8 meshes (or surfacing Objects) inside a M
 
 ###### Substance Painter Note
 When using Substance Painter -with uDim-:
-*  Meshes inside an SurfacingObject should be contained inside a single uDim  
-   As these will be merged into a single mesh.
-*  SurfacingObjects inside a SurfacingProject should not have overlapping Uvs.   
+*  All meshes inside an SurfacingObject, should be contained inside a single uDim  
+*  If using the project alembic for surfacing, then surfacing_objects inside a surfacing_project should not have overlapping Uvs.   
 
 ##### Maya Surfacing Viewport
 
 Assign materials, or wireframe colors to surfacing projects or surfacing objects to visualize them in the Viewport.
 
+<img width="50%" src="docs/images/wireframeColor.png" alt="Surfacing Tools" style="" />
+
 ## txmake
 
 There are plenty of txmake tools available.  
-What makes this tool slightly different is:
+What makes this tool handy is:
 - multiprocessing: Run as many simultaneous txmakes as you want. This gives a performance boost of up to 9 times faster (as tested) when converting many textures at once.
 - extra arguments list.
 - search texture files recursively in a given folder.
@@ -127,9 +138,10 @@ What makes this tool slightly different is:
 
 Imports textures into your maya scene.
 
-Make sure the custom template matchs your file naming convention.
-Read textures from a folder, and the tool will -for each texture file- load its surfacing project, surfacing_object, colorspace, textureset_element name as well as what shader_plug it should be connected in a PxrSurface shader, and group them together by udim.
-Make any necessary changes in this excel like interface before importing. At this point you can change what the textures will be assigned too manually.
+Make sure the custom template matchs your file naming convention.   
+Click on Search files in folder, and the tool will -for each texture file- load its surfacing project, surfacing_object, colorspace, textureset_element name as well as what shader_plug it should be connected in a PxrSurface shader, and group them together by udim.
+Make any assignment changes in this excel like interface before importing.   
+At this point you can change what the textures will be assigned too manually.
 <pre>
 {surfacing_project}_{surfacing_object}_{textureset_element}_{colorspace}.{UDim}.{extension}
 For example:
@@ -141,6 +153,10 @@ For example:
 ###### Note
 The tool uses fuzzy string matching to give naming some flexibility to errors, different spellings, or camel casing.
 
+###### Import example
+206 Textures, from 6 Substance Painter textureSets imported to the Pixar cabin with one click
+<img width="100%" src="docs/images/materialMappingCabin.png" alt="EZSurfacing Tools" style="margin-right: 10px;" />
+
 ## Katana Surfacing Projects
 
 Creates collections based on the surfacing attributes found in the scene graph.
@@ -148,8 +164,6 @@ Creates materials based on the surfacing attributes
 It can also assign colors in the VP, matching the colors of the maya Viewport materials and wireframe.
 
 <img width="100%" src="docs/images/katanaEZCollections2.png" alt="EZSurfacing Tools" style="margin-right: 10px;" />
-
-It can also be used to create collections of all unique values for any give attribute.
 
 <img width="40%" src="docs/images/katanaEZCollectionsShelves.jpg" alt="EZSurfacing Tools" style="margin-right: 10px;" />
 
@@ -165,6 +179,7 @@ The attributes used from this tools are
 geometry.arbitrary.surfacing_project
 geometry.arbitrary.surfacing_object
 ```
+It can also be used to create collections of all unique values for any given attribute.
 
 # Macros and Gizmos
 
