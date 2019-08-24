@@ -146,7 +146,7 @@ When working with instanced meshes. As much as posible, only add the intance sou
 Notice in this set maya viewport -that was entirely built with instances- how only the panels source instances are added to the surfacing objects, and not the set itself.   
 <img width="100%" src="docs/images/mayaEZSurfacingInstances.jpg" alt="Surfacing Tools" style="" />
 
-###### Substance Painter and Udims
+##### Substance Painter and Udims
 When using the surfacing_project alembic file, and Substance Painter with udim:
 *  All meshes inside an SurfacingObject, should be contained inside a single uDim  
 *  Surfacing_objects should not have overlapping Uvs.   
@@ -330,7 +330,7 @@ class ExamplePlugIn(IPlugin):
             self.plugin_layout = QtWidgets.QWidget()
             self.label_ui = QtWidgets.QLabel(self.plugin_layout)
             self.label_ui.setText(
-                'ExamplePlugIn \nPlugin no available in this Application'
+                'ExamplePlugIn \nPlugin not available in this Application'
                 )
         else:
             self.build_ui()
