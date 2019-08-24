@@ -3,9 +3,15 @@
 [Installation](#Installation)   
 [Tools](#Tools)   
 [&nbsp;&nbsp;&nbsp;&nbsp;Maya Surfacing Projects](#Maya-Surfacing-Projects)  
+[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Hierarchical Structure](#Hierarchical-Structure)  
+[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Export Subdivisions](#Export-subdivisions)  
+[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Export](#Export)  
+[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Instances](#Instances)  
+[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Substance Painter Udims](#Substance-Painter-and-Udims)  
 [&nbsp;&nbsp;&nbsp;&nbsp;Maya Surfacing Viewport](#Maya-Surfacing-Viewport)  
 [&nbsp;&nbsp;&nbsp;&nbsp;txmake](#txmake)  
 [&nbsp;&nbsp;&nbsp;&nbsp;Material Mapping](#Material-Mapping)  
+[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Texture Import](#Texture-Import)  
 [&nbsp;&nbsp;&nbsp;&nbsp;Katana Surfacing Projects](#Katana-Surfacing-Projects)  
 [Macros and Gizmos](#Macros-and-Gizmos)  
 [&nbsp;&nbsp;&nbsp;&nbsp;Katana](#Katana)   
@@ -20,6 +26,10 @@
 [&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Lightgroups ContactSheet](#Lightgroups-ContactSheet)   
 [Writing tools](#Writing-tools)   
 [&nbsp;&nbsp;&nbsp;&nbsp;Example plugin](#Example-plugin)   
+[Road Map](#Road-Map)   
+[&nbsp;&nbsp;&nbsp;&nbsp;v0.1](#v0.1)   
+[&nbsp;&nbsp;&nbsp;&nbsp;What's next](#Whats-next)   
+[&nbsp;&nbsp;&nbsp;&nbsp;Trello board](#Trello-board)   
 [Credits](#Credits)   
 
 | WARNING: Under development, do not use (yet!) |
@@ -28,6 +38,7 @@
 # LookdevTools
 A tool set for maya, katana, renderman, and nuke for surfacing and look development.  
 It aims to be the missing glue between maya (uv prepping and organizing), mari/painter, and maya/katana rendering. Covering most of the repeatitive tasks, letting you focus on the surfacing.   
+Based on my own tool box used for lookdev.
 
 The rendering tools are based on Pixar Renderman.
 
@@ -67,7 +78,8 @@ This tools allows you to:
 * Merge meshes for surfacing
 * Export alembic files for surfacing
 
-### Hierarchical Structure Example
+### Hierarchical Structure
+#### example
 * surfacing_root
     * room 
         * Floor
@@ -89,12 +101,16 @@ This tools allows you to:
             * fabricSquare
             * edgingFabric
 
-<img width="48%" src="docs/images/mayaEZSurfacing_export.gif" alt="EZSurfacing Tools" style="" /><img width="48%" src="docs/images/mayaEZSurfacing_create.gif" alt="EZSurfacing Tools" style="" />
+<img width="100%" src="docs/images/mayaEZSurfacing_create.gif" alt="EZSurfacing Tools" style="" />
 
 #### Export
 
-The pixar cabin, and kitchens shown here ready for surfacing  
+The pixar cabin, and kitchens shown here ready for export and surfacing  
 <img width="50%" src="docs/images/mayaEZSurfacing.png" alt="EZSurfacing Tools" style="" /><img width="50%" src="docs/images/mayaEZSurfacing2.png" alt="Surfacing Tools" style="" />
+
+##### export example
+The armchair example from above exported   
+<img width="50%" src="docs/images/mayaEZSurfacing_export.gif" alt="EZSurfacing Tools" style="" /><img width="50%" src="docs/images/mayaEZSurfacingExport.png" alt="Surfacing Tools" style="" />
 
 ##### Surfacing Projects:
 It exports each surfacing projects as a single alembic file, containing its SurfacingObjects. 
@@ -104,27 +120,42 @@ Tipically this is the file you will bring to Mari or Substance Painter to create
 At export time, meshes inside a Surfacing Object will be merged to a single mesh.
 The SurfacingObject will also be exported individually to a folder, named after the SurfacingProject they belong
 
-##### export example
-The armchair example from above exported   
-<img width="50%" src="docs/images/mayaEZSurfacingExport.png" alt="Surfacing Tools" style="" />
-
-
+##### Export subdivisions
+By default, the meshes will be subdivided by 2 before merging and exporting for surfacing.  
+To change this setting modify this line in  
+lookdevtools/common/constants.py
 ```
-As Mari is optimized for one single mesh, SurfacingObjects count inside a surfacing project is important.   
-The amount of different meshes can impact your performance. The more meshes you have, the slower Mari will be.
-It is not recommended using more than 8 meshes (or surfacing Objects) inside a Mari project.
+SURFACING_SUBDIV_ITERATIONS = 2
 ```
 
-###### Substance Painter Note
-When using Substance Painter -with uDim-:
+##### Subdivions and memory
+Usually this would not be a problem. However, if you are working not on a single asset, but a set (for ei the pixarCabin), you might find memory consumption spikes at export time due to subdivided meshs.
+If this is an issue, you can either export each surfacing_project individually, or optimize your scene:
+* Check for high poly count objects in your scene
+* Avoid adding Instances to surfacing objects, instead add the instance source.
+
+```
+As Mari is optimized for one single mesh, Surfacing Objects count inside a surfacing project is important.   
+The amount of SurfacingObjects can impact your performance. The more SurfacingObjects you have inside a single  
+surfacing project, the slower Mari will be.
+It is not recommended using more than 8 surfacing Objects per surfacing project for Mari.
+```
+
+##### Instances
+When working with instanced meshes. As much as posible, only add the intance source to the surfacing objects.   
+Notice in this set maya viewport -that was entirely built with instances- how only the panels source instances are added to the surfacing objects, and not the set itself.   
+<img width="100%" src="docs/images/mayaEZSurfacingInstances.jpg" alt="Surfacing Tools" style="" />
+
+###### Substance Painter and Udims
+When using the surfacing_project alembic file, and Substance Painter with udim:
 *  All meshes inside an SurfacingObject, should be contained inside a single uDim  
-*  If using the project alembic for surfacing, then surfacing_objects inside a surfacing_project should not have overlapping Uvs.   
+*  Surfacing_objects should not have overlapping Uvs.   
 
 ##### Maya Surfacing Viewport
 
 Assign materials, or wireframe colors to surfacing projects or surfacing objects to visualize them in the Viewport.
 
-<img width="50%" src="docs/images/wireframeColor.png" alt="Surfacing Tools" style="" />
+<img width="100%" src="docs/images/wireframeColor.png" alt="Surfacing Tools" style="" />
 
 ## txmake
 
@@ -139,9 +170,8 @@ What makes this tool handy is:
 Imports textures into your maya scene.
 
 Make sure the custom template matchs your file naming convention.   
-Click on Search files in folder, and the tool will -for each texture file- load its surfacing project, surfacing_object, colorspace, textureset_element name as well as what shader_plug it should be connected in a PxrSurface shader, and group them together by udim.
+Click on Search files in folder, and the tool will -for each texture file- load its surfacing project, surfacing_object, colorspace, textureset_element name as well as what shader_plug it should be connected in a PxrSurface shader, and group them together by udim.  
 Make any assignment changes in this excel like interface before importing.   
-At this point you can change what the textures will be assigned too manually.
 <pre>
 {surfacing_project}_{surfacing_object}_{textureset_element}_{colorspace}.{UDim}.{extension}
 For example:
@@ -150,11 +180,16 @@ For example:
 
 <img width="100%" src="docs/images/materialMapping.png" alt="EZSurfacing Tools" style="margin-right: 10px;" />
 
-###### Note
-The tool uses fuzzy string matching to give naming some flexibility to errors, different spellings, or camel casing.
+###### Notes
+* If your file name has the {colorspace} token somewhere, the tools will create the file nodes with the correct colorspaces. OCIO partially supported, only the commonly used colorspaces.  
+Valid colorspaces are:
+    * sRGB
+    * raw
+    * linear
+* The tool uses fuzzy string matching to give naming some flexibility to errors or differences, like capital letters, camel casing, or different spellings.
 
-###### Import example
-206 Textures, from 6 Substance Painter textureSets imported to the Pixar cabin with one click
+#### Texture Import
+206 Textures, from 6 Substance Painter textureSets imported to the Pixar cabin with a single click
 <img width="100%" src="docs/images/materialMappingCabin.png" alt="EZSurfacing Tools" style="margin-right: 10px;" />
 
 ## Katana Surfacing Projects
@@ -168,7 +203,7 @@ It can also assign colors in the VP, matching the colors of the maya Viewport ma
 <img width="40%" src="docs/images/katanaEZCollectionsShelves.jpg" alt="EZSurfacing Tools" style="margin-right: 10px;" />
 
 ###### Note
-A node must be selected before running, this node will be used as the scene point where to process and examine the scene graph locations.   
+A node must be selected before running any of this tools, this node will be used as the scene point where to process and examine the scene graph locations.   
 
 Collections, viewport colors, and material assignments are based on attribute values at locations as in.
 ```
@@ -189,7 +224,7 @@ It can also be used to create collections of all unique values for any given att
 Isolate materials from the scene and visualize them with a shaderBall.
 Use the default Shaderball (cloth geo optional), or connect your own geometry.
 
-<img width="50%" src="docs/images/mayaEZPrmanMaterialLookdev.png" alt="EZSurfacing Tools" style="margin-right: 10px;" />
+<img width="100%" src="docs/images/mayaEZPrmanMaterialLookdev.png" alt="EZSurfacing Tools" style="margin-right: 10px;" />
 
 ###### Note
 Requires a gaffer input.
@@ -238,8 +273,8 @@ Miscelaneous interactive filters for renderman 22
 This replaces all your shaders with a 0.18 standard material. 
 
 ###### grey_albedo:
-This filter overrides only the diffuseColor with a 0.18 grey color.
-Keeping all other materials values and maps, like specular, roughness, normals, diplacements, etc.
+This filter overrides only the diffuseColor with a 0.18 grey color.  
+Keeping all other materials features values, like specular, roughness, normals, diplacements, etc.
 
 <img width="50%" src="docs/images/katanaPrmanInteractiveFilterGreyAlbedo.jpg"      alt="EZSurfacing Tools" style="margin-right: 10px;" />
 
@@ -312,7 +347,6 @@ class ExamplePlugIn(IPlugin):
 
 ```
 
-
 <pre>tools/plugins/example_plugin.yapsy-plugin</pre>
 ```
 [Core]
@@ -325,6 +359,21 @@ Version = 1.0
 Website = //ezequielm.com
 Description = This is an example plugin configure, with UI entry points.
 ```
+## Road map
+### v0.1
+Bridging the gap between all supported applications, while giving the minimum amount of tools to do so.
+
+### What's Next
+* Some code refactoring, and clean up to do 
+* Maya uv's viewport utilities
+* Maya lighting, lightgroups, and aov tools
+* Maya and Katana turntable lightrigs
+* Nuke gizmos upgrade
+* Katana texture set loader as a supertool
+* Katana aov manager as a supertool
+
+### Trello board
+* Trello board
 
 ## Credits
 Ezequiel Mastrasso  
@@ -344,9 +393,15 @@ https://www.artstation.com/artwork/wKveZ
 Elias Wick   
 https://polycount.com/discussion/186513/free-checker-pattern-texture
 
-### Pixar kitchen surfacing
-Surfacing, lighting, rendering was done by Ezequiel Mastrasso.
+### Pixar cabin
+Surfacing, lighting, and rendering done by Ezequiel Mastrasso.
+
+### Pixar kitchen
+Surfacing, lighting, and rendering done by Ezequiel Mastrasso.  
 This images are part of the original speed surfacing exercise that give birth to these tools.  
 
 However the look and style is based on the original winner of the pixar Kitchen challenge  
 Fabio Rossi Sciedlarczyk (scied)
+
+### Event horizon 
+Modeling, Surfacing, lighting, and rendering done by Ezequiel Mastrasso.
