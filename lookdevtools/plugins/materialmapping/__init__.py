@@ -203,7 +203,7 @@ class MaterialMapping(IPlugin):
     def import_textures_surfacing_project(self):
         parsed_files = self.get_form_data()
         shaders = surfacing_projects.create_surfacing_shaders(parsed_files = parsed_files, key = 'maya_prj')
-        surfacing_projects.import_textures( parsed_files= parsed_files, key='maya_proj', shaders=shaders)
+        surfacing_projects.import_textures( parsed_files= parsed_files, key='maya_prj', shaders=shaders)
     
     def import_textures_surfacing_object(self):
         parsed_files = self.get_form_data()
