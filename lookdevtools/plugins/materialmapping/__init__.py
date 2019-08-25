@@ -4,7 +4,6 @@ from yapsy.IPlugin import IPlugin
 from lookdevtools.ui.libs import *
 from lookdevtools.ui import qtutils
 from lookdevtools.common import utils
-from lookdevtools.maya.maya import materials
 from lookdevtools.common import templates
 from lookdevtools.common.constants import TEXTURESET_ELEMENT_PATTERN
 from lookdevtools.common.constants import ATTR_SURFACING_PROJECT
@@ -19,6 +18,7 @@ try:
     from lookdevtools.maya import maya
     from lookdevtools.maya import surfacing_projects
     from lookdevtools.maya.surfacing_projects import viewport
+    reload (surfacing_projects)
     DCC_CONTEXT = True
 except:
     logger.warning('PLUGIN: Maya packages not loaded, not this dcc')
@@ -81,11 +81,11 @@ class MaterialMapping(IPlugin):
         self.btn_search_files.clicked.connect(
             self.load_textures
         )
-        #self.btn_load.clicked.connect(
-        #    self.load_json
-        #)
         self.btn_import_textures_surfacing_project.clicked.connect(
             self.import_textures_surfacing_project
+        )
+        self.btn_import_textures_surfacing_object.clicked.connect(
+            self.import_textures_surfacing_object
         )
     
     def load_textures(self):
@@ -202,52 +202,11 @@ class MaterialMapping(IPlugin):
 
     def import_textures_surfacing_project(self):
         parsed_files = self.get_form_data()
-        shaders = self.create_surfacing_shaders(parsed_files = parsed_files, key = 'maya_prj')
-        self.import_textures( parsed_files= parsed_files, key='maya_proj', shaders=shaders)
+        shaders = surfacing_projects.create_surfacing_shaders(parsed_files = parsed_files, key = 'maya_prj')
+        surfacing_projects.import_textures( parsed_files= parsed_files, key='maya_proj', shaders=shaders)
     
-    def import_textures(self, parsed_files = None, key = None, shaders = None):
-        for parsed_file in parsed_files:
-            if parsed_file['maya_prj']:
-                logger.info('creating material for %s' %parsed_file['maya_prj'])
-                if parsed_file['shader_plug']:
-                    logger.info('Importing element %s to objectSet %s' %(parsed_file['textureset_element'],parsed_file['maya_prj']))
-                    # create file_node
-                    file_node = materials.create_file_node(name='surfProj_%s_file'%parsed_file['maya_prj'])
-                    # set file_node file path and udim
-                    file_node.fileTextureName.set(parsed_file['filepath'])
-                    file_node.uvTilingMode.set(3)
-                    # do colorspace here
-                    if 'rgb' in parsed_file['colorspace'].lower():
-                       file_node.colorSpace.set("sRGB")   
-                    # try outColor, if fails fall back to outAlpha
-                    # might need to map out connector in config
-                    try:
-                        file_node.outColor.connect('%s.%s' %(shaders[parsed_file['maya_prj']], parsed_file['shader_plug']))
-                    except BaseException:
-                        logger.error('Could not connect shading nodes')
-                    try:
-                        file_node.outAlpha.connect('%s.%s' %(shaders[parsed_file['maya_prj']], parsed_file['shader_plug']))
-                    except BaseException:
-                        logger.error('Could not connect shading nodes')
-                    # get surfacing project
-                    # assign shading_group to surfacig_project
-            else:
-                logger.info('Skipping %s, no shader plug or project to assign' %parsed_file['textureset_element'])
+    def import_textures_surfacing_object(self):
+        parsed_files = self.get_form_data()
+        shaders = surfacing_projects.create_surfacing_shaders(parsed_files = parsed_files, key = 'maya_obj')
+        surfacing_projects.import_textures( parsed_files= parsed_files, key='maya_obj', shaders=shaders)
     
-    def create_surfacing_shaders(self, parsed_files = None, key = None):
-        shaders = {}
-        for maya_prj in utils.get_unique_key_values(parsed_files, "maya_prj"):
-            # create material and shading group
-            PxrSurface, shading_group = pm.createSurfaceShader( 'PxrSurface' )
-            maya_prj_set = surfacing_projects.get_project(maya_prj)
-            pm.select(maya_prj_set)
-            meshes = pm.ls(sl=True)
-            pm.sets(shading_group, forceElement=meshes)
-            pm.select(None)
-            # Assign shading_group to meshes
-            # here
-            #objects = pm.ls(sl=True)
-
-            #pm.sets(shading_group, forceElement=objects)
-            shaders[maya_prj] = PxrSurface
-        return shaders

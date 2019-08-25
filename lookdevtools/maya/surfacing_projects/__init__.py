@@ -13,6 +13,7 @@ from lookdevtools.ui import qtutils
 from lookdevtools.common.constants import *
 from lookdevtools.common import utils
 from lookdevtools.maya import maya
+from lookdevtools.maya.maya import materials
 
 logger = logging.getLogger(__name__)
 
@@ -147,13 +148,24 @@ def get_projects():
     ]
     return objSetLs
 
-def get_project(name=None):
+def get_project_by_name(name=None):
     """Gets all surfacing Projects under the root"""
     projects_list = get_projects()
     for each in projects_list:
         if name == each.name():
             return each
     return None
+
+def get_object_by_name(name=None):
+    """Gets all surfacing Projects under the root"""
+    projects_list = get_projects()
+    for prj in projects_list:
+        objs = get_objects(prj)
+        for obj in objs:
+            if name == obj.name():
+                return obj
+    return None
+
 
 def delete_project(project):
     if is_project(project):
@@ -429,6 +441,55 @@ def update_mesh_attributes():
                 )
 
 
+def import_textures(parsed_files = None, key = None, shaders = None):
+    """ Import textures, arguments are an array of lucidity parsed files with a 'filepath' key,
+    the key to use either maya_proj or maya_obj, and an dict of shaders where to plug the files
+    matching the maya_proj values"""
+    for parsed_file in parsed_files:
+        if parsed_file[key]:
+            logger.info('creating material for %s' %parsed_file[key])
+            if parsed_file['shader_plug']:
+                logger.info('Importing element %s to objectSet %s' %(parsed_file['textureset_element'],parsed_file[key]))
+                # create file_node
+                file_node = materials.create_file_node(name='surfProj_%s_file'%parsed_file[key])
+                # set file_node file path and udim
+                file_node.fileTextureName.set(parsed_file['filepath'])
+                file_node.uvTilingMode.set(3)
+                # do colorspace here
+                if 'rgb' in parsed_file['colorspace'].lower():
+                    file_node.colorSpace.set("sRGB")   
+                # try outColor, if fails fall back to outAlpha
+                # might need to map out connector in config
+                try:
+                    file_node.outColor.connect('%s.%s' %(shaders[parsed_file[key]], parsed_file['shader_plug']))
+                except BaseException:
+                    logger.info('Could not connect outColor to shader')
+                try:
+                    file_node.outAlpha.connect('%s.%s' %(shaders[parsed_file[key]], parsed_file['shader_plug']))
+                except BaseException:
+                    logger.error('Could not outAlpha to shader')
+                # get surfacing project
+                # assign shading_group to surfacig_project
+        else:
+            logger.info('Skipping %s, no shader plug or project to assign' %parsed_file['textureset_element'])
 
+def create_surfacing_shaders( parsed_files = None, key = None):
+    """ Create shaders and shading groups, arguments are an array of lucidity parsed files with
+    a 'filepath' key, the key to use either maya_proj or maya_obj.
+    Returns a dict of PxrSurface shaders matching the key values"""
+    shaders = {}
+    for prj in utils.get_unique_key_values(parsed_files, key):
+        # create material and shading group and assign it
+        PxrSurface, shading_group = pm.createSurfaceShader( 'PxrSurface' )
+        if key == 'maya_prj':
+            prj_set = get_project_by_name(prj)
+        elif key == 'maya_obj':
+            prj_set = get_object_by_name(prj)
+        pm.select(prj_set)
+        meshes = pm.ls(sl=True)
+        pm.sets(shading_group, forceElement=meshes)
+        pm.select(None)
+        shaders[prj] = PxrSurface
+    return shaders
 
 
