@@ -1,3 +1,10 @@
+"""
+.. module:: Material Mapping
+   :synopsis: Import textures to surfacing projects and surfacing objects.
+
+.. moduleauthor:: Ezequiel Mastrasso
+
+"""
 import logging
 from functools import partial
 from yapsy.IPlugin import IPlugin
@@ -24,11 +31,14 @@ except:
     logger.warning('PLUGIN: Maya packages not loaded, not this dcc')
 
 class MaterialMapping(IPlugin):
+    """Plug-in to Import textures to surfacing projects and surfacing objects."""
+
     name = "MaterialMapping Plugin"
 
     plugin_layout = None
 
     def __init__ (self):
+        """Check dcc context, and build the ui if context is correct."""
         logger.info('PLUGIN: MaterialMapping loaded')
         # Load dcc python packages inside a try, to catch the application
         # environment, this will be replaced by IPlugin Categories
@@ -41,6 +51,7 @@ class MaterialMapping(IPlugin):
             self.build_ui()
     
     def build_ui(self):
+        """Build the Plug-in UI and append it to the main ui as a tab."""
         self.plugin_layout = QtWidgets.QWidget()
         self.lbl_custom_template = QtWidgets.QLabel('File load template')
         self.ln_custom_template = QtWidgets.QLineEdit(TEXTURESET_ELEMENT_PATTERN)
@@ -89,6 +100,7 @@ class MaterialMapping(IPlugin):
         )
     
     def load_textures(self):
+        """Load textures."""
         config = utils.get_config_materials()
         search_folder = qtutils.get_folder_path()
         if search_folder:
@@ -121,6 +133,13 @@ class MaterialMapping(IPlugin):
             self.populate_form(grouped_templates)
             
     def populate_form(self,file_templates):
+        """
+        Populate form with texture lucidity parsed files.
+        
+        Args:
+            file_templates (list): A list of lucidity parsed files, with file_path key added.
+        
+        """
         for num, file_template in enumerate(file_templates):
             try:
                 item = QtWidgets.QTableWidgetItem(file_template['file_path'])
@@ -176,6 +195,7 @@ class MaterialMapping(IPlugin):
                 pass
     
     def get_form_data(self):
+        """Get the form_widget data."""
         file_templates = []
         form_column_count = self.form_widget.columnCount()
         logger.info('Form column count: %s' %form_column_count)
@@ -201,11 +221,13 @@ class MaterialMapping(IPlugin):
         return file_templates
 
     def import_textures_surfacing_project(self):
+        """Import textures to surfacing projects."""
         parsed_files = self.get_form_data()
         shaders = surfacing_projects.create_surfacing_shaders(parsed_files = parsed_files, key = 'maya_prj')
         surfacing_projects.import_textures( parsed_files= parsed_files, key='maya_prj', shaders=shaders)
     
     def import_textures_surfacing_object(self):
+        """Import textures to surfacing objects."""
         parsed_files = self.get_form_data()
         shaders = surfacing_projects.create_surfacing_shaders(parsed_files = parsed_files, key = 'maya_obj')
         surfacing_projects.import_textures( parsed_files= parsed_files, key='maya_obj', shaders=shaders)

@@ -1,3 +1,12 @@
+"""
+.. module:: viewport
+   :synopsis: maya viewport utilities.
+
+.. moduleauthor:: Ezequiel Mastrasso
+
+#TODO (eze) replace surfMaterial with the value from common.constants
+"""
+
 import random
 import logging
 
@@ -12,7 +21,7 @@ logger = logging.getLogger(__name__)
 
 
 def set_wifreframe_color_black():
-    '''sets the wireframe color to black'''
+    """Set the wireframe color to black in all mesh objects."""
     transforms = pm.ls(type="transform")
     shape_transforms = surfacing_projects.get_mesh_transforms(transforms)
     for mesh in shape_transforms:
@@ -22,7 +31,7 @@ def set_wifreframe_color_black():
 
 
 def set_wifreframe_color_none():
-    '''removes the wireframe color for all meshes'''
+    """Remove the wireframe color in all mesh objects."""
     transforms = pm.ls(type="transform")
     shape_transforms = surfacing_projects.get_mesh_transforms(transforms)
     for mesh in shape_transforms:
@@ -30,10 +39,14 @@ def set_wifreframe_color_none():
 
 
 def set_wireframe_colors_per_project():
-    '''sets the wireframe color for all meshes per 
-    surfacing project. Sets it to black to start with,
+    """
+    Set the wireframe color per surfacing project.
+    
+    For all meshes, sets it to black to start with,
     this implies that the mesh has not be assigned
-    to any surfacing object yet'''
+    to any surfacing object yet will show black in the VP
+    
+    """
     set_wifreframe_color_black()
     projects = surfacing_projects.get_projects()
     for project in projects:
@@ -53,8 +66,14 @@ def set_wireframe_colors_per_project():
 
 
 def set_wireframe_colors_per_object():
-    '''sets the wireframe color for all meshes per 
-    surfacing object'''
+    """
+    Set the wireframe color per surfacing object.
+    
+    For all meshes, sets it to black to start with,
+    this implies that the mesh has not be assigned
+    to any surfacing object yet will show black in the VP
+    
+    """
     set_wifreframe_color_black()
     projects = surfacing_projects.get_projects()
     for project in projects:
@@ -73,8 +92,7 @@ def set_wireframe_colors_per_object():
                     )
 
 def set_materials_per_project():
-    '''creates a material per surfacing project
-    and assigns it'''
+    """Create a material per surfacing project and assigns it"""
     delete_materials()
     projects = surfacing_projects.get_projects()
     for project in projects:
@@ -95,8 +113,7 @@ def set_materials_per_project():
         )
 
 def set_materials_per_object():
-    '''creates a material per surfacing object
-    and assigns it'''
+    """Create a material per surfacing object and assigns it"""
     delete_materials()
     projects = surfacing_projects.get_projects()
     for project in projects:
@@ -118,7 +135,7 @@ def set_materials_per_object():
             )
 
 def delete_materials():
-    '''deletes all materials that have surfMaterial attribute'''
+    """delete all materials that have surfMaterial attribute"""
     all_materials = pm.ls(type="blinn")
     materials = []
     for material in all_materials:

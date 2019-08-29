@@ -1,14 +1,26 @@
+"""
+.. module:: maya
+   :synopsis: general maya utilities.
+
+.. moduleauthor:: Ezequiel Mastrasso
+
+"""
+
 from lookdevtools.ui.libs import *
 
 def unsaved_scene():
-    """ check for unsaved changes """
+    """Check for unsaved changes."""
     import maya.cmds as cmds
 
     return cmds.file(q=True, modified=True)
 
 def save_scene_dialog():
     """
-    If the scene has unsaved changes, it will ask the user to go ahead save or cancel
+    Ask the user to go ahead save or cancel the operation.
+
+    Returns:
+        bool. True is Ok clicked, false otherwise.
+    
     """
     msg = QtWidgets.QMessageBox()
     msg.setIcon(QtWidgets.QMessageBox.Information)
