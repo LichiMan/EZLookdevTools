@@ -1,3 +1,11 @@
+"""
+.. module:: maya
+   :synopsis: general maya material utilities.
+
+.. moduleauthor:: Ezequiel Mastrasso
+
+"""
+
 import logging
 import pymel.core as pm
 
@@ -9,6 +17,15 @@ from lookdevtools.common.constants import ATTR_SURFACING_OBJECT
 logger = logging.getLogger(__name__)
 
 def create_file_node(name=None):
+    """
+    Create a file node, and its 2dPlacement Node
+
+    Kwargs:
+        name (str): file node name
+
+    Returns:
+        PyNode. Image file node
+    """
     file_node = pm.shadingNode('file', name=name, asTexture=True, isColorManaged=True)
     placement_name = '%s_place2dfile_nodeture' % name
     placement_node = pm.shadingNode('place2dTexture', name=placement_name, asUtility=True)
@@ -30,8 +47,19 @@ def create_file_node(name=None):
     return file_node
     
 def get_surfacing_projects_matching_parsed(parsed_files):
-    """ Gets a parsed files template dict, and finds matching surfacing projects
-    in the maya file"""
+    """
+    Match parsed surfacing project to local maya surfacing projects.
+
+    Get a parsed files template dict list, and find matching surfacing projects
+    in the maya file
+    
+    Args:
+        parsed_files (list): list of lucidity parsed files
+    
+    Returns:
+        list. Surfacing projects found.
+    
+    """
     local_surfacing_projects = surfacing_projects.get_projects()
     parsed_surfacing_projects = utils.get_unique_key_values(parsed_files, ATTR_SURFACING_PROJECT)
 
@@ -43,9 +71,20 @@ def get_surfacing_projects_matching_parsed(parsed_files):
             surfacing_projects_found.append(project)
     return surfacing_projects_found
 
-def def_surfacing_objects_matching_parsed(parsed_files):
-    """ Gets a parsed files template dict, and finds matching surfacing objects
-    in the maya file"""
+def get_surfacing_objects_matching_parsed(parsed_files):
+    """
+    Match parsed surfacing objects to local maya surfacing objects.
+
+    Get a parsed files template dict list, and find matching surfacing objects
+    in the maya file
+    
+    Kwargs:
+        parsed_files (list): list of lucidity parsed files
+    
+    Returns:
+        list. Surfacing objects found.
+    
+    """
     local_surfacing_projects = surfacing_projects.get_projects()
     parsed_surfacing_objects = utils.get_unique_key_values(parsed_files, ATTR_SURFACING_PROJECT)
     surfacing_objects_found = []

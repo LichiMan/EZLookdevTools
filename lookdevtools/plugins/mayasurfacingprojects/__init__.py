@@ -1,3 +1,11 @@
+"""
+.. module:: mayasurfacingprojects
+   :synopsis: Organize meshes for surfacing in Maya.
+
+.. moduleauthor:: Ezequiel Mastrasso
+
+"""
+
 import logging
 from yapsy.IPlugin import IPlugin
 from lookdevtools.ui.libs import *
@@ -16,11 +24,14 @@ except:
     logger.warning('PLUGIN: Maya packages not loaded, not this dcc')
 
 class MayaSurfacingProjects(IPlugin):
+    """Plug-in to Organize meshes for surfacing in Maya."""
+
     name = "mayaSurfacingProjects Plugin"
 
     plugin_layout = None
 
     def __init__ (self):
+        """Check dcc context, and build the ui if context is correct."""
         logger.info('PLUGIN: MayaSurfacingProjects loaded')
         # Load dcc python packages inside a try, to catch the application
         # environment, this will be replaced by IPlugin Categories
@@ -33,6 +44,7 @@ class MayaSurfacingProjects(IPlugin):
             self.build_ui()
 
     def build_ui(self):
+        """Build the Plug-in UI and append it to the main ui as a tab."""
         self.plugin_layout = QtWidgets.QWidget()
         main_layout = QtWidgets.QVBoxLayout()
         project_btns_layout = QtWidgets.QHBoxLayout()
@@ -56,7 +68,7 @@ class MayaSurfacingProjects(IPlugin):
         self.btn_delete_texture_object = QtWidgets.QPushButton("X")
         self.btn_delete_texture_object.setMaximumWidth(20)
         self.btn_delete_texture_object.setStyleSheet('QPushButton {color: %s;}' % red_text)
-        self.btn_add_to_texture_object = QtWidgets.QPushButton(
+        self.btn_add_to_surfacing_object = QtWidgets.QPushButton(
             "add selected meshes to texture object"
         )
         self.list_texture_objects = QtWidgets.QListWidget()
@@ -104,7 +116,7 @@ class MayaSurfacingProjects(IPlugin):
         main_layout.addLayout(object_btns_layout)
         object_btns_layout.addWidget(self.btn_new_texture_object)
         object_btns_layout.addWidget(self.btn_delete_texture_object)
-        main_layout.addWidget(self.btn_add_to_texture_object)
+        main_layout.addWidget(self.btn_add_to_surfacing_object)
         main_layout.addWidget(self.list_texture_objects)
         main_layout.addWidget(self.lbl_validate_scene)
         main_layout.addWidget(self.btn_validate_scene)
@@ -133,11 +145,11 @@ class MayaSurfacingProjects(IPlugin):
         self.project_delete_btn.clicked.connect(self.delete_project)
         self.list_projects.itemClicked.connect(self.update_ui_texture_objects)
         self.list_projects.itemDoubleClicked.connect(self.editItem)
-        self.btn_new_texture_object.clicked.connect(self.create_texture_object)
+        self.btn_new_texture_object.clicked.connect(self.create_surfacing_object)
         self.btn_delete_texture_object.clicked.connect(self.delete_texture_object)
-        self.btn_add_to_texture_object.clicked.connect(self.add_to_texture_object)
+        self.btn_add_to_surfacing_object.clicked.connect(self.add_to_surfacing_object)
         self.btn_validate_scene.clicked.connect(self.validate_scene)
-        self.list_texture_objects.itemClicked.connect(self.select_texture_object)
+        self.list_texture_objects.itemClicked.connect(self.select_surfacing_object)
         self.list_texture_objects.itemDoubleClicked.connect(self.editItem)
         self.btn_export_project.clicked.connect(self.export_project)
         self.btn_export_all.clicked.connect(self.export_all_projects)
@@ -158,6 +170,7 @@ class MayaSurfacingProjects(IPlugin):
         )
 
     def editItem(self, item):
+        """Edit list item name."""
         item_object_set = pm.PyNode(str(item.text()))
         text, okPressed = QtWidgets.QInputDialog.getText(
             self, "", "rename to:", QtWidgets.QLineEdit.Normal, str(item.text())
@@ -172,12 +185,13 @@ class MayaSurfacingProjects(IPlugin):
                 self.update_ui_projects()
 
     def delete_project(self):
+        """Delete a surfacing project."""
         selected_project = pm.PyNode(self.list_projects.currentItem().text())
         surfacing_projects.delete_project(selected_project)
         self.update_ui_projects()
 
-    def select_texture_object(self, item):
-        """selects the texture object on the scene"""
+    def select_surfacing_object(self, item):
+        """Select surfacing object on the scene."""
         selected_texture_object = pm.PyNode(str(item.text()))
         if self.sync_selection.isChecked():
             pm.select(selected_texture_object, ne=True)
@@ -185,12 +199,12 @@ class MayaSurfacingProjects(IPlugin):
                 pm.select(selected_texture_object)
 
     def create_project(self):
-        """Initializes the scene with the required nodes"""
-        root = surfacing_projects.create_project()
+        """Create a surfacing project and update the UI."""
+        project = surfacing_projects.create_project()
         self.update_ui_projects()
 
-    def create_texture_object(self):
-        """Creates a new texture object set"""
+    def create_surfacing_object(self):
+        """Create a new surfacing object."""
         if self.list_projects.currentItem():
             selected_project = pm.PyNode(self.list_projects.currentItem().text())
             pm.select(selected_project)
@@ -198,14 +212,15 @@ class MayaSurfacingProjects(IPlugin):
             self.update_ui_texture_objects(self.list_projects.currentItem())
 
     def delete_texture_object(self):
+        """Delete surfacing object."""
         if self.list_texture_objects.currentItem():
             selected_object = pm.PyNode(self.list_texture_objects.currentItem().text())
-            if selected_object and surfacing_projects.is_texture_object(selected_object):
+            if selected_object and surfacing_projects.is_surfacing_object(selected_object):
                 pm.delete(selected_object)
                 self.update_ui_projects()
 
     def update_ui_projects(self):
-        """updates the list of texture projects"""
+        """Update the list of surfacing projects."""
         root = surfacing_projects.get_project_root()
         # update_lists
         projects = surfacing_projects.get_projects()
@@ -215,7 +230,7 @@ class MayaSurfacingProjects(IPlugin):
         self.list_texture_objects.clear()
 
     def update_ui_texture_objects(self, item):
-        """updates the list of texture objects in the selected texture project"""
+        """Update the list of surfacing objects in the selected surfacing project."""
         selected_project = pm.PyNode(str(item.text()))
         texture_objects = surfacing_projects.get_objects(selected_project)
         self.list_texture_objects.clear()
@@ -224,8 +239,8 @@ class MayaSurfacingProjects(IPlugin):
         if self.sync_selection.isChecked():
             pm.select(selected_project, ne=True)
 
-    def add_to_texture_object(self):
-        """add maya selection to currently selected texture object"""
+    def add_to_surfacing_object(self):
+        """Add maya selection to currently selected surfacing object"""
         selected_texture_object = pm.PyNode(
             str(self.list_texture_objects.currentItem().text())
         )
@@ -235,13 +250,16 @@ class MayaSurfacingProjects(IPlugin):
             )
 
     def validate_scene(self):
-        """scene validation and update"""
+        """Scene validation and update UI."""
         surfacing_projects.validate_scene()
+        self.update_ui_projects()
 
     def export_project(self):
+        """Export single surfacing project."""
         selected_project = pm.PyNode(str(self.list_projects.currentItem().text()))
         if selected_project:
             surfacing_projects.export_project(selected_project)
 
     def export_all_projects(self):
+        """Export all surfacing projects."""
         surfacing_projects.export_all_projects()

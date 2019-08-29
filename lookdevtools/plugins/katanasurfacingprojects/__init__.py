@@ -1,3 +1,11 @@
+"""
+.. module:: katanasurfacing projects
+   :synopsis: Katana Surfacing Projects Plug-in.
+
+.. moduleauthor:: Ezequiel Mastrasso
+
+"""
+
 import logging
 from functools import partial
 
@@ -16,12 +24,13 @@ except:
     logger.warning('PLUGIN: Katana packages not loaded, not this dcc')
 
 class KatanaSurfacingProjects(IPlugin):
-    '''Build katana collections and materials for surfacing projects'''
+    """Plug-in to build katana collections and materials for surfacing projects."""
     name = "Katana Surfacing Projects"
 
     plugin_layout = None
 
     def __init__ (self):
+        """Check dcc context, and build the ui if context is correct."""
         logger.info('PLUGIN: KatanaSurfacingProjects loaded')
         if not DCC_CONTEXT:
             logger.warning('PLUGIN: KatanaSurfacingProjects not loaded, dcc libs not found')
@@ -32,6 +41,7 @@ class KatanaSurfacingProjects(IPlugin):
             self.build_ui()
 
     def build_ui(self):
+        """Build the Plug-in UI and append it to the main ui as a tab."""
         self.plugin_layout = QtWidgets.QWidget()
         main_layout = QtWidgets.QVBoxLayout()
         wireframe_layout = QtWidgets.QHBoxLayout()
