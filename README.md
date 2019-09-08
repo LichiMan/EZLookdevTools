@@ -16,6 +16,7 @@
 [Macros and Gizmos](#Macros-and-Gizmos)  
 [&nbsp;&nbsp;&nbsp;&nbsp;Katana](#Katana)   
 [&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Material Lookdev](#Material-Lookdev)   
+[&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Render Layers](#Render-Layers)  
 [&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TextureSet Loader](#TextureSet-Loader)   
 [&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Texture Locatization](#Texture-Locatization)   
 [&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Interactive Filters](#Interactive-Filters)   
@@ -245,6 +246,24 @@ Each texture set element (for ie: baseColor, or normal) can be added to the list
 
 <img width="50%" src="docs/images/katanaPrmanTextureSet.png" alt="EZSurfacing Tools" style="margin-right: 10px;" />
 
+### Render Layers
+Render layers creation with the usual parameters we all learned to love.  
+<img width="50%" src="docs/images/EZPrmanRenderLayer.png" alt="EZSurfacing Tools" style="margin-right: 10px;" />
+
+This node, works in conjuntion with a variable set name.  
+<img width="30%" src="docs/images/EZPrmanRenderLayerVariableSet.png" alt="EZSurfacing Tools" style="margin-right: 10px;" />
+
+All the render layers settings are stored in the scene graph as a render layer type location.  
+All settings (paths, CEL and collections) get flatten as a single CEL expressions.   
+Inspect your renderlayer setup CELs in the scene graph.  
+<img width="40%" src="docs/images/EZPrmanRenderLayerScenegraph.png" alt="EZSurfacing Tools" style="margin-right: 10px;" />
+
+#### Aggregate mode
+In aggreate mode, you can add and remove objects (with CEL, collections, or paths) from an already set up render layer coming from above in the node graph. 
+
+Note the /root/world/thisOtherLight in the aggregate mode and how it gets added to the original CEL expression. 
+
+<img width="100%" src="docs/images/EZPrmanRenderLayerAggregate.png" alt="EZSurfacing Tools" style="margin-right: 10px;" />
 
 ### Texture locatization
 Opscript to search and replace paths in all PxrTexture nodes at ```.material.nodes```
@@ -299,6 +318,7 @@ Expects ligthgroups layers named as in: lightgroup_a, lightgroup_b, lightgroup_c
 
 ## Writing tools
 ### Developing Plugins
+The toolset is based on a plugin arquitecture.  
 See yapsy documentation for more info   
 http://yapsy.sourceforge.net/
 
