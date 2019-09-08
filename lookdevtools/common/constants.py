@@ -17,7 +17,7 @@ ATTR_SURFACING_OBJECT = "surfacing_object"
 ATTR_MATERIAL = "surfacing_material"
 #: Attribute for tagging material assignmnents. Values: 'project' or 'object']
 ATTR_MATERIAL_ASSIGN = "surfacing_assign"
-#: Attribute for tagging viewport material. Values: 'project' or 'object']
+#: Attribute for tagging viewport material. Values: 'color' or 'pattern']
 ATTR_MATERIAL_VP = "surfacing_material_vp" 
 
 #: Global string matching ratios to compare strings against lucidity parsed files.
