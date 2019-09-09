@@ -250,16 +250,17 @@ Each texture set element (for ie: baseColor, or normal) can be added to the list
 Render layers creation with the usual parameters we all learned to love (or to live with!).  
 <img width="50%" src="docs/images/EZPrmanRenderLayer.png" alt="EZSurfacing Tools" style="margin-right: 10px;" />
 
-This node, works in conjuntion with a variable set name, branch the layer down the graph when its more convinient for your scene.  
-<img width="30%" src="docs/images/EZPrmanRenderLayerVariableSet.png" alt="EZSurfacing Tools" style="margin-right: 10px;" />
-
-By setting the preffix, and a wildcard as ```*``` or ```*dog*```, this settings will apply to any renderlayer with that prefix, or any render layer that contains the word ```dog```.  
+By setting the preffix, and a wildcard as ```*```, the settings will apply to all layers with that prefix.  
+Or ```*tree*``` and the settings will apply to any renderlayer with that prefix, that contains the word ```tree``` somewhere in the name.  
 <img width="70%" src="docs/images/EZPrmanRenderLayerWildcard.png" alt="EZSurfacing Tools" style="margin-right: 10px;" />
 
 All the render layers settings are stored in the scene graph as a render layer type location.  
 All settings (paths, CEL and collections) get flatten as a single CEL expressions.   
 Inspect your renderlayer setup CELs in the scene graph.  
 <img width="40%" src="docs/images/EZPrmanRenderLayerScenegraph.png" alt="EZSurfacing Tools" style="margin-right: 10px;" />
+
+RenderLayer nodes work in conjuntion with a variable set name. Branch the layer down the graph when its more convinient for your scene.  
+<img width="30%" src="docs/images/EZPrmanRenderLayerVariableSet.png" alt="EZSurfacing Tools" style="margin-right: 10px;" />
 
 #### Aggregate mode
 In aggreate mode, you can add and remove objects (with CEL, collections, or paths) from an already set up render layer coming from above in the node graph. 
@@ -384,19 +385,27 @@ Description = This is an example plugin configure, with UI entry points.
 ```
 ## Road map
 ### v0.1
-Bridging the gap between all supported applications, while giving the minimum amount of tools to do so.
+* Bridge the gap between all supported applications, while giving the minimum amount of tools to do so.
+* Multiprocessing package to batch commmands.
+* Minimum required Renderlayers, AOVs, viewport viz tools for maya and katana.
+* Minimum required Nuke gizmos.
+* Minumin required Mari gizmos for textureset library imports and tiling.
+* Mari and Painter channel preset creation.
+* Mari and Painter channel export presets.
+* Maya and Katana turntable lightrigs for look dev
+* Nuke comp templates for lookdev.
+
 
 ### What's Next
 * Some code refactoring, and clean up to do 
+* Multiprocessing package
 * Maya uv's viewport utilities
 * Maya lighting, lightgroups, and aov tools
 * Maya and Katana turntable lightrigs
 * Nuke gizmos upgrade
 * Katana texture set loader as a supertool
 * Katana aov manager as a supertool
-
-### Trello board
-* Trello board
+* Texture bake tools for exported surfacing projects and objects
 
 ## Credits
 Ezequiel Mastrasso  
