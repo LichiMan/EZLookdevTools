@@ -313,12 +313,13 @@ Select a lightgroup layer from the preset menu, and mute/solo/color correct it
 <img width="50%" src="docs/images/nukeLigthgroupsCorrect.png"      alt="EZSurfacing Tools" style="margin-right: 10px;" />
 
 ### Lightgroups contactSheet
-Creates a contact sheet of all the default lightgroups
+Creates a contact sheet of all the default lightgroups.  
+Two grid options available 1x5, and 1x12
 
-<img width="50%" src="docs/images/nukeLigthgroupsContactSheet.jpg"      alt="EZSurfacing Tools" style="margin-right: 10px;" />
+<img width="47%" src="docs/images/nukeLigthgroupsContactSheet.jpg"      alt="EZSurfacing Tools" style="margin-right: 10px;" /><img width="47%" src="docs/images/nukeLigthgroupsContactSheet2.jpg"      alt="EZSurfacing Tools" style="margin-right: 10px;" />
 
 ###### Note
-Expects ligthgroups layers named as in: lightgroup_a, lightgroup_b, lightgroup_c. 
+Although you can select all the inputs, by default it expects ligthgroups named as in: lightgroup_a, lightgroup_b, lightgroup_c. 
 
 ## Writing tools
 ### Developing Plugins
