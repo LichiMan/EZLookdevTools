@@ -10,11 +10,11 @@ import logging
 import pymel.core as pm
 
 from lookdevtools.common import utils
-from lookdevtools.maya import surfacing_projects
 from lookdevtools.common.constants import ATTR_SURFACING_PROJECT
 from lookdevtools.common.constants import ATTR_SURFACING_OBJECT
 from lookdevtools.common.constants import ATTR_MATERIAL
 from lookdevtools.common.constants import ATTR_MATERIAL_ASSIGN
+from lookdevtools.common.constants import ATTR_MATERIAL_VP
 
 logger = logging.getLogger(__name__)
 
@@ -53,64 +53,7 @@ def create_file_node(name=None):
     return file_node
 
 
-def get_surfacing_projects_matching_parsed(parsed_files):
-    """
-    Match parsed surfacing project to local maya surfacing projects.
-
-    Get a parsed files template dict list, and find matching surfacing projects
-    in the maya file
-
-    Args:
-        parsed_files (list): list of lucidity parsed files
-
-    Returns:
-        list. Surfacing projects found.
-
-    """
-    local_surfacing_projects = surfacing_projects.get_surfacing_projects()
-    parsed_surfacing_projects = utils.get_unique_key_values(
-        parsed_files, ATTR_SURFACING_PROJECT)
-
-    surfacing_projects_found = []
-
-    for project in local_surfacing_projects:
-        project_name = project.getAttr(ATTR_SURFACING_PROJECT)
-        if project_name in parsed_surfacing_projects:
-            surfacing_projects_found.append(project)
-    return surfacing_projects_found
-
-
-def get_surfacing_objects_matching_parsed(parsed_files):
-    """
-    Match parsed surfacing objects to local maya surfacing objects.
-
-    Get a parsed files template dict list, and find matching surfacing objects
-    in the maya file
-
-    Kwargs:
-        parsed_files (list): list of lucidity parsed files
-
-    Returns:
-        list. Surfacing objects found.
-
-    """
-    local_surfacing_projects = surfacing_projects.get_surfacing_projects()
-    parsed_surfacing_objects = utils.get_unique_key_values(
-        parsed_files, ATTR_SURFACING_PROJECT)
-    surfacing_objects_found = []
-
-    for project in local_surfacing_projects:
-        project_name = project.getAttr(ATTR_SURFACING_PROJECT)
-        local_surfacing_objects = surfacing_projects.get_surfacing_project_objects(
-            project)
-        for local_surfacing_object in local_surfacing_objects:
-            object_name = local_surfacing_object.getAttr(ATTR_SURFACING_OBJECT)
-            if object_name in parsed_surfacing_objects:
-                surfacing_objects_found.append(local_surfacing_object)
-    return surfacing_objects_found
-
-
-def create_shader(type='PxrSurface', tag=''):
+def create_shader(type='PxrSurface'):
     """
     Create shaders and shading groups.
 
@@ -123,6 +66,8 @@ def create_shader(type='PxrSurface', tag=''):
         tuple. PyNode shader, and PyNode shading_group
 
     """
-    shader, shading_group = pm.createSurfaceShader('PxrSurface')
-    pm.setAttr('%s.%s' % (shader, ATTR_MATERIAL), tag, force=True)
+    shader, shading_group = pm.createSurfaceShader(type)
+    pm.setAttr('%s.%s' % (shading_group, ATTR_MATERIAL), '', force=True)
+    pm.setAttr('%s.%s' % (shading_group, ATTR_MATERIAL_ASSIGN), '', force=True)
+    pm.setAttr('%s.%s' % (shading_group, ATTR_MATERIAL_VP), '', force=True)
     return shader, shading_group

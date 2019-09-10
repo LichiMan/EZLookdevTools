@@ -4,10 +4,6 @@
 
 .. moduleauthor:: Ezequiel Mastrasso
 
-#TODO:
-# Refactor create surf shaders
-#   create_surfacing_shader(takes project or object)
-#   create_surfacing_shaders
 # Shader plug colorspace mapping from json
 # lucidity file_path? either create a new class
 #  inhereting from lucidity or what.
@@ -54,7 +50,6 @@ def surfacingInit():
 
 
 def create_surfacing_root():
-    # TODO rename to create_surfacing_root
     """Create projects root if it doesnt exist."""
     if not get_surfacing_root():
         surfacing_root = pm.createNode("objectSet", name="surfacing_root")
@@ -65,7 +60,6 @@ def create_surfacing_root():
 
 
 def create_surfacing_project(name=None):
-    # TODO rename to create_surfacing_project
     """
     Creates a surfacing project.
 
@@ -88,7 +82,6 @@ def create_surfacing_project(name=None):
 
 
 def create_surfacing_object(project, name=None):
-    # TODO rename to create_surfacing_object
     """
     Creates a surfacing Object under a given project.
 
@@ -111,7 +104,6 @@ def create_surfacing_object(project, name=None):
 
 
 def get_surfacing_root():
-    # TODO rename get get_surfacing_root
     """
     Get the project root node.
 
@@ -386,7 +378,6 @@ def update_surfacing_partition():
 
 
 def remove_invalid_characters():
-    # TODO move to common
     """Remove not allowed characters from surfacing projects and names
     like '_'."""
     project_root = get_surfacing_root()
@@ -687,3 +678,60 @@ def create_surfacing_shaders(parsed_files=None, key=None):
         pm.select(None)
         shaders[prj] = shader
     return shaders
+
+
+def get_surfacing_projects_matching_parsed(parsed_files):
+    """
+    Match parsed surfacing project to local maya surfacing projects.
+
+    Get a parsed files template dict list, and find matching surfacing projects
+    in the maya file
+
+    Args:
+        parsed_files (list): list of lucidity parsed files
+
+    Returns:
+        list. Surfacing projects found.
+
+    """
+    local_surfacing_projects = get_surfacing_projects()
+    parsed_surfacing_projects = utils.get_unique_key_values(
+        parsed_files, ATTR_SURFACING_PROJECT)
+
+    surfacing_projects_found = []
+
+    for project in local_surfacing_projects:
+        project_name = project.getAttr(ATTR_SURFACING_PROJECT)
+        if project_name in parsed_surfacing_projects:
+            surfacing_projects_found.append(project)
+    return surfacing_projects_found
+
+
+def get_surfacing_objects_matching_parsed(parsed_files):
+    """
+    Match parsed surfacing objects to local maya surfacing objects.
+
+    Get a parsed files template dict list, and find matching surfacing objects
+    in the maya file
+
+    Kwargs:
+        parsed_files (list): list of lucidity parsed files
+
+    Returns:
+        list. Surfacing objects found.
+
+    """
+    local_surfacing_projects = get_surfacing_projects()
+    parsed_surfacing_objects = utils.get_unique_key_values(
+        parsed_files, ATTR_SURFACING_PROJECT)
+    surfacing_objects_found = []
+
+    for project in local_surfacing_projects:
+        project_name = project.getAttr(ATTR_SURFACING_PROJECT)
+        local_surfacing_objects = get_surfacing_project_objects(
+            project)
+        for local_surfacing_object in local_surfacing_objects:
+            object_name = local_surfacing_object.getAttr(ATTR_SURFACING_OBJECT)
+            if object_name in parsed_surfacing_objects:
+                surfacing_objects_found.append(local_surfacing_object)
+    return surfacing_objects_found

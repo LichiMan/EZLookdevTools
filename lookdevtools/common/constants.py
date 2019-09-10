@@ -13,12 +13,12 @@ SURFACING_SUBDIV_ITERATIONS = 2
 ATTR_SURFACING_PROJECT = "surfacing_project"
 ATTR_SURFACING_OBJECT = "surfacing_object"
 
-#: Attribute for tagging Materials. Values: assigned project or object name
+#: Attribute for tagging Materials. Values: name of assigned project or object
 ATTR_MATERIAL = "surfacing_material"
 #: Attribute for tagging material assignmnents. Values: 'project' or 'object']
 ATTR_MATERIAL_ASSIGN = "surfacing_assign"
 #: Attribute for tagging viewport material. Values: 'color' or 'pattern']
-ATTR_MATERIAL_VP = "surfacing_material_vp" 
+ATTR_MATERIAL_VP = "surfacing_vp"
 
 #: Global string matching ratios to compare strings against lucidity parsed files.
 #: Notice that the ratio constant should be high enough,
