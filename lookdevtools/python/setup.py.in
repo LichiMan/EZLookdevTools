@@ -1,0 +1,6 @@
+from distutils.core import setup
+
+setup(name='maya',
+      version='0.1',
+      package_dir={ '': '${CMAKE_CURRENT_SOURCE_DIR}' },
+      packages=['foo'])

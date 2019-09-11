@@ -3,10 +3,8 @@ import logging
 
 import pymel.core as pm
 
-from lookdevtools import common
 from lookdevtools.common import utils
-from lookdevtools.maya import maya
-from lookdevtools.maya import surfacing_projects
+from lookdevtools.python.maya import surfacing_projects
 
 logger = logging.getLogger(__name__)
 

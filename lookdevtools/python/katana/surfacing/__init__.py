@@ -1,7 +1,8 @@
-from Katana import Widgets, FnGeolib, Nodes3DAPI, NodegraphAPI
+from Katana import NodegraphAPI
 
 from lookdevtools.common import utils
-from lookdevtools.katana import katana
+from lookdevtools.python.katana import katana
+
 
 def create_collections(attribute_name):
     '''Creates a group stack with 1 collection create per attribute_name value found

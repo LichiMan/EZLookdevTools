@@ -11,8 +11,9 @@ set(MAYA_INC_SUFFIX "include")
 set(WINDOWS_DEFAULT_PATH "C:\\Program Files\\Autodesk")
 if (WIN32)
     # Windows
-    set(MAYA_INSTALL_BASE_DEFAULT "{WINDOWS_DEFAULT_PATH}")
+    set(MAYA_INSTALL_BASE_DEFAULT "C:\\Program Files\\Autodesk")
     set(OPENMAYA OpenMaya.lib)
+    #set(PYTHON python27.lib)
     set(MAYA_COMPILE_DEFINITIONS "${MAYA_COMPILE_DEFINITIONS}:NT_PLUGIN")
     set(MAYA_PLUGIN_EXTENSION ".mll")
 elseif(APPLE)
@@ -58,7 +59,7 @@ find_path(MAYA_INCLUDE_DIR maya/MFn.h
 	)
 
 # Get each individual library
-set(_MAYA_LIBRARIES OpenMaya OpenMayaAnim OpenMataFX OpenMayaRender Foundation)
+set(_MAYA_LIBRARIES OpenMaya OpenMayaAnim OpenMayaFX OpenMayaRender Foundation)
 foreach(MAYA_LIB ${_MAYA_LIBRARIES})
     find_library(MAYA_${MAYA_LIB}_LIBRARY NAMES ${MAYA_LIB} PATHS ${MAYA_LIBRARY_DIR} NO_DEFAULT_PATH)
     set(MAYA_LIBRARIES ${MAYA_LIBRARIES} ${MAYA_${MAYA_LIB}_LIBRARY})

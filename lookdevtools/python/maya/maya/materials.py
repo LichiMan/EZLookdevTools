@@ -2,7 +2,7 @@ import logging
 import pymel.core as pm
 
 from lookdevtools.common import utils
-from lookdevtools.maya import surfacing_projects
+from lookdevtools.python.maya import surfacing_projects
 from lookdevtools.common.constants import ATTR_SURFACING_PROJECT
 from lookdevtools.common.constants import ATTR_SURFACING_OBJECT
 

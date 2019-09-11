@@ -1,18 +1,16 @@
 import os
 import sys
 import traceback
-import random
 import logging
 
 import pymel.core as pm
 import maya.mel as mel
-import maya.cmds as mc
 
-from lookdevtools.ui.libs import *
-from lookdevtools.ui import qtutils
+from lookdevtools.python.ui import *
+from lookdevtools.python.ui import qtutils
 from lookdevtools.common.constants import *
 from lookdevtools.common import utils
-from lookdevtools.maya import maya
+from lookdevtools.python.maya import maya
 
 logger = logging.getLogger(__name__)
 

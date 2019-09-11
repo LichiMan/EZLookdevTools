@@ -1,10 +1,4 @@
-import sys
-import imp
-import os
-import logging
-from functools import partial
-
-from lookdevtools.ui.libs import *
+from lookdevtools.python.ui import *
 import lookdevtools
 reload(lookdevtools)
 

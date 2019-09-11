@@ -1,5 +1,3 @@
-from lookdevtools.ui.libs import *
-
 def get_folder_path():
     """Gets a folder path from the user"""
     file_dialog = QtWidgets.QFileDialog()

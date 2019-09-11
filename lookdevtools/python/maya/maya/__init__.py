@@ -1,5 +1,3 @@
-from lookdevtools.ui.libs import *
-
 def unsaved_scene():
     """ check for unsaved changes """
     import maya.cmds as cmds

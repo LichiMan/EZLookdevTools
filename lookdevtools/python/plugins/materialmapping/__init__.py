@@ -1,10 +1,9 @@
 import logging
-from functools import partial
 from yapsy.IPlugin import IPlugin
-from lookdevtools.ui.libs import *
-from lookdevtools.ui import qtutils
+from lookdevtools.python.ui import *
+from lookdevtools.python.ui import qtutils
 from lookdevtools.common import utils
-from lookdevtools.maya.maya import materials
+from lookdevtools.python.maya.maya import materials
 from lookdevtools.common import templates
 from lookdevtools.common.constants import TEXTURESET_ELEMENT_PATTERN
 from lookdevtools.common.constants import ATTR_SURFACING_PROJECT
@@ -16,9 +15,10 @@ DCC_CONTEXT = None
 
 try:
     import pymel.core as pm
-    from lookdevtools.maya import maya
-    from lookdevtools.maya import surfacing_projects
-    from lookdevtools.maya.surfacing_projects import viewport
+    from lookdevtools.python.maya import maya
+    from lookdevtools.python.maya import surfacing_projects
+    from lookdevtools.python.maya.surfacing_projects import viewport
+
     DCC_CONTEXT = True
 except:
     logger.warning('PLUGIN: Maya packages not loaded, not this dcc')
@@ -212,7 +212,7 @@ class MaterialMapping(IPlugin):
                 if parsed_file['shader_plug']:
                     logger.info('Importing element %s to objectSet %s' %(parsed_file['textureset_element'],parsed_file['maya_prj']))
                     # create file_node
-                    file_node = materials.create_file_node(name='surfProj_%s_file'%parsed_file['maya_prj'])
+                    file_node = materials.create_file_node(name='surfProj_%s_file' % parsed_file['maya_prj'])
                     # set file_node file path and udim
                     file_node.fileTextureName.set(parsed_file['filepath'])
                     file_node.uvTilingMode.set(3)

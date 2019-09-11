@@ -20,7 +20,7 @@ creates collections for Surfacing projects
 #              If raiseTab is passed as True, the tab will be raised to the
 #              front in its pane.
 
-from lookdevtools.katana import surfacing
+from lookdevtools.python.katana import surfacing
 
 attribute_name = "geometry.arbitrary.surfacing_project"
 surfacing.create_collections(attribute_name)

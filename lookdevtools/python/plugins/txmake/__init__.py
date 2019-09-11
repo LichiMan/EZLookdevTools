@@ -1,12 +1,9 @@
-import os
-import logging
-
 from yapsy.IPlugin import IPlugin
 
-from lookdevtools.ui.libs import *
-from lookdevtools.ui import qtutils
+from lookdevtools.python.ui import *
+from lookdevtools.python.ui import qtutils
 from lookdevtools.common import utils
-from lookdevtools.renderman import txmake
+from lookdevtools.python.renderman import txmake
 
 logger = logging.getLogger(__name__)
 
