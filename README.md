@@ -13,7 +13,7 @@
 [&nbsp;&nbsp;&nbsp;&nbsp;Material Mapping](#Material-Mapping)  
 [&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Texture Import](#Texture-Import)  
 [&nbsp;&nbsp;&nbsp;&nbsp;Katana Surfacing Projects](#Katana-Surfacing-Projects)  
-[Macros and Gizmos](#Macros-and-Gizmos)  
+[Macros Gizmos and Templates](#Macros-Gizmos-and-Templates)  
 [&nbsp;&nbsp;&nbsp;&nbsp;Katana](#Katana)   
 [&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Material Lookdev](#Material-Lookdev)   
 [&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Render Layers](#Render-Layers)  
@@ -217,15 +217,13 @@ geometry.arbitrary.surfacing_object
 ```
 It can also be used to create collections of all unique values for any given attribute.
 
-# Macros and Gizmos
+# Macros Gizmos and Templates
 
 ## Katana
 
-### Material Lookdev
-Isolate materials from the scene and visualize them with a shaderBall.
-Use the default Shaderball (cloth geo optional), or connect your own geometry.
-
-<img width="100%" src="docs/images/mayaEZPrmanMaterialLookdev.png" alt="EZSurfacing Tools" style="margin-right: 10px;" />
+### Asset Turntable Template
+<img width="48%" src="docs/images/katanaTemplateTurntable.png" alt="EZSurfacing Tools" style="margin-right: 10px;" /><img width="48%" src="docs/images/mayaEZPrmanMaterialLookdev.png" alt="EZSurfacing Tools" style="margin-right: 10px;" />
+Includes the pixar teapot, and a shaderball as generic assets for material look dev
 
 ###### Note
 Requires a gaffer input.
