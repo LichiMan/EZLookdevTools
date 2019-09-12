@@ -222,7 +222,7 @@ It can also be used to create collections of all unique values for any given att
 ## Katana
 
 ### Asset Turntable Template
-<img width="48%" src="docs/images/katanaTemplateTurntable.png" alt="EZSurfacing Tools" style="margin-right: 10px;" /><img width="48%" src="docs/images/mayaEZPrmanMaterialLookdev.png" alt="EZSurfacing Tools" style="margin-right: 10px;" />
+<img width="50%" src="docs/images/katanaTemplatesTurntable.png" alt="EZSurfacing Tools" style="margin-right: 10px;" /><img width="45%" src="docs/images/mayaEZPrmanMaterialLookdev.png" alt="EZSurfacing Tools" style="margin-right: 10px;" />   
 Includes the pixar teapot, and a shaderball as generic assets for material look dev
 
 ###### Note
