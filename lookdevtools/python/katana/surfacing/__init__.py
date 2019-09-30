@@ -1,37 +1,55 @@
-from Katana import NodegraphAPI
+"""
+.. module:: katana
+   :synopsis: general katana surfacing utilities.
+
+.. moduleauthor:: Ezequiel Mastrasso
+
+"""
+from Katana import Widgets, FnGeolib, Nodes3DAPI, NodegraphAPI
 
 from lookdevtools.common import utils
-from lookdevtools.python.katana import katana
-
+from lookdevtools.katana import katana
 
 def create_collections(attribute_name):
-    '''Creates a group stack with 1 collection create per attribute_name value found
-    This can used to find values of EZSurf attributes as in
-    #attribute_name = "geometry.arbitrary.EZSurfacing_object"
-    #attribute_name = "geometry.arbitrary.EZSurfacing_project"'''
+    """
+    Create collections by attribute values.
+    
+    Creates a group stack with 1 collection create node per unique attribute_name
+    value.
+    This can used to find values of surfacing attributes as in
+    attribute_name = "geometry.arbitrary.surfacing_object"
+    attribute_name = "geometry.arbitrary.surfacing_project'
+
+    Args:
+        attribute_name (str): name of the attribute
+    
+    Returns:
+        list: collections names
+
+    """
     rootNode = NodegraphAPI.GetRootNode()
     selected_node = katana.get_selected_nodes(single=True)
     node_outPort = selected_node.getOutputPort("out")
-    EZSurfacing_projects = katana.get_objects_attribute_values(selected_node, attribute_name)
+    surfacing_projects = katana.get_objects_attribute_values(selected_node, attribute_name)
     group_stack = NodegraphAPI.CreateNode("GroupStack", rootNode)
-    group_stack.setName("EZSurfacing_collections")
+    group_stack.setName("surfacing_collections")
     group_stack_inputPort = group_stack.getInputPort("in")
     node_outPort.connect(group_stack_inputPort)
     collections_name_list = []
     position_y = 0
-    for EZSurfacing_project in EZSurfacing_projects:
+    for surfacing_project in surfacing_projects:
         collection_create = NodegraphAPI.CreateNode("CollectionCreate", rootNode)
-        collection_name = "EZ%s" % EZSurfacing_project
+        collection_name = "%s" % surfacing_project
         collection_create.setName(collection_name)
-        collections_name_list.append(EZSurfacing_project)
+        collections_name_list.append(surfacing_project)
         # collection_create_location = collection_create.getParameter('/')
         # collection_create_location.setValue(location,0)
         collection_create_name = collection_create.getParameter("name")
-        collection_create_name.setValue("EZ%s" % EZSurfacing_project, 0)
+        collection_create_name.setValue("%s" % surfacing_project, 0)
         collection_create_cel = collection_create.getParameter("CEL")
         collection_create_cel.setValue(
             '/root/world//*{attr("%s.value") == "%s"}'
-            % (attribute_name, EZSurfacing_project),
+            % (attribute_name, surfacing_project),
             0,
         )
         katana.add_node_to_group_last(group_stack, collection_create)
@@ -41,10 +59,25 @@ def create_collections(attribute_name):
     return collections_name_list
 
 def create_viewer_settings(attribute_name):
-    """Creates a group stack with groups, that contain viewport color settings"""
+    """
+    Create viewer color settings.
+
+    Creates a group stack with 1 group node per unique attribute_name
+    value.
+    This can used to find values of surfacing attributes as in
+    attribute_name = "geometry.arbitrary.surfacing_object"
+    attribute_name = "geometry.arbitrary.surfacing_project'
+
+    Args:
+        attribute_name (str): name of the attribute
+    
+    Returns:
+        None
+
+    """
     rootNode = NodegraphAPI.GetRootNode()
     material_stack = NodegraphAPI.CreateNode("GroupStack", rootNode)
-    material_stack.setName("EZSurfacing_viewer_settings")
+    material_stack.setName("Surfacing_viewer_settings")
     selected_node = katana.get_selected_nodes(single=True)
     attribute_values = katana.get_objects_attribute_values(selected_node, attribute_name)
     position_y = 0
@@ -80,8 +113,25 @@ def create_viewer_settings(attribute_name):
 
 
 def create_materials(attribute_name, assign_random_color=False):
-    """Creates a group stack, with groups that each contain a material network
-    with is shader, and material assign""" 
+    """
+    Create materials by attribute values.
+
+    Creates a group stack with groups that contains a material network
+    with is shader, and material assign, per unique attribute value.
+    This can used to find values of surfacing attributes as in
+    attribute_name = "geometry.arbitrary.surfacing_object"
+    attribute_name = "geometry.arbitrary.surfacing_project'
+
+    Args:
+        attribute_name (str): name of the attribute
+    
+    Kwargs:
+        assign_random_color (bool): wether to assign a random color or not.
+    
+    Returns:
+        None
+        
+    """ 
     rootNode = NodegraphAPI.GetRootNode()
     material_stack = NodegraphAPI.CreateNode("GroupStack", rootNode)
     material_stack.setName("EZSurfacing_materials")

@@ -1,17 +1,9 @@
-import random
-import os
-import logging
-import json
-
-from lookdevtools.external import fuzzywuzzy
-from lookdevtools.external.fuzzywuzzy import fuzz
-from lookdevtools.common import templates
-from lookdevtools.common.templates import TEXTURESET_ELEMENT_MATCHING_RATIO
-from lookdevtools.common.constants import CONFIG_MATERIALS_JSON
-
-logger = logging.getLogger(__name__)
-
 """
+.. module:: utils
+   :synopsis: general common utilities, non-dcc specific.
+
+.. moduleauthor:: Ezequiel Mastrasso
+
 json format for parsed textures is the following
 In this case, the textures files have been condensed by the udim,
 And the {udim} pattern matched part of the filepath has been replaced with <udim>
@@ -73,68 +65,109 @@ Non condensed example. Notice the several baseColor entrie, with different udims
     ...
     ...
 ]
+
 """
 
+import random
+import os
+import logging
+import json
+import multiprocessing
+
+from lookdevtools.external import fuzzywuzzy
+from lookdevtools.external.fuzzywuzzy import fuzz
+from lookdevtools.common import templates
+from lookdevtools.common.templates import TEXTURESET_ELEMENT_MATCHING_RATIO
+from lookdevtools.common import constants
+
+logger = logging.getLogger(__name__)
+
 def get_random_color(seed):
-    """Returns a random color using a seed. Used by
-    all material creating, and viewport color functions
-    that do not use textures"""
+    """
+    Return a random color using a seed.
+
+    Used by all material creating, and viewport color functions
+    that do not use textures, to have a common color accross dccs
+
+    Args:
+        seed (str):
+
+    Returns:
+        tuple, R,G,B colors.
+
+    """
     random.seed(seed + "_r")
     color_red = random.uniform(0, 1)
     random.seed(seed + "_g")
     color_green = random.uniform(0, 1)
     random.seed(seed + "_b")
     color_blue = random.uniform(0, 1)
-    return [color_red, color_green, color_blue]
+    return color_red, color_green, color_blue
 
 def create_directoy(path):
-    try:
-        # Create target Directory
-        os.mkdir(path)
-        logger.info("Directory create: %s" % path)
-    except:
-        logger.info("Directory alreay exists: %s" % path)
+    """
+    Create a folder.
+
+    Args:
+        path (str): Directory path to create.
+
+    """
+    os.mkdir(path)
+    logger.info("Directory created: %s" % path)
 
 def is_directory(path):
+    """
+    Check if the given path exists, and is a directory.
+
+    Args:
+        path (str): Directory to check.
+
+    """
     if os.path.exists(path) and os.path.isdir(path):
         return True
     else:
         return False
 
 def get_files_in_folder (path, recursive = False, pattern = None):
-    """Searchs files in a folder, with options for recursive search,
-    and matching a pattern, usually used for extensions like '.exr'
+    """
+    Search files in a folder.
+
+    Args:
+        path (str): Path to search.
+    
+    Kwards:
+        recursive (bool): Search files recursively in folder.
+        pattern (str): pattern to match, for ie '.exr'.
+    
+    Returns:
+        array. File list
+    
     """
     logger.info("Searching for files in: %s" % path)
     logger.info("Search options: Recursive %s, pattern: %s" % (recursive,pattern))
-    if os.path.isdir(path):
-        for path, subdirs, files in os.walk(path):
-            file_list = []
-            for file in files:
-                if pattern:
-                    if pattern in file:
-                        file_list.append(os.path.join(path,file))
-                        logger.info("File with pattern found, added to the list: %s" % file)
-                else:
+    for path, subdirs, files in os.walk(path):
+        file_list = []
+        for file in files:
+            if pattern:
+                if pattern in file:
                     file_list.append(os.path.join(path,file))
-                    logger.info("File added to the list: %s" % file)
-            if not recursive:
-                break
-    else:
-        raise ValueError("Path not valid")
+                    logger.info("File with pattern found, added to the list: %s" % file)
+            else:
+                file_list.append(os.path.join(path,file))
+                logger.info("File added to the list: %s" % file)
+        if not recursive:
+            break
     return file_list
 
 def string_matching_ratio(stringA, stringB):
-    """Compares two strings and returns a fuzzy string matching ratio"""
-    # We can -in the future- change the fuzzy string
-    # comparisson algorigth here, maybe bitap with
-    # partial substring matching will be better.
-    # In general ratio, partial_ratio, token_sort_ratio
-    # and token_set_ratio did not give different 
-    # results given that we are comparin a single
-    # word.
-    # Test Results to have an idea of ratios:
-    '''
+    """
+    Compare two strings and returns a fuzzy string matching ratio.
+
+    In general ratio, partial_ratio, token_sort_ratio
+    and token_set_ratio did not give different 
+    results given that we are comparin a single.
+    TODO: Try bitap algorithm for fuzzy matching, partial substring
+    matching might be better for our cases.
     Different channels fuzzy ratio comparission
         ('baseColor','diffusecolor')        =   67
         ('base','diffusecolor')             =   25
@@ -147,27 +180,64 @@ def string_matching_ratio(stringA, stringB):
         ('emission', 'emission_weight')     =   70
     Same channel diferent naming ratio comparission
         ('diffuse_weight','diffuseGain')    =   64
-    '''
+
+    Args:
+        stringA (str): string to compare against.
+        stringB (str): string to compare.
+    
+    Returns:
+        int. Ratio, from 0 to 100 according to fuzzy matching.
+
+    """
     return fuzz.token_set_ratio(stringA, stringB)
 
 def load_json(file_path):
-    """Loads a json an returns a dict"""
+    """
+    Load a json an returns a dict.
+
+    Args:
+        file_path (str): Json file path to open.
+
+    """
     with open(file_path) as handle:
         dictdump = json.loads(handle.read())
     return dictdump
 
 def save_json(file_path, data):
-    """ Dumps a dict into a json file"""
+    """
+    Dump a dict into a json file.
+
+    Args:
+        file_path (str): Json file path to save.
+        data (dict): Data to save into the json file.
+
+    """
+    # TODO (eze)
     pass
 
 def get_config_materials():
-    """Returns the CONFIG_MATERIALS_JSON as a dict"""
-    return load_json(CONFIG_MATERIALS_JSON)
+    """
+    Gets the CONFIG_MATERIALS_JSON as a dict
+
+    Returns:
+        dict. CONFIG_MATERIALS_JSON
+    
+    """
+    return load_json(constants.CONFIG_MATERIALS_JSON)
 
 def search_material_mapping(textureset_element = None):
-    """Give a textureset_element name, it searchs the CONFIG_JSON file material mapping keys.
+    """
+    Given a textureset_element name, it finds a material_mapping plug in the CONFIG_MATERIALS_JSON.
     Uses fuzzy string matching to get an approximation using TEXTURESET_ELEMENT_MATCHING_RATIO
-    as returns the first hit.""" 
+    Returns the first hit only.
+
+    Kwargs:
+        textureset_element (str): textureset_element name, for ie: baseColor
+    
+    Returns:
+        str. Shader slot, for ie: diffuseColor
+
+    """ 
     config = get_config_materials()
     logger.debug('TEXTURESET_ELEMENT_MATCHING_RATIO = %s' % TEXTURESET_ELEMENT_MATCHING_RATIO)
     for key in config['material_mapping']['PxrSurface']:
@@ -179,7 +249,17 @@ def search_material_mapping(textureset_element = None):
     return None
 
 def get_unique_key_values(file_template_list, key):
-    """Get unique key values from a list of dicts"""
+    """
+    Get unique key values from a list of dicts.
+
+    Args:
+        file_template_list (array): list of dict files parsed with lucidity
+        key (str): key to search
+    
+    Returns:
+        array. An array of strings, with unique keys 
+
+    """
     uniques = []
     for each in file_template_list:
         value = each[key]
@@ -189,8 +269,20 @@ def get_unique_key_values(file_template_list, key):
     return uniques
 
 def get_udim_file_templates(file_template_list):
-    """Given a [] of files with <udim> in the file path, returns unique dicts"""
-    # TODO: There has to a better way to do this!
+    """
+    Given an array of dict files parsed with lucidity, with the file_path key.
+
+    groups file textures by udim, and returns the grouped array of dicts, with 
+    <udim> in the file path.
+
+    Args:
+        file_template_list (array): list of dict files parsed with lucidity
+    
+    Returns:
+        array: list off dict files grouped by udim
+    
+    """
+    # TODO (eze): There has to a better way to do this!
     for each in file_template_list:
         each['file_path'] = each['file_path'].replace(each['udim'], '<UDIM>')
     unique_values = get_unique_key_values(file_template_list, 'file_path')
@@ -202,3 +294,25 @@ def get_udim_file_templates(file_template_list):
             found_values.append(path)
             udim_groups.append(each)
     return udim_groups
+
+
+# TODO: need to convert hardcoded strings into constants
+def maya_process(command):
+    print("We'll run command: {}".format(command))
+
+
+def launch_multiprocess(function, args):
+    pool = multiprocessing.Pool(processes=4)
+    pool_process = pool.map_async(function, args)
+    pool_result = pool_process.get()
+
+
+def map_textures_to_alembic(texture_mapping):
+    default_command = "maya -batch -file someMayaFile.mb -command "
+    command = []
+    for key, value in texture_mapping:
+        dir, filename = os.path.split(key)
+        filename, ext = os.path.splitext(filename)
+        filename = os.path.join(dir, filename + "WithTexture." + ext)
+        command.append("".format(default_command, "abc_file", key, "texture", value, "file -save ", filename))
+    launch_multiprocess(maya_process, command)

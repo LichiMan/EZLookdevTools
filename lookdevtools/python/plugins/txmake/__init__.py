@@ -1,9 +1,20 @@
+"""
+.. module:: txmake
+   :synopsis: Convert textures to tex.
+
+.. moduleauthor:: Ezequiel Mastrasso
+
+"""
+
+import os
+import logging
+
 from yapsy.IPlugin import IPlugin
 
-from lookdevtools.python.ui import *
-from lookdevtools.python.ui import qtutils
+from lookdevtools.ui.libs import *
+from lookdevtools.ui import qtutils
 from lookdevtools.common import utils
-from lookdevtools.python.renderman import txmake
+from lookdevtools.renderman import txmake
 
 logger = logging.getLogger(__name__)
 
@@ -11,11 +22,14 @@ logger = logging.getLogger(__name__)
 DCC_CONTEXT = True
 
 class TxMake(IPlugin):
+    """Plug-in to Convert textures to tex."""
+
     name = "TxMake Plugin"
 
     plugin_layout = None
 
     def __init__ (self):
+        """Check dcc context, and build the ui if context is correct."""
         logger.info('PLUGIN: TxMake loaded')
         # Load dcc python packages inside a try, to catch the application
         # environment, this will be replaced by IPlugin Categories
@@ -28,6 +42,8 @@ class TxMake(IPlugin):
             self.build_ui()
     
     def build_ui(self):
+        """Build the Plug-in UI and append it to the main ui as a tab."""
+        #TODO (eze): add a QtLineEdit where to add the arguments list
         self.plugin_layout = QtWidgets.QWidget()
         main_layout = QtWidgets.QVBoxLayout()
         txmake_layout = QtWidgets.QVBoxLayout()
@@ -64,6 +80,8 @@ class TxMake(IPlugin):
         )
 
     def run(self):
+        """Convert textures."""
+        # TODO (eze) use job dispatcher from Anant when ready
         folder_path = qtutils.get_folder_path()
         file_list = utils.get_files_in_folder(folder_path,
                                             recursive= self.cbox_recursive.checkState(),
