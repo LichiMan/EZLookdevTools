@@ -10,15 +10,15 @@ import logging
 from functools import partial
 
 from yapsy.IPlugin import IPlugin
-from lookdevtools.python.ui import *
+from lookdevtools.ui import *
 
 logger = logging.getLogger(__name__)
 
 DCC_CONTEXT = None
 
 try:
-    from lookdevtools.python.katana import katana
-    from lookdevtools.python.katana import surfacing
+    from lookdevtools.katana import katana, surfacing
+
     DCC_CONTEXT = True
 except:
     logger.warning('PLUGIN: Katana packages not loaded, not this dcc')

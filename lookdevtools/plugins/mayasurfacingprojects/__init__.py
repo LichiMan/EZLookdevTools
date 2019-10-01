@@ -8,7 +8,7 @@
 
 import logging
 from yapsy.IPlugin import IPlugin
-from lookdevtools.python.ui import *
+from lookdevtools.ui import *
 
 logger = logging.getLogger(__name__)
 
@@ -16,9 +16,8 @@ DCC_CONTEXT = None
 
 try:
     import pymel.core as pm
-    from lookdevtools.python.maya import maya
-    from lookdevtools.python.maya import surfacing_projects
-    from lookdevtools.python.maya.surfacing_projects import viewport
+    from lookdevtools.maya import maya, surfacing_projects
+    from lookdevtools.maya.surfacing_projects import viewport
 
     DCC_CONTEXT = True
 except:

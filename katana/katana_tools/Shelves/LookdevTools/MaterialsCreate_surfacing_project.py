@@ -20,7 +20,7 @@ creates materials for Surfacing projects
 #              If raiseTab is passed as True, the tab will be raised to the
 #              front in its pane.
 
-from lookdevtools.python.katana import surfacing
+from lookdevtools.katana import surfacing
 
 attribute_name = "geometry.arbitrary.surfacing_project"
 surfacing.create_materials(attribute_name)

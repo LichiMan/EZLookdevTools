@@ -1,4 +1,4 @@
-from lookdevtools.python.ui import *
+from lookdevtools.ui import *
 import lookdevtools
 reload(lookdevtools)
 

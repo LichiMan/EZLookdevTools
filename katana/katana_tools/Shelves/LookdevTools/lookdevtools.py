@@ -20,6 +20,6 @@ Brings up the tools UI
 #              If raiseTab is passed as True, the tab will be raised to the
 #              front in its pane.
 
-from lookdevtools.python import ui
+from lookdevtools import ui
 
 reload(ui)
